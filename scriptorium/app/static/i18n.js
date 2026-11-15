@@ -13,10 +13,15 @@ const col = lang === "en" ? 0 : 1;
 // user content is never translated
 const SKIP = "script, style, textarea, [contenteditable], .text, #msEditor, .ask-answer, .ask-src-text, .gal-cap, .gal-src, .home-meta h3, .home-subt, .home-info, .home-source b, #bookSelect, .lb-caption, .clips, .cv-keep";
 
-function T(s) {
-  if (lang === "cs" || !s) return s;
-  const hit = dict[s] || dict[String(s).trim()];
-  return hit ? hit[col] : s;
+// T("Hotovo {n} z {total}", { n: 3, total: 9 }): translation with placeholders filled in
+function T(s, vars) {
+  let out = s;
+  if (lang !== "cs" && s) {
+    const hit = dict[s] || dict[String(s).trim()];
+    if (hit) out = hit[col];
+  }
+  if (vars && out) out = String(out).replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m));
+  return out;
 }
 
 function translateNode(node) {

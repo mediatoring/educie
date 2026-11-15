@@ -67,14 +67,14 @@ async function addFiles(files) {
   const list = [...files].filter((f) => f.type.startsWith("image/") || f.type === "application/pdf" || /\.pdf$/i.test(f.name));
   for (const f of list) {
     if (f.type === "application/pdf" || /\.pdf$/i.test(f.name)) {
-      $("#impCount").textContent = "Načítám PDF…";
+      $("#impCount").textContent = T("Načítám PDF…");
       $("#impTools").hidden = false;
       try {
         const lib = await loadPdfJs();
         const doc = await lib.getDocument({ data: await f.arrayBuffer() }).promise;
         for (let n = 1; n <= doc.numPages; n++) items.push({ id: nextId++, name: `${f.name} – strana ${n}`, file: f, pdfPage: { doc, n }, rotate: 0 });
       } catch (e) {
-        alert(`PDF ${f.name} se nepodařilo otevřít: ${e.message}`);
+        alert(T("PDF {name} se nepodařilo otevřít: {error}", { name: f.name, error: e.message }));
       }
     } else {
       items.push({ id: nextId++, name: f.name, file: f, rotate: 0 });
@@ -134,7 +134,7 @@ function renderGrid() {
     grid.append(card);
   });
   $("#impTools").hidden = !items.length;
-  $("#impCount").textContent = items.length ? `${items.length} ${items.length === 1 ? "strana" : items.length < 5 ? "strany" : "stran"}` : "";
+  $("#impCount").textContent = items.length ? T(items.length === 1 ? "{n} strana" : items.length < 5 ? "{n} strany" : "{n} stran", { n: items.length }) : "";
   $("#impStart").disabled = !items.length;
 }
 
@@ -166,14 +166,14 @@ async function start() {
   const first = (await fetch(`api/books/${book}`).then((r) => r.json())).pages.length;
   const n = items.length;
   for (let i = 0; i < n; i++) {
-    progress(i, n * 2, `Nahrávám stranu ${i + 1} z ${n}…`);
+    progress(i, n * 2, T("Nahrávám stranu {i} z {n}…", { i: i + 1, n }));
     try {
       const full = await pageCanvas(items[i], SCAN_MAX);
       const prev = scaled(full, PREVIEW_W);
       await post(`api/books/${book}/pages`, { scan: full.toDataURL("image/jpeg", 0.88), preview: prev.toDataURL("image/jpeg", 0.85),
         size: [full.width, full.height], name: items[i].name });
     } catch (e) {
-      $("#impErrors").insertAdjacentHTML("beforeend", `<div>Strana ${i + 1} (${esc(items[i].name)}) se nenahrála: ${esc(e.message)}</div>`);
+      $("#impErrors").insertAdjacentHTML("beforeend", `<div>${esc(T("Strana {i} ({name}) se nenahrála: {error}", { i: i + 1, name: items[i].name, error: e.message }))}</div>`);
     }
   }
   const pages = Array.from({ length: n }, (_, i) => first + i);
@@ -194,16 +194,18 @@ async function watch(book, total) {
     const st = await fetch(`api/books/${book}/ocr`).then((r) => r.json()).catch(() => ({ running: true }));
     const t = st.total || total || 1;
     if (st.running) {
-      progress(t + (st.done || 0), t * 2, `Čtu text: hotovo ${st.done || 0} z ${t} stran. Okno můžete zavřít, čtení poběží dál.`);
+      progress(t + (st.done || 0), t * 2, T("Čtu text: hotovo {done} z {total} stran. Okno můžete zavřít, čtení poběží dál.", { done: st.done || 0, total: t }));
       $("#impOpen").hidden = !(st.done > 0);
-      $("#impOpen").textContent = "Otevřít knihu (zbytek se dočte)";
+      $("#impOpen").textContent = T("Otevřít knihu (zbytek se dočte)");
     } else {
-      const used = Object.entries(st.used || {}).map(([k, v]) => `${k === "ai" ? "umělá inteligence" : "Tesseract"} ${v}×`).join(", ");
-      progress(1, 1, `Hotovo: přečteno ${(st.done || 0) - (st.errors || []).length} z ${t} stran${used ? " (" + used + ")" : ""}. Vyřezávám obrázky…`);
-      (st.errors || []).forEach((e) => $("#impErrors").insertAdjacentHTML("beforeend", `<div>Strana ${e.page + 1}: ${esc(e.error)}</div>`));
+      const used = Object.entries(st.used || {}).map(([k, v]) => `${k === "ai" ? T("umělá inteligence") : "Tesseract"} ${v}×`).join(", ");
+      const read = (st.done || 0) - (st.errors || []).length;
+      const head = T("Hotovo: přečteno {read} z {total} stran", { read, total: t }) + (used ? " (" + used + ")" : "");
+      progress(1, 1, head + ". " + T("Vyřezávám obrázky…"));
+      (st.errors || []).forEach((e) => $("#impErrors").insertAdjacentHTML("beforeend", `<div>${esc(T("Strana {i}: {error}", { i: e.page + 1, error: e.error }))}</div>`));
       const cut = await cutPending(book);
-      $("#impStatus").textContent = `Hotovo: přečteno ${(st.done || 0) - (st.errors || []).length} z ${t} stran${used ? " (" + used + ")" : ""}${cut ? `, vyříznuto ${cut} obrázků` : ""}. Text zkontrolujte proti skenu, nejlépe s Korekturou.`;
-      $("#impOpen").textContent = "Otevřít knihu";
+      $("#impStatus").textContent = head + (cut ? T(", vyříznuto {n} obrázků", { n: cut }) : "") + ". " + T("Text zkontrolujte proti skenu, nejlépe s Korekturou.");
+      $("#impOpen").textContent = T("Otevřít knihu");
       $("#impOpen").hidden = false;
       return;
     }
@@ -241,7 +243,7 @@ function open(addTo = null) {
   target = addTo;
   items = [];
   renderGrid();
-  $("#impTitle").textContent = addTo ? "Přidat strany do zdrojové knihy" : "Přidat zdrojovou knihu";
+  $("#impTitle").textContent = T(addTo ? "Přidat strany do zdrojové knihy" : "Přidat zdrojovou knihu");
   $("#impNewFields").hidden = !!addTo;
   $("#impBookTitle").value = "";
   try { $("#impEngine").value = localStorage.getItem("scriptorium.ocrEngine") || "auto"; } catch (e) { /* ignore */ }
@@ -252,7 +254,7 @@ function open(addTo = null) {
 
 $("#importBtn").addEventListener("click", () => open());
 $("#impClose").addEventListener("click", () => {
-  if (!$("#impStep1").hidden && items.length && !confirm("Zavřít bez nahrání vybraných stran?")) return;
+  if (!$("#impStep1").hidden && items.length && !confirm(T("Zavřít bez nahrání vybraných stran?"))) return;
   $("#importDlg").hidden = true;
   if (window.Home && !$("#home").hidden) Home.show();
 });
@@ -269,7 +271,7 @@ $("#impSortName").addEventListener("click", () => {
 $("#impClear").addEventListener("click", () => { items = []; renderGrid(); });
 $("#impStart").addEventListener("click", () => start().catch((e) => {
   $("#impStep2").hidden = false;
-  $("#impStatus").textContent = "Nahrání se nepovedlo: " + e.message;
+  $("#impStatus").textContent = T("Nahrání se nepovedlo: ") + e.message;
 }));
 
 window.Importer = { open, watch, cutPending, post };

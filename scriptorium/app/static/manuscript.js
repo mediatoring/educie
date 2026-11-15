@@ -187,12 +187,12 @@ function renderVars() {
 const marks = { comments: [], tab: "outline" };
 function renderMarks() {
   const fns = [...editor.querySelectorAll("span.fn")];
-  fns.forEach((s, i) => { s.contentEditable = "false"; s.dataset.n = i + 1; s.title = `Poznámka ${i + 1}: ${s.textContent}`; });
+  fns.forEach((s, i) => { s.contentEditable = "false"; s.dataset.n = i + 1; s.title = T("Poznámka {n}: {text}", { n: i + 1, text: s.textContent }); });
   const byId = new Map(marks.comments.map((c) => [c.id, c]));
   editor.querySelectorAll("span.cmt").forEach((s) => {
     const c = byId.get(s.dataset.c);
     s.classList.toggle("resolved", !c || c.resolved);
-    s.title = c && !c.resolved ? `Komentář: ${c.text}` : "";
+    s.title = c && !c.resolved ? T("Komentář: {text}", { text: c.text }) : "";
   });
   renderNotesList(fns);
   renderCommentsList();
@@ -222,9 +222,9 @@ function renderCommentsList() {
     const d = document.createElement("div");
     d.className = "side-card cmt-card" + (c.resolved ? " done" : "");
     d.dataset.c = c.id;
-    d.innerHTML = `<div class="cmt-quote">${span ? "„" + escT(c.quote) + "“" : "<i>Označený text byl z rukopisu smazán.</i>"}</div>
+    d.innerHTML = `<div class="cmt-quote">${span ? "„" + escT(c.quote) + "“" : "<i>" + escT(T("Označený text byl z rukopisu smazán.")) + "</i>"}</div>
       <div class="cmt-text">${escT(c.text)}</div>
-      <div class="cmt-meta">${escT(c.author || "")} · ${escT(c.time)}${c.resolved ? " · vyřešeno" : ""}</div>
+      <div class="cmt-meta">${escT(c.author || "")} · ${escT(c.time)}${c.resolved ? " · " + escT(T("vyřešeno")) : ""}</div>
       ${(c.replies || []).map((r) => `<div class="cmt-reply"><div>${escT(r.text)}</div><div class="cmt-meta">${escT(r.author || "")} · ${escT(r.time)}</div></div>`).join("")}
       <div class="cmt-acts">
         ${c.resolved ? '<button data-a="reopen">Znovu otevřít</button>' : '<button data-a="reply">Odpovědět</button><button data-a="resolve">✓ Vyřešeno</button>'}
@@ -238,7 +238,7 @@ function renderCommentsList() {
         return;
       }
       if (a === "delete") {
-        if (!confirm("Smazat komentář? Text v rukopisu zůstane, jen se přestane zvýrazňovat.")) return;
+        if (!confirm(T("Smazat komentář? Text v rukopisu zůstane, jen se přestane zvýrazňovat."))) return;
         if (span) { span.replaceWith(...span.childNodes); markDirty(); }
       }
       await commentAction(c.id, { action: a, author: myName() });
@@ -274,8 +274,8 @@ function showSide(tab) {
 
 // one dialog for footnotes, comments and replies
 function noteDialog({ title, label = "Text", quote = "", text = "", author = false, remove = null, ok }) {
-  $("#noteTitle").textContent = title;
-  $("#noteLabel").textContent = label;
+  $("#noteTitle").textContent = T(title);
+  $("#noteLabel").textContent = T(label);
   $("#noteQuote").hidden = !quote;
   $("#noteQuote").textContent = quote ? "„" + quote + "“" : "";
   $("#noteText").value = text;
@@ -298,7 +298,7 @@ function noteDialog({ title, label = "Text", quote = "", text = "", author = fal
 
 function insertFootnote() {
   const range = savedRange && editor.contains(savedRange.startContainer) ? savedRange.cloneRange() : null;
-  if (!range) { toast("Klikněte do textu rukopisu tam, kam patří číslo poznámky, a pak na Poznámka."); return; }
+  if (!range) { toast(T("Klikněte do textu rukopisu tam, kam patří číslo poznámky, a pak na Poznámka.")); return; }
   noteDialog({
     title: "Poznámka pod čarou",
     label: "Text poznámky – v tisku a PDF bude dole na stránce, v e-knize na konci kapitoly",
@@ -316,24 +316,24 @@ function insertFootnote() {
       savedRange = after.cloneRange();
       markDirty();
       renderMarks();
-      toast("Poznámka pod čarou vložena.");
+      toast(T("Poznámka pod čarou vložena."));
     },
   });
 }
 
 function editFootnote(s) {
   noteDialog({
-    title: `Poznámka pod čarou ${s.dataset.n || ""}`,
+    title: T("Poznámka pod čarou {n}", { n: s.dataset.n || "" }),
     label: "Text poznámky",
     text: s.textContent,
-    remove: () => { s.remove(); markDirty(); renderMarks(); toast("Poznámka odstraněna."); },
+    remove: () => { s.remove(); markDirty(); renderMarks(); toast(T("Poznámka odstraněna.")); },
     ok: (text) => { s.textContent = text; markDirty(); renderMarks(); },
   });
 }
 
 function addComment() {
   const range = savedRange && editor.contains(savedRange.startContainer) ? savedRange.cloneRange() : null;
-  if (!range || range.collapsed || !range.toString().trim()) { toast("Nejdřív v rukopisu označte text, ke kterému chcete napsat komentář."); return; }
+  if (!range || range.collapsed || !range.toString().trim()) { toast(T("Nejdřív v rukopisu označte text, ke kterému chcete napsat komentář.")); return; }
   // a comment marks text inside one paragraph
   const blockOf = (n) => (n.nodeType === 1 ? n : n.parentElement).closest("p, h1, h2, h3, li, blockquote, figcaption");
   const b0 = blockOf(range.startContainer);
@@ -845,7 +845,7 @@ function setPersp(on) {
   $("#perspSvg").toggleAttribute("hidden", !on);
   $("#cropRect").hidden = on;
   $("#cropPersp").classList.toggle("on", on);
-  $("#cropPersp").textContent = on ? "✓ Srovnávám perspektivu – zpět na obdélník" : "Srovnat perspektivu (4 rohy)";
+  $("#cropPersp").textContent = T(on ? "✓ Srovnávám perspektivu – zpět na obdélník" : "Srovnat perspektivu (4 rohy)");
   if (on) resetQuad();
 }
 
@@ -931,7 +931,9 @@ function loadOriginal() {
       crop.rect = { x: (rx - rw / 2) * s, y: (ry - rh / 2) * s, w: rw * s, h: rh * s };
       drawCropPreview(true);
     }
-    $("#cropOriginInfo").textContent = `Původní strana: ${o.title}${o.page_no ? ", s. " + o.page_no : ", " + (o.page + 1) + ". strana skenu"}. Rámeček můžete rozšířit.`;
+    $("#cropOriginInfo").textContent = o.page_no
+      ? T("Původní strana: {title}, s. {n}. Rámeček můžete rozšířit.", { title: o.title, n: o.page_no })
+      : T("Původní strana: {title}, {n}. strana skenu. Rámeček můžete rozšířit.", { title: o.title, n: o.page + 1 });
     $("#cropOrigin").disabled = true;
   };
   im.src = o.scan;

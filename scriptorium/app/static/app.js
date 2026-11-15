@@ -116,7 +116,7 @@ function markDirty() {
 async function save() {
   clearTimeout(state.saveTimer);
   if (!state.dirty || !state.project) return;
-  if (state.ocrRunning) { setSaveState("čeká na dočtení textu", "dirty"); return; }
+  if (state.ocrRunning) { setSaveState(T("čeká na dočtení textu"), "dirty"); return; }
   state.dirty = false;
   setSaveState("ukládám…", "dirty");
   try {
@@ -898,7 +898,7 @@ function findPageOf(block) {
 // ---------- helpers used by the gallery ----------
 function whoText(w) {
   if (!w) return "";
-  return [w.user, w.ip, w.dev, w.fp ? "zařízení " + w.fp.slice(0, 6) : ""].filter(Boolean).join(" · ");
+  return [w.user, w.ip, w.dev, w.fp ? T("zařízení {id}", { id: w.fp.slice(0, 6) }) : ""].filter(Boolean).join(" · ");
 }
 window.whoText = whoText;
 async function openBookHistory() {
@@ -941,12 +941,12 @@ async function watchOcr(id) {
       if (lastDone >= 0) {   // just finished: load the final text
         state.project = await (await fetch(`api/books/${encodeURIComponent(id)}`)).json();
         renderAll();
-        toast(`Text knihy je přečtený${st.errors && st.errors.length ? `, ${st.errors.length} stran se přečíst nepodařilo` : ""}. Zkontrolujte ho proti skenu.`, 9000);
+        toast(T("Text knihy je přečtený") + (st.errors && st.errors.length ? T(", {n} stran se přečíst nepodařilo", { n: st.errors.length }) : "") + ". " + T("Zkontrolujte ho proti skenu."), 9000);
       }
       break;
     }
     banner.hidden = false;
-    banner.textContent = `Čtu text knihy: hotovo ${st.done} z ${st.total} stran. Do té doby nelze transkripci upravovat.`;
+    banner.textContent = T("Čtu text knihy: hotovo {done} z {total} stran. Do té doby nelze transkripci upravovat.", { done: st.done, total: st.total });
     if (st.done !== lastDone && !state.dirty) {
       lastDone = st.done;
       state.project = await (await fetch(`api/books/${encodeURIComponent(id)}`)).json();
@@ -970,23 +970,23 @@ async function cutPendingImages() {
 async function readAgain(pages, label) {
   if (state.dirty) await save();
   const engine = localStorage.getItem("scriptorium.ocrEngine") || "auto";
-  if (!confirm(`${label}\n\nSoučasný text ${pages === "empty" ? "stran bez textu" : "strany"} se nahradí nově přečteným. Předchozí stav zůstane v Historii transkripce.`)) return;
+  if (!confirm(label + "\n\n" + T(pages === "empty" ? "Text stran bez textu se doplní nově přečteným. Předchozí stav zůstane v Historii transkripce." : "Současný text strany se nahradí nově přečteným. Předchozí stav zůstane v Historii transkripce."))) return;
   const res = await fetch(`api/books/${encodeURIComponent(state.bookId)}/ocr`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ pages, engine }) });
-  if (!res.ok) { toast("Čtení textu se nepodařilo spustit."); return; }
+  if (!res.ok) { toast(T("Čtení textu se nepodařilo spustit.")); return; }
   state.ocrWatching = null;
   watchOcr(state.bookId);
 }
 
-$("#ocrPageBtn").addEventListener("click", () => readAgain([state.pageIndex], `Znovu přečíst stranu ${state.pageIndex + 1}?`));
+$("#ocrPageBtn").addEventListener("click", () => readAgain([state.pageIndex], T("Znovu přečíst stranu {n}?", { n: state.pageIndex + 1 })));
 $("#ocrEmptyBtn").addEventListener("click", () => {
   const n = state.project.pages.filter((p) => !pageHasText(p)).length;
-  if (!n) { toast("Všechny strany už text mají."); return; }
-  readAgain("empty", `Přečíst ${n} stran bez textu?`);
+  if (!n) { toast(T("Všechny strany už text mají.")); return; }
+  readAgain("empty", T("Přečíst {n} stran bez textu?", { n }));
 });
 $("#deleteBookBtn").addEventListener("click", async () => {
-  if (!confirm(`Odebrat zdrojovou knihu „${state.project.title}“?\n\nZ aplikace zmizí i její transkripce. Na serveru zůstane v koši, takže ji správce může vrátit.`)) return;
+  if (!confirm(T("Odebrat zdrojovou knihu „{title}“?", { title: state.project.title }) + "\n\n" + T("Z aplikace zmizí i její transkripce. Na serveru zůstane v koši, takže ji správce může vrátit."))) return;
   const res = await fetch(`api/books/${encodeURIComponent(state.bookId)}/delete`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
-  if (!res.ok) { toast("Knihu se nepodařilo odebrat."); return; }
+  if (!res.ok) { toast(T("Knihu se nepodařilo odebrat.")); return; }
   localStorage.removeItem("publisher.book");
   state.dirty = false;
   location.href = location.pathname;

@@ -273,9 +273,9 @@ function redraw() {
   $("#cvFhVal").textContent = Math.round(design.fh * 100) + " %";
   $("#cvFeatherVal").textContent = design.feather + " %";
   document.querySelectorAll("#cvDragMode button").forEach((b) => b.classList.toggle("on", b.dataset.mode === dragMode));
-  $("#cvPanHint").textContent = photoOn && picture
+  $("#cvPanHint").textContent = T(photoOn && picture
     ? "Text i fotografii posunete tažením myší (prstem) po obálce. Kolečko nad textem mění velikost textu, nad fotografií její přiblížení."
-    : "Text posunete tažením myší (prstem) po obálce, kolečkem nad ním změníte jeho velikost.";
+    : "Text posunete tažením myší (prstem) po obálce, kolečkem nad ním změníte jeho velikost.");
   cv.style.cursor = "grab";
 }
 
@@ -325,9 +325,9 @@ async function saveEditor() {
     $("#coverDesignField").value = JSON.stringify({ ...design, generated: true, line: texts.line, stamp: stampOf(texts) });
     showPreview();
     $("#coverDlg").hidden = true;
-    $("#bookResult").textContent = "Obálka je připravená. Nezapomeňte nastavení uložit.";
+    $("#bookResult").textContent = T("Obálka je připravená. Nezapomeňte nastavení uložit.");
   } catch (e) {
-    alert("Obálku se nepodařilo uložit: " + e.message);
+    alert(T("Obálku se nepodařilo uložit: ") + e.message);
   }
   btn.disabled = false;
 }
@@ -416,7 +416,7 @@ function showPreview() {
   const src = $("#coverField").value;
   $("#coverPreview").hidden = !src;
   if (src) $("#coverPreview").src = src;
-  $("#coverMake").textContent = parseDesign($("#coverDesignField").value) ? "Upravit obálku…" : "Vytvořit obálku…";
+  $("#coverMake").textContent = T(parseDesign($("#coverDesignField").value) ? "Upravit obálku…" : "Vytvořit obálku…");
 }
 
 // redraws the saved cover when the book's title, subtitle, author or edition changed

@@ -94,13 +94,13 @@ async function testImage() {
   x.fillStyle = "#f4ecd8"; x.fillRect(0, 0, c.width, c.height);
   x.fillStyle = "#222"; x.font = "bold 46px Georgia, serif"; x.textBaseline = "middle";
   x.fillText("Pražský groš 1300", 24, 62);
-  result("Zkouším, jestli model přečte text z obrázku…");
+  result(T("Zkouším, jestli model přečte text z obrázku…"));
   $("#setTestImg").disabled = true;
   try {
     const r = await fetch("api/settings/test", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form(), image: c.toDataURL("image/png") }) }).then((y) => y.json());
-    if (r.ok && /gro/i.test(r.reply)) result(`Model čte obrázky (za ${r.seconds} s přečetl „${r.reply}“). Může číst strany knih.`);
-    else if (r.ok) result(`Model odpověděl „${r.reply}“, ale text z obrázku nepřečetl. Ke čtení stran se nehodí – použije se Tesseract.`, true);
-    else result("Model obrázek nepřečetl: " + r.error + ". Ke čtení stran se použije Tesseract.", true);
+    if (r.ok && /gro/i.test(r.reply)) result(T("Model čte obrázky (za {s} s přečetl „{reply}“). Může číst strany knih.", { s: r.seconds, reply: r.reply }));
+    else if (r.ok) result(T("Model odpověděl „{reply}“, ale text z obrázku nepřečetl. Ke čtení stran se nehodí – použije se Tesseract.", { reply: r.reply }), true);
+    else result(T("Model obrázek nepřečetl: {error}. Ke čtení stran se použije Tesseract.", { error: r.error }), true);
   } catch (e) {
     result("Nefunguje: " + e.message, true);
   } finally {
@@ -120,11 +120,11 @@ async function mcp(action) {
   showMcp(st);
 }
 $("#mcpNew").addEventListener("click", () => mcp("new"));
-$("#mcpRenew").addEventListener("click", () => { if (confirm("Vytvořit novou adresu? Stará přestane fungovat a v Claude ji bude potřeba vyměnit.")) mcp("new"); });
-$("#mcpRemove").addEventListener("click", () => { if (confirm("Vypnout připojení pro Claude? Adresa přestane fungovat.")) mcp("remove"); });
+$("#mcpRenew").addEventListener("click", () => { if (confirm(T("Vytvořit novou adresu? Stará přestane fungovat a v Claude ji bude potřeba vyměnit."))) mcp("new"); });
+$("#mcpRemove").addEventListener("click", () => { if (confirm(T("Vypnout připojení pro Claude? Adresa přestane fungovat."))) mcp("remove"); });
 $("#mcpCopy").addEventListener("click", async () => {
   try { await navigator.clipboard.writeText($("#mcpUrl").value); } catch (e) { $("#mcpUrl").select(); document.execCommand("copy"); }
-  if (window.showToast) window.showToast("Adresa zkopírována.");
+  if (window.showToast) window.showToast(T("Adresa zkopírována."));
 });
 
 $("#settingsBtn").addEventListener("click", open);

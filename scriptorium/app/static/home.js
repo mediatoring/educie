@@ -156,6 +156,7 @@ $("#bookSettingsBtn").addEventListener("click", openSettings);
 
 // ---------- access and change log ----------
 const EVENTS = { login: "přihlášení", "login-failed": "neúspěšné přihlášení", logout: "odhlášení", edit: "úprava" };
+const evLabel = (e) => (window.T ? T(EVENTS[e] || e) : EVENTS[e] || e);
 async function openAudit() {
   const [data, books, sources] = await Promise.all([
     fetch("api/audit").then((r) => r.json()),
@@ -163,16 +164,16 @@ async function openAudit() {
     fetch("api/books").then((r) => r.json()),
   ]);
   const names = {};
-  books.forEach((b) => { names["ms:" + b.id] = "rukopis „" + b.title + "“"; });
-  sources.forEach((b) => { names["book:" + b.id] = "transkripce „" + b.title + "“"; });
-  const who = (x) => [x.user, x.ip, x.dev, x.fp ? "zařízení " + x.fp.slice(0, 6) : ""].filter(Boolean).join(" · ");
-  $("#auditMe").textContent = "Toto zařízení: " + who(data.me);
+  books.forEach((b) => { names["ms:" + b.id] = T("rukopis „{title}“", { title: b.title }); });
+  sources.forEach((b) => { names["book:" + b.id] = T("transkripce „{title}“", { title: b.title }); });
+  const who = (x) => [x.user, x.ip, x.dev, x.fp ? T("zařízení {id}", { id: x.fp.slice(0, 6) }) : ""].filter(Boolean).join(" · ");
+  $("#auditMe").textContent = T("Toto zařízení: ") + who(data.me);
   $("#auditList").innerHTML = data.items.length ? data.items.map((x) => {
     const d = new Date(x.t * 1000);
     const when = d.toLocaleDateString("cs-CZ") + " " + d.toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
     const what = x.ev === "edit" ? (names[x.key] || x.key || "") : (x.ev === "login-failed" ? x.detail || "" : "");
-    return `<div class="audit-row ev-${esc(x.ev)}"><b>${esc(when)}</b> <span>${esc(EVENTS[x.ev] || x.ev)}${what ? " – " + esc(what) : ""}</span><small>${esc(who(x))}</small></div>`;
-  }).join("") : "Zatím žádné záznamy.";
+    return `<div class="audit-row ev-${esc(x.ev)}"><b>${esc(when)}</b> <span>${esc(evLabel(x.ev))}${what ? " – " + esc(what) : ""}</span><small>${esc(who(x))}</small></div>`;
+  }).join("") : esc(T("Zatím žádné záznamy."));
   $("#auditDlg").hidden = false;
 }
 $("#homeAudit").addEventListener("click", openAudit);

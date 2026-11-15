@@ -1,2234 +1,3134 @@
 {
-"(autor, tiráž, záhlaví a zápatí) a vytiskněte nebo exportujte knihu do PDF a e-knihy.": [
-"(author, colophon, header and footer) and print or export the book to PDF and e-book.",
-"(Autor, Impressum, Kopf- und Fußzeile) und drucken oder exportieren Sie das Buch als PDF und E-Book."
-],
-"(bez názvu)": [
-"(untitled)",
-"(ohne Titel)"
-],
-"(překlad)": [
-"(translation)",
-"(Übersetzung)"
-],
-"+ Do slovníku": [
-"+ Add to dictionary",
-"+ Ins Wörterbuch"
-],
-"+ Kapitola": [
-"+ Chapter",
-"+ Kapitel"
-],
-"+ Odstavec": [
-"+ Paragraph",
-"+ Absatz"
-],
-"+ Poznámka": [
-"+ Note",
-"+ Anmerkung"
-],
-"+ Přidat obrázek": [
-"+ Add image",
-"+ Bild hinzufügen"
-],
-", kterou píšete, nebo založte novou. Každá kniha má vlastní text, verze a nastavení.": [
-" you are writing, or create a new one. Each book has its own text, versions and settings.",
-" das Sie schreiben, oder legen Sie ein neues an. Jedes Buch hat eigenen Text, Versionen und Einstellungen."
-],
-", která ukáže podezřelá slova a skáče mezi nimi.": [
-", which shows suspicious words and jumps between them.",
-", die verdächtige Wörter zeigt und zwischen ihnen springt."
-],
-". Může to být model na serveru, vlastní účet u OpenAI nebo Anthropicu, nebo model v počítači (LM Studio, Ollama).": [
-". It can be a model on the server, your own OpenAI or Anthropic account, or a model on your computer (LM Studio, Ollama).",
-". Das kann ein Modell auf dem Server sein, ein eigenes OpenAI- oder Anthropic-Konto oder ein Modell auf Ihrem Computer (LM Studio, Ollama)."
-],
-": pak stačí kliknout na libovolné tlačítko a aplikace napíše, k čemu slouží.": [
-": then just click any button and the app explains what it does.",
-": Dann genügt ein Klick auf eine beliebige Schaltfläche, und die App erklärt, wozu sie dient."
-],
-"<b>A+</b> a <b>A−</b> zvětší nebo zmenší písmo i tlačítka v celé aplikaci. Nastavení si aplikace pamatuje.": [
-"<b>A+</b> and <b>A−</b> enlarge or reduce the text and buttons in the whole app. The app remembers the setting.",
-"<b>A+</b> und <b>A−</b> vergrößern oder verkleinern Schrift und Schaltflächen in der ganzen App. Die Einstellung wird gespeichert."
-],
-"<h3>Použité zdroje</h3>": [
-"<h3>Sources used</h3>",
-"<h3>Verwendete Quellen</h3>"
-],
-"<p class='tour-tip'>Klikněte na další prvek, nebo stiskněte <b>Konec</b>.</p>": [
-"<p class='tour-tip'>Click another element, or press <b>End</b>.</p>",
-"<p class='tour-tip'>Klicken Sie auf ein weiteres Element oder auf <b>Ende</b>.</p>"
-],
-"API klíč": [
-"API key",
-"API-Schlüssel"
-],
-"Adresa API": [
-"API address",
-"API-Adresse"
-],
-"Adresa musí začínat http:// nebo https://": [
-"The address must start with http:// or https://",
-"Die Adresse muss mit http:// oder https:// beginnen"
-],
-"Aplikace ukládá verzi transkripce každé tři minuty práce. Obnovením se vrátí celá kniha do zvoleného stavu, současný stav se předtím sám uloží, takže se nic neztratí. Jednotlivý odstavec vrátíte tlačítkem": [
-"The app saves a version of the transcription every three minutes of work. Restoring returns the whole book to the chosen state; the current state is saved first, so nothing is lost. Restore a single paragraph with the <b>↺ original text</b> button next to it.",
-"Die App speichert alle drei Arbeitsminuten eine Version der Transkription. Beim Wiederherstellen kehrt das ganze Buch in den gewählten Zustand zurück; der aktuelle Stand wird vorher gespeichert, nichts geht verloren. Einen einzelnen Absatz stellen Sie mit <b>↺ Originaltext</b> direkt daneben wieder her."
-],
-"Autor": [
-"Author",
-"Autor"
-],
-"Barva pozadí": [
-"Background colour",
-"Hintergrundfarbe"
-],
-"Barva textu": [
-"Text colour",
-"Textfarbe"
-],
-"Barvy zpět": [
-"Reset colours",
-"Farben zurücksetzen"
-],
-"Bez obálky": [
-"No cover",
-"Ohne Umschlag"
-],
-"Bezpatkové": [
-"Sans serif",
-"Serifenlos"
-],
-"Blok": [
-"Justify",
-"Blocksatz"
-],
-"Běžný text": [
-"Normal text",
-"Normaler Text"
-],
-"Běží stará verze serveru. Zavřete okno Terminálu a znovu spusťte": [
-"An old version of the server is running. Close the Terminal window and start again",
-"Eine alte Serverversion läuft. Schließen Sie das Terminal-Fenster und starten Sie erneut"
-],
-"Celá strana do rukopisu": [
-"Whole page to manuscript",
-"Ganze Seite ins Manuskript"
-],
-"Celá strana jako obrázek do rukopisu": [
-"Whole page as image to manuscript",
-"Ganze Seite als Bild ins Manuskript"
-],
-"Celá strana vložena do rukopisu.": [
-"Whole page inserted into the manuscript.",
-"Ganze Seite ins Manuskript eingefügt."
-],
-"Citace": [
-"Quotation",
-"Zitat"
-],
-"Citace vložena do rukopisu.": [
-"Quotation inserted into the manuscript.",
-"Zitat ins Manuskript eingefügt."
-],
-"Co je na obrázku…": [
-"What is in the picture…",
-"Was ist auf dem Bild…"
-],
-"Co jste dělali, co se stalo a co jste čekali…": [
-"What you did, what happened and what you expected…",
-"Was Sie getan haben, was passiert ist und was Sie erwartet haben…"
-],
-"Co posíláte": [
-"What are you sending",
-"Was senden Sie"
-],
-"Co zobrazit": [
-"What to show",
-"Was anzeigen"
-],
-"Copyright": [
-"Copyright",
-"Copyright"
-],
-"Další": [
-"Next",
-"Weiter"
-],
-"Další podezřelé slovo": [
-"Next suspicious word",
-"Nächstes verdächtiges Wort"
-],
-"Další strana": [
-"Next page",
-"Nächste Seite"
-],
-"Další údaje do tiráže": [
-"Other colophon details",
-"Weitere Angaben im Impressum"
-],
-"Další →": [
-"Next →",
-"Weiter →"
-],
-"Další ▶": [
-"Next ▶",
-"Weiter ▶"
-],
-"Do bloku": [
-"To block",
-"Als Block"
-],
-"Dolů": [
-"Down",
-"Nach unten"
-],
-"Doplňte název modelu.": [
-"Fill in the model name.",
-"Geben Sie den Modellnamen ein."
-],
-"Dotaz": [
-"Ask",
-"Frage"
-],
-"Dotaz na knihy a rukopis": [
-"Questions about the books and the manuscript",
-"Fragen zu den Büchern und zum Manuskript"
-],
-"Dotaz zrušen.": [
-"Question cancelled.",
-"Frage abgebrochen."
-],
-"Dotaz, jak něco udělat": [
-"Question about how to do something",
-"Frage, wie man etwas macht"
-],
-"Děkujeme, hlášení je odeslané.": [
-"Thank you, the report has been sent.",
-"Danke, die Meldung wurde gesendet."
-],
-"Dřívější verze transkripce této knihy": [
-"Earlier versions of this book's transcription",
-"Frühere Versionen der Transkription dieses Buches"
-],
-"E-kniha (EPUB)": [
-"E-book (EPUB)",
-"E-Book (EPUB)"
-],
-"E-kniha se stahuje (EPUB). Do Kindlu ji pošlete přes „Send to Kindle“.": [
-"The e-book is downloading (EPUB). Send it to Kindle via “Send to Kindle”.",
-"Das E-Book wird heruntergeladen (EPUB). Auf den Kindle schicken Sie es mit „Send to Kindle“."
-],
-"Edice": [
-"Series",
-"Reihe"
-],
-"Editor, uspořádal, komentář": [
-"Editor, compiled by, commentary",
-"Herausgeber, Bearbeitung, Kommentar"
-],
-"Educie Scriptorium": [
-"Educie Scriptorium",
-"Educie Scriptorium"
-],
-"Export dvojjazyčně": [
-"Bilingual export",
-"Zweisprachiger Export"
-],
-"Export transkripce této knihy": [
-"Export this book's transcription",
-"Transkription dieses Buches exportieren"
-],
-"Export v originále": [
-"Export in the original",
-"Export im Original"
-],
-"Export česky": [
-"Export in Czech",
-"Export auf Tschechisch"
-],
-"Formát transkripce": [
-"Transcription format",
-"Format der Transkription"
-],
-"Georgia (patkové)": [
-"Georgia (serif)",
-"Georgia (Serifen)"
-],
-"HTML": [
-"HTML",
-"HTML"
-],
-"Helvetica (bezpatkové)": [
-"Helvetica (sans serif)",
-"Helvetica (serifenlos)"
-],
-"Historie": [
-"History",
-"Verlauf"
-],
-"Historie transkripce": [
-"Transcription history",
-"Verlauf der Transkription"
-],
-"Historie verzí rukopisu": [
-"Manuscript version history",
-"Versionsverlauf des Manuskripts"
-],
-"Historii": [
-"History",
-"Verlauf"
-],
-"Hledat v popiscích a zdrojích…": [
-"Search captions and sources…",
-"In Bildunterschriften und Quellen suchen…"
-],
-"Hledat všude…": [
-"Search everywhere…",
-"Überall suchen…"
-],
-"Hledám návrhy…": [
-"Looking for suggestions…",
-"Suche Vorschläge…"
-],
-"Hledám podezřelá slova…": [
-"Looking for suspicious words…",
-"Suche verdächtige Wörter…"
-],
-"Hledám v knihách a rukopisu…": [
-"Searching the books and the manuscript…",
-"Suche in Büchern und Manuskript…"
-],
-"Hledání": [
-"Search",
-"Suche"
-],
-"Hotovo, všechna podezřelá slova jsou vyřešená. 👍": [
-"Done, all suspicious words are resolved. 👍",
-"Fertig, alle verdächtigen Wörter sind erledigt. 👍"
-],
-"Hotovo. Rámeček na skenu můžeš posunout nebo roztáhnout, obrázek narovnat vpravo.": [
-"Done. You can move or resize the frame on the scan and straighten the image on the right.",
-"Fertig. Den Rahmen auf dem Scan können Sie verschieben oder vergrößern, das Bild rechts gerade richten."
-],
-"ISBN (PDF)": [
-"ISBN (PDF)",
-"ISBN (PDF)"
-],
-"ISBN (ePub)": [
-"ISBN (ePub)",
-"ISBN (ePub)"
-],
-"Ikony: Flaticon (flaticon.com)": [
-"Icons: Flaticon (flaticon.com)",
-"Icons: Flaticon (flaticon.com)"
-],
-"Jak na to": [
-"How to",
-"Anleitungen"
-],
-"Jak najít slovo ve všech knihách": [
-"How to find a word in all books",
-"Ein Wort in allen Büchern finden"
-],
-"Jak opravit chyby po čtení skenu": [
-"How to fix errors after scanning",
-"Fehler nach dem Einlesen korrigieren"
-],
-"Jak přenést odstavec z knihy do rukopisu": [
-"How to move a paragraph from a book to the manuscript",
-"Einen Absatz aus einem Buch ins Manuskript übernehmen"
-],
-"Jak se s programem pracuje": [
-"How the program works",
-"So arbeiten Sie mit dem Programm"
-],
-"Jak se zeptat na něco z knih": [
-"How to ask about something in the books",
-"Etwas zu den Büchern fragen"
-],
-"Jak udělat nadpis kapitoly": [
-"How to make a chapter heading",
-"Eine Kapitelüberschrift erstellen"
-],
-"Jak vložit citaci se zdrojem": [
-"How to insert a quotation with its source",
-"Ein Zitat mit Quelle einfügen"
-],
-"Jak vložit obrázek z počítače": [
-"How to insert an image from the computer",
-"Ein Bild vom Computer einfügen"
-],
-"Jak vložit obsah knihy": [
-"How to insert the table of contents",
-"Das Inhaltsverzeichnis einfügen"
-],
-"Jak vrátit starší verzi rukopisu": [
-"How to restore an older version of the manuscript",
-"Eine ältere Version des Manuskripts wiederherstellen"
-],
-"Jak vytisknout nebo uložit PDF": [
-"How to print or save a PDF",
-"Drucken oder als PDF speichern"
-],
-"Jak vytvořit obálku": [
-"How to create a cover",
-"Einen Umschlag gestalten"
-],
-"Jak vyříznout obrázek ze skenu": [
-"How to cut an image out of a scan",
-"Ein Bild aus dem Scan ausschneiden"
-],
-"Jas": [
-"Brightness",
-"Helligkeit"
-],
-"Jazyk exportu": [
-"Export language",
-"Exportsprache"
-],
-"Jazyk knihy": [
-"Book language",
-"Sprache des Buches"
-],
-"Je to jen obrázek nebo tabulka": [
-"It is only an image or a table",
-"Es ist nur ein Bild oder eine Tabelle"
-],
-"Je to správně": [
-"This is correct",
-"Das ist richtig"
-],
-"Jednobarevná s obrázkem v rámečku": [
-"Plain colour with framed image",
-"Einfarbig mit gerahmtem Bild"
-],
-"Jen originál": [
-"Original only",
-"Nur Original"
-],
-"Jen překlad": [
-"Translation only",
-"Nur Übersetzung"
-],
-"Jen text (bez obrázku)": [
-"Text only (no image)",
-"Nur Text (ohne Bild)"
-],
-"Jméno": [
-"Name",
-"Name"
-],
-"Kameru se nepodařilo zapnout. Povolte ji v prohlížeči, nebo vyberte fotku z počítače.": [
-"The camera could not be started. Allow it in the browser, or choose a photo from the computer.",
-"Die Kamera konnte nicht gestartet werden. Erlauben Sie sie im Browser oder wählen Sie ein Foto vom Computer."
-],
-"Kapitola (1. úroveň)": [
-"Chapter (level 1)",
-"Kapitel (Ebene 1)"
-],
-"Kapitola – nadpis 1. úrovně": [
-"Chapter – level 1 heading",
-"Kapitel – Überschrift Ebene 1"
-],
-"Kde model běží": [
-"Where the model runs",
-"Wo das Modell läuft"
-],
-"Kdykoli si nevíte rady, klikněte na": [
-"Whenever you are unsure, click the",
-"Wenn Sie nicht weiterwissen, klicken Sie auf das"
-],
-"Když je písmo malé": [
-"When the text is small",
-"Wenn die Schrift klein ist"
-],
-"Klasické": [
-"Classic",
-"Klassisch"
-],
-"Klikněte do odstavce a tady zvolíte, zda je to nadpis, citace nebo poznámka, a nastavíte tučné písmo či zarovnání.": [
-"Click into a paragraph and choose here whether it is a heading, quotation or note, and set bold or alignment.",
-"Klicken Sie in einen Absatz und wählen Sie hier, ob es eine Überschrift, ein Zitat oder eine Anmerkung ist, und stellen Sie Fettdruck oder Ausrichtung ein."
-],
-"Klikněte do řádku v rukopisu a v nabídce vlevo nahoře (kde je <b>Běžný text</b>) zvolte <b>Kapitola</b>. Kapitoly se samy objeví v obsahu.": [
-"Click into a line in the manuscript and in the menu at the top left (where it says <b>Normal text</b>) choose <b>Chapter</b>. Chapters appear in the table of contents automatically.",
-"Klicken Sie in eine Zeile des Manuskripts und wählen Sie oben links im Menü (wo <b>Normaler Text</b> steht) <b>Kapitel</b>. Kapitel erscheinen automatisch im Inhaltsverzeichnis."
-],
-"Klikněte na <b>Historie</b>, vyberte čas a stiskněte <b>Obnovit</b>. Současná verze se předtím sama uloží, takže se nic neztratí.": [
-"Click <b>History</b>, choose a time and press <b>Restore</b>. The current version is saved first, so nothing is lost.",
-"Klicken Sie auf <b>Verlauf</b>, wählen Sie einen Zeitpunkt und drücken Sie <b>Wiederherstellen</b>. Die aktuelle Version wird vorher gespeichert, nichts geht verloren."
-],
-"Klikněte na kterékoli tlačítko nebo část aplikace a zobrazí se, k čemu slouží. Nic se tím nespustí.": [
-"Click any button or part of the app and you will see what it is for. Nothing is triggered.",
-"Klicken Sie auf eine Schaltfläche oder einen Teil der App, und Sie sehen, wozu er dient. Es wird nichts ausgelöst."
-],
-"Klikněte na obrázek v Obrázkách a pak na „Vložit do rukopisu“.": [
-"Click an image in Images and then “Insert into manuscript”.",
-"Klicken Sie auf ein Bild unter Bilder und dann auf „Ins Manuskript einfügen“."
-],
-"Klíč je uložený. Nechte pole prázdné, pokud ho nechcete měnit.": [
-"The key is saved. Leave the field empty if you don't want to change it.",
-"Der Schlüssel ist gespeichert. Lassen Sie das Feld leer, wenn Sie ihn nicht ändern wollen."
-],
-"Klíč najdete v účtu u poskytovatele. Uloží se jen na serveru, do prohlížeče se už nevrací.": [
-"You will find the key in your account with the provider. It is stored only on the server and never sent back to the browser.",
-"Den Schlüssel finden Sie in Ihrem Konto beim Anbieter. Er wird nur auf dem Server gespeichert und nie an den Browser zurückgegeben."
-],
-"Kniha": [
-"Book",
-"Buch"
-],
-"Knihovna": [
-"Library",
-"Bibliothek"
-],
-"Knižní": [
-"Book",
-"Buch"
-],
-"Konec": [
-"End",
-"Ende"
-],
-"Kontrast": [
-"Contrast",
-"Kontrast"
-],
-"Korektura": [
-"Proofreading",
-"Korrektur"
-],
-"Korektura: projde podezřelá slova v celé knize a skáče mezi nimi": [
-"Proofreading: goes through suspicious words in the whole book and jumps between them",
-"Korrektur: geht verdächtige Wörter im ganzen Buch durch und springt zwischen ihnen"
-],
-"Korektura: projde podezřelá slova v rukopisu a skáče mezi nimi": [
-"Proofreading: goes through suspicious words in the manuscript and jumps between them",
-"Korrektur: geht verdächtige Wörter im Manuskript durch und springt zwischen ihnen"
-],
-"Krátce, o co jde": [
-"Briefly, what is it about",
-"Kurz, worum geht es"
-],
-"Kurzíva": [
-"Italic",
-"Kursiv"
-],
-"Licence a práva": [
-"Licence and rights",
-"Lizenz und Rechte"
-],
-"Lupa": [
-"Magnifier",
-"Lupe"
-],
-"Lupa – zvětší místo pod myší": [
-"Magnifier – enlarges the area under the mouse",
-"Lupe – vergrößert die Stelle unter der Maus"
-],
-"Lupa: přejeďte myší po skenu.": [
-"Magnifier: move the mouse over the scan.",
-"Lupe: Fahren Sie mit der Maus über den Scan."
-],
-"Malé": [
-"Small",
-"Klein"
-],
-"Menší písmo a ovládání": [
-"Smaller text and controls",
-"Kleinere Schrift und Bedienelemente"
-],
-"Menší písmo rukopisu na obrazovce": [
-"Smaller manuscript text on screen",
-"Kleinere Manuskriptschrift auf dem Bildschirm"
-],
-"Model odpovídá na otázky ve sloupci": [
-"The model answers questions in the column",
-"Das Modell beantwortet Fragen in der Spalte"
-],
-"Moje knihy": [
-"My books",
-"Meine Bücher"
-],
-"Moje knihy – výběr knihy, nastavení a nápověda": [
-"My books – choose a book, settings and help",
-"Meine Bücher – Buch wählen, Einstellungen und Hilfe"
-],
-"Místo vydání": [
-"Place of publication",
-"Erscheinungsort"
-],
-"Můj rukopis": [
-"My manuscript",
-"Mein Manuskript"
-],
-"Může jít o ručně psaný text, fotografii nebo tabulku. Přepište text ručně tlačítkem + Odstavec dole, nebo stranu označte jako obrázek.": [
-"It may be handwriting, a photograph or a table. Type the text in using + Paragraph below, or mark the page as an image.",
-"Es kann Handschrift, ein Foto oder eine Tabelle sein. Tippen Sie den Text mit + Absatz unten ab oder markieren Sie die Seite als Bild."
-],
-"Na straně není přečtený text": [
-"No recognised text on this page",
-"Kein erkannter Text auf dieser Seite"
-],
-"Na střed": [
-"Centre",
-"Zentriert"
-],
-"Na této straně se text nepodařilo přečíst.": [
-"The text on this page could not be read.",
-"Der Text auf dieser Seite konnte nicht gelesen werden."
-],
-"Nahoře vyberete knihu, šipkami listujete stránkami. Náhledy stránek jsou pod tím, kliknutím stránku otevřete.": [
-"Choose a book at the top and page through with the arrows. Page thumbnails are below; click one to open it.",
-"Oben wählen Sie das Buch, mit den Pfeilen blättern Sie. Darunter sind Seitenvorschauen; ein Klick öffnet die Seite."
-],
-"Nahrát hotovou obálku": [
-"Upload a finished cover",
-"Fertigen Umschlag hochladen"
-],
-"Nakladatel": [
-"Publisher",
-"Verlag"
-],
-"Nakladatel / edice dole": [
-"Publisher / series at the bottom",
-"Verlag / Reihe unten"
-],
-"Napište ho do pole <b>Hledat všude…</b> nahoře. Výsledky z rukopisu jsou první, pak z knih.": [
-"Type it into the <b>Search everywhere…</b> field at the top. Results from the manuscript come first, then from the books.",
-"Geben Sie es oben in das Feld <b>Überall suchen…</b> ein. Treffer aus dem Manuskript kommen zuerst, dann aus den Büchern."
-],
-"Napište otázku, např.: Kde se razily grešle Leopolda I.?": [
-"Type a question, e.g.: Where were Leopold I's greschels minted?",
-"Stellen Sie eine Frage, z. B.: Wo wurden die Gröschel Leopolds I. geprägt?"
-],
-"Napište slovo a aplikace ho najde ve všech knihách i v rukopisu. Při psaní nabízí návrhy. Kliknutím na výsledek se na místo přesunete.": [
-"Type a word and the app finds it in all books and in the manuscript. It makes suggestions as you type. Click a result to go there.",
-"Geben Sie ein Wort ein, und die App findet es in allen Büchern und im Manuskript. Beim Tippen gibt es Vorschläge. Ein Klick auf ein Ergebnis führt dorthin."
-],
-"Napište, co nefunguje nebo co by se hodilo. Hlášení dostane autor aplikace i s informací, kde v aplikaci jste byli.": [
-"Write what doesn't work or what would help. The report reaches the app's author together with where in the app you were.",
-"Schreiben Sie, was nicht funktioniert oder was helfen würde. Die Meldung erreicht den Autor der App samt Angabe, wo in der App Sie waren."
-],
-"Narovnat (stupně)": [
-"Straighten (degrees)",
-"Gerade richten (Grad)"
-],
-"Narovnat:": [
-"Straighten:",
-"Gerade richten:"
-],
-"Naskenovaná stránka. Kolečkem nebo tlačítky ji zvětšíte. Rámeček kolem obrázku můžete tahem upravit a obrázek tím přesněji vyříznout.": [
-"The scanned page. Zoom with the wheel or the buttons. You can drag the frame around an image to cut it out more precisely.",
-"Die gescannte Seite. Mit dem Mausrad oder den Schaltflächen zoomen. Den Rahmen um ein Bild können Sie ziehen, um es genauer auszuschneiden."
-],
-"Nastavení": [
-"Settings",
-"Einstellungen"
-],
-"Nastavení AI": [
-"AI settings",
-"KI-Einstellungen"
-],
-"Nastavení jazykového modelu": [
-"Language model settings",
-"Einstellungen des Sprachmodells"
-],
-"Nastavení knihy": [
-"Book settings",
-"Bucheinstellungen"
-],
-"Nastavení knihy uloženo.": [
-"Book settings saved.",
-"Bucheinstellungen gespeichert."
-],
-"Nastavení knihy –": [
-"Book settings –",
-"Bucheinstellungen –"
-],
-"Nastavení modelu uloženo.": [
-"Model settings saved.",
-"Modelleinstellungen gespeichert."
-],
-"Nastavení zdrojové knihy": [
-"Source book settings",
-"Einstellungen des Quellbuchs"
-],
-"Nastavení – jazykový model pro Dotaz": [
-"Settings – language model for Ask",
-"Einstellungen – Sprachmodell für Fragen"
-],
-"Načíst znovu": [
-"Reload",
-"Neu laden"
-],
-"Načítám…": [
-"Loading…",
-"Lädt…"
-],
-"Nebo zapněte": [
-"Or turn on",
-"Oder schalten Sie den"
-],
-"Nejdřív označte text v odstavci.": [
-"First select text in the paragraph.",
-"Markieren Sie zuerst Text im Absatz."
-],
-"Nenašel jsem žádné podezřelé slovo. 👍": [
-"No suspicious word found. 👍",
-"Kein verdächtiges Wort gefunden. 👍"
-],
-"Není s čím spojit.": [
-"Nothing to merge with.",
-"Nichts zum Zusammenführen."
-],
-"Nepodařilo se odeslat:": [
-"Could not send:",
-"Senden fehlgeschlagen:"
-],
-"Normální": [
-"Normal",
-"Normal"
-],
-"Nová nápověda: klikněte na otazník vpravo nahoře.": [
-"New help: click the question mark at the top right.",
-"Neue Hilfe: Klicken Sie oben rechts auf das Fragezeichen."
-],
-"Nová stránka (další text začne na nové straně v PDF i e-knize)": [
-"New page (the following text starts on a new page in PDF and e-book)",
-"Neue Seite (der folgende Text beginnt im PDF und E-Book auf einer neuen Seite)"
-],
-"Nová stránka vložena.": [
-"New page inserted.",
-"Neue Seite eingefügt."
-],
-"Nový dotaz": [
-"New question",
-"Neue Frage"
-],
-"Nový obrázek do knihovny": [
-"New image for the library",
-"Neues Bild für die Bibliothek"
-],
-"Nápad na novou funkci": [
-"Idea for a new feature",
-"Idee für eine neue Funktion"
-],
-"Nápověda": [
-"Help",
-"Hilfe"
-],
-"Nápověda a podpora": [
-"Help and support",
-"Hilfe und Support"
-],
-"Nápověda a průvodce": [
-"Help and guide",
-"Hilfe und Rundgang"
-],
-"Nápověda a průvodce aplikací": [
-"Help and guided tour of the app",
-"Hilfe und Rundgang durch die App"
-],
-"Návrat na úvodní stránku. Tam vyberete knihu, kterou píšete, založíte novou, vyplníte její nastavení a tiráž, nebo otevřete zdrojovou knihu.": [
-"Back to the start page. There you choose the book you are writing, create a new one, fill in its settings and colophon, or open a source book.",
-"Zurück zur Startseite. Dort wählen Sie das Buch, an dem Sie schreiben, legen ein neues an, füllen Einstellungen und Impressum aus oder öffnen ein Quellbuch."
-],
-"Název": [
-"Title",
-"Titel"
-],
-"Název knihy": [
-"Book title",
-"Buchtitel"
-],
-"Název knihy (titulní strana, obálka e-knihy)": [
-"Book title (title page, e-book cover)",
-"Buchtitel (Titelseite, E-Book-Umschlag)"
-],
-"Název knihy nesmí být prázdný.": [
-"The book title must not be empty.",
-"Der Buchtitel darf nicht leer sein."
-],
-"Název modelu": [
-"Model name",
-"Modellname"
-],
-"Název vaší knihy. Použije se na titulní straně a v e-knize.": [
-"The title of your book. Used on the title page and in the e-book.",
-"Der Titel Ihres Buches. Er erscheint auf der Titelseite und im E-Book."
-],
-"Název, autor, tiráž (nakladatel, rok, ISBN…), záhlaví a čísla stránek a <b>obálka</b>. Z těchto údajů se skládá titulní strana a tiráž v PDF i v e-knize.": [
-"Title, author, colophon (publisher, year, ISBN…), header, page numbers and the <b>cover</b>. The title page and colophon in the PDF and e-book are built from these.",
-"Titel, Autor, Impressum (Verlag, Jahr, ISBN…), Kopfzeile, Seitenzahlen und <b>Umschlag</b>. Daraus entstehen Titelseite und Impressum in PDF und E-Book."
-],
-"Název, autor, tiráž, záhlaví a zápatí této knihy": [
-"Title, author, colophon, header and footer of this book",
-"Titel, Autor, Impressum, Kopf- und Fußzeile dieses Buches"
-],
-"Něco nefunguje (chyba)": [
-"Something doesn't work (bug)",
-"Etwas funktioniert nicht (Fehler)"
-],
-"Obnoven neuložený text z minula – ukládám.": [
-"Restored unsaved text from last time – saving.",
-"Ungespeicherter Text vom letzten Mal wiederhergestellt – wird gespeichert."
-],
-"Obnovení se nepovedlo.": [
-"Restore failed.",
-"Wiederherstellen fehlgeschlagen."
-],
-"Obnovit tuto verzi": [
-"Restore this version",
-"Diese Version wiederherstellen"
-],
-"Obnovit vybranou verzi?\\n\\nSoučasný text se předtím uloží do historie, takže o nic nepřijdete.": [
-"Restore the selected version?\\n\\nThe current text is saved to history first, so you lose nothing.",
-"Ausgewählte Version wiederherstellen?\\n\\nDer aktuelle Text wird vorher im Verlauf gespeichert, Sie verlieren nichts."
-],
-"Obrázek": [
-"Image",
-"Bild"
-],
-"Obrázek nahoře, text dole": [
-"Image on top, text below",
-"Bild oben, Text unten"
-],
-"Obrázek obrazovky (nepovinné)": [
-"Screenshot (optional)",
-"Bildschirmfoto (optional)"
-],
-"Obrázek přes celou obálku, text přes něj": [
-"Image over the whole cover, text on top",
-"Bild über den ganzen Umschlag, Text darüber"
-],
-"Obrázek se nepodařilo uložit.": [
-"The image could not be saved.",
-"Das Bild konnte nicht gespeichert werden."
-],
-"Obrázek se nepodařilo uložit:": [
-"The image could not be saved:",
-"Das Bild konnte nicht gespeichert werden:"
-],
-"Obrázek se nepodařilo vložit.": [
-"The image could not be inserted.",
-"Das Bild konnte nicht eingefügt werden."
-],
-"Obrázek upraven. Původní zůstává v historii verzí.": [
-"Image edited. The original remains in the version history.",
-"Bild bearbeitet. Das Original bleibt im Versionsverlauf."
-],
-"Obrázek vložen do rukopisu.": [
-"Image inserted into the manuscript.",
-"Bild ins Manuskript eingefügt."
-],
-"Obrázek vložen. Oříznout ho můžete tlačítkem ✂ nad textem.": [
-"Image inserted. You can crop it with the ✂ button above the text.",
-"Bild eingefügt. Zuschneiden können Sie es mit ✂ über dem Text."
-],
-"Obrázek z počítače…": [
-"Image from computer…",
-"Bild vom Computer…"
-],
-"Obrázek:": [
-"Image:",
-"Bild:"
-],
-"Obrázky": [
-"Images",
-"Bilder"
-],
-"Obrázky a jejich zdroje": [
-"Images and their sources",
-"Bilder und ihre Quellen"
-],
-"Obrázky do rukopisu": [
-"Images to manuscript",
-"Bilder ins Manuskript"
-],
-"Obrázky přidány do knihovny.": [
-"Images added to the library.",
-"Bilder zur Bibliothek hinzugefügt."
-],
-"Obsah": [
-"Contents",
-"Inhalt"
-],
-"Obsah a schránka": [
-"Contents and clipboard",
-"Inhalt und Ablage"
-],
-"Obsah knihy (vytvoří se sám z kapitol)": [
-"Table of contents (built automatically from chapters)",
-"Inhaltsverzeichnis (entsteht automatisch aus den Kapiteln)"
-],
-"Obsah rukopisu a schránka": [
-"Manuscript contents and clipboard",
-"Inhalt des Manuskripts und Ablage"
-],
-"Obsah už v rukopisu je.": [
-"The table of contents is already in the manuscript.",
-"Das Inhaltsverzeichnis ist bereits im Manuskript."
-],
-"Obsah vložen. Sám se doplní podle kapitol.": [
-"Table of contents inserted. It fills in from the chapters.",
-"Inhaltsverzeichnis eingefügt. Es füllt sich aus den Kapiteln."
-],
-"Obálka": [
-"Cover",
-"Umschlag"
-],
-"Obálka je připravená. Nezapomeňte nastavení uložit.": [
-"The cover is ready. Don't forget to save the settings.",
-"Der Umschlag ist fertig. Vergessen Sie nicht, die Einstellungen zu speichern."
-],
-"Obálka se použije v PDF i v e-knize. Doporučený poměr stran 1 : 1,6.": [
-"The cover is used in the PDF and the e-book. Recommended aspect ratio 1 : 1.6.",
-"Der Umschlag wird in PDF und E-Book verwendet. Empfohlenes Seitenverhältnis 1 : 1,6."
-],
-"Obálku se nepodařilo uložit:": [
-"Could not save the cover:",
-"Umschlag konnte nicht gespeichert werden:"
-],
-"Oddíl – 3. úroveň": [
-"Section – level 3",
-"Abschnitt – Ebene 3"
-],
-"Odeslat": [
-"Send",
-"Senden"
-],
-"Odesílám…": [
-"Sending…",
-"Wird gesendet…"
-],
-"Odhlásit": [
-"Log out",
-"Abmelden"
-],
-"Odkud obrázek pochází (kniha, archiv, web, fotograf)…": [
-"Where the image comes from (book, archive, web, photographer)…",
-"Woher das Bild stammt (Buch, Archiv, Web, Fotograf)…"
-],
-"Odpověď vložena do rukopisu.": [
-"Answer inserted into the manuscript.",
-"Antwort ins Manuskript eingefügt."
-],
-"Odpověď vzniká pomocí AI jen z přepsaných knih a rukopisu a u každého tvrzení je číslo zdroje.": [
-"The answer is created by AI only from the transcribed books and the manuscript, with a source number for every statement.",
-"Die Antwort entsteht mit KI nur aus den transkribierten Büchern und dem Manuskript, jede Aussage mit Quellennummer."
-],
-"Odpověď zastavena.": [
-"Answer stopped.",
-"Antwort angehalten."
-],
-"Odrážky": [
-"Bullets",
-"Aufzählung"
-],
-"Odstavec": [
-"Paragraph",
-"Absatz"
-],
-"Odstavec ještě nebyl upraven.": [
-"The paragraph has not been edited yet.",
-"Der Absatz wurde noch nicht bearbeitet."
-],
-"Odstavec vložen do rukopisu.": [
-"Paragraph inserted into the manuscript.",
-"Absatz ins Manuskript eingefügt."
-],
-"Odstavec vrácen do původní podoby.": [
-"Paragraph restored to its original form.",
-"Absatz in die ursprüngliche Form zurückgesetzt."
-],
-"Odstranit": [
-"Remove",
-"Entfernen"
-],
-"Odstranit obrázek z textu?\\n(Lze vrátit tlačítkem Zpět nebo z historie.)": [
-"Remove the image from the text?\\n(Can be undone with Undo or from history.)",
-"Bild aus dem Text entfernen?\\n(Rückgängig mit Zurück oder über den Verlauf.)"
-],
-"Opravte transkripci": [
-"Correct the transcription",
-"Korrigieren Sie die Transkription"
-],
-"Originál": [
-"Original",
-"Original"
-],
-"Originál + překlad": [
-"Original + translation",
-"Original + Übersetzung"
-],
-"Originál a rukopis vedle sebe – vyřezávání obrázků do rukopisu": [
-"Original and manuscript side by side – cutting images into the manuscript",
-"Original und Manuskript nebeneinander – Bilder ins Manuskript ausschneiden"
-],
-"Originál a transkripce vedle sebe – čtení a opravy transkripce": [
-"Original and transcription side by side – reading and correcting the transcription",
-"Original und Transkription nebeneinander – Lesen und Korrigieren der Transkription"
-],
-"Osnova": [
-"Outline",
-"Gliederung"
-],
-"Osnova rukopisu": [
-"Manuscript outline",
-"Gliederung des Manuskripts"
-],
-"Otevře obsah rukopisu (kapitoly, kliknutím na ně skočíte) a schránku s texty a obrázky, které jste si odložili.": [
-"Opens the manuscript contents (chapters, click to jump) and the clipboard with texts and images you put aside.",
-"Öffnet den Inhalt des Manuskripts (Kapitel, Klick springt hin) und die Ablage mit beiseitegelegten Texten und Bildern."
-],
-"Otevře rukopis připravený k tisku – v okně tisku lze zvolit Uložit jako PDF": [
-"Opens the manuscript ready for printing – in the print window you can choose Save as PDF",
-"Öffnet das druckfertige Manuskript – im Druckfenster können Sie Als PDF speichern wählen"
-],
-"Otevřít": [
-"Open",
-"Öffnen"
-],
-"Otočit o 90° doleva": [
-"Rotate 90° left",
-"Um 90° nach links drehen"
-],
-"Otočit o 90° doprava": [
-"Rotate 90° right",
-"Um 90° nach rechts drehen"
-],
-"Ovládací prvek": [
-"Control",
-"Bedienelement"
-],
-"Ověřovat certifikát HTTPS": [
-"Verify the HTTPS certificate",
-"HTTPS-Zertifikat prüfen"
-],
-"Označí podezřelá slova (neznámá slovníku nebo typické chyby čtení) a tlačítkem <b>Další</b> mezi nimi skáče. Správná jména přidáte <b>Do slovníku</b>. Stejné tlačítko je i u transkripce.": [
-"Marks suspicious words (unknown to the dictionary or typical reading errors) and jumps between them with <b>Next</b>. Add correct names <b>To dictionary</b>. The same button is also in the transcription.",
-"Markiert verdächtige Wörter (dem Wörterbuch unbekannt oder typische Lesefehler) und springt mit <b>Weiter</b> zwischen ihnen. Richtige Namen fügen Sie <b>Ins Wörterbuch</b> hinzu. Dieselbe Schaltfläche gibt es auch bei der Transkription."
-],
-"PIN": [
-"PIN",
-"PIN"
-],
-"Palatino": [
-"Palatino",
-"Palatino"
-],
-"Pište a upravujte": [
-"Write and edit",
-"Schreiben und bearbeiten"
-],
-"Pod odstavcem v transkripci klikněte na <b>Jako citace</b>. Do rukopisu se vloží odsazená citace a pod ní název knihy se stránkou.": [
-"Below a paragraph in the transcription click <b>As quotation</b>. An indented quotation is inserted into the manuscript with the book title and page below it.",
-"Klicken Sie unter einem Absatz der Transkription auf <b>Als Zitat</b>. Ins Manuskript wird ein eingerücktes Zitat mit Buchtitel und Seite eingefügt."
-],
-"Podkapitola (2. úroveň)": [
-"Subchapter (level 2)",
-"Unterkapitel (Ebene 2)"
-],
-"Podkapitola – 2. úroveň": [
-"Subchapter – level 2",
-"Unterkapitel – Ebene 2"
-],
-"Podpora": [
-"Support",
-"Support"
-],
-"Podtitul": [
-"Subtitle",
-"Untertitel"
-],
-"Podtrh.": [
-"Underl.",
-"Unterstr."
-],
-"Podtrhnout": [
-"Underline",
-"Unterstreichen"
-],
-"Poděkování": [
-"Acknowledgements",
-"Danksagung"
-],
-"Pojmenujte verzi (např. „hotová kapitola 2“):": [
-"Name the version (e.g. “finished chapter 2”):",
-"Benennen Sie die Version (z. B. „Kapitel 2 fertig“):"
-],
-"Popis": [
-"Description",
-"Beschreibung"
-],
-"Popisek": [
-"Caption",
-"Bildunterschrift"
-],
-"Popisek a zdroj obrázku": [
-"Image caption and source",
-"Bildunterschrift und Quelle"
-],
-"Popisek a zdroj uloženy.": [
-"Caption and source saved.",
-"Bildunterschrift und Quelle gespeichert."
-],
-"Popisek obrázku…": [
-"Image caption…",
-"Bildunterschrift…"
-],
-"Použít obálku": [
-"Use cover",
-"Umschlag verwenden"
-],
-"Používá se model nastavený na serveru (": [
-"Using the model set on the server (",
-"Es wird das auf dem Server eingestellte Modell verwendet ("
-],
-"Poznámka pod čarou": [
-"Footnote",
-"Fußnote"
-],
-"Publisher": [
-"Publisher",
-"Publisher"
-],
-"Písmo": [
-"Font",
-"Schrift"
-],
-"Písmo…": [
-"Font…",
-"Schrift…"
-],
-"Píšu odpověď…": [
-"Writing the answer…",
-"Antwort wird geschrieben…"
-],
-"Píšu s citacemi": [
-"Writing with quotations",
-"Schreiben mit Zitaten"
-],
-"Předchozí": [
-"Previous",
-"Zurück"
-],
-"Předchozí podezřelé slovo": [
-"Previous suspicious word",
-"Vorheriges verdächtiges Wort"
-],
-"Předchozí strana": [
-"Previous page",
-"Vorherige Seite"
-],
-"Přenos do rukopisu se nepovedl:": [
-"Transfer to manuscript failed:",
-"Übertragung ins Manuskript fehlgeschlagen:"
-],
-"Přenášejte do rukopisu": [
-"Move into the manuscript",
-"Ins Manuskript übernehmen"
-],
-"Přesunout na stranu": [
-"Move to page",
-"Auf Seite verschieben"
-],
-"Převést na černobílý obrázek": [
-"Convert to black and white",
-"In Schwarzweiß umwandeln"
-],
-"Přidat do knihovny": [
-"Add to library",
-"Zur Bibliothek hinzufügen"
-],
-"Přidat obrázky ze souboru do knihovny": [
-"Add images from file to the library",
-"Bilder aus Datei zur Bibliothek hinzufügen"
-],
-"Přidat slovo do slovníku – už se nebude označovat nikde": [
-"Add the word to the dictionary – it will not be marked anywhere again",
-"Wort ins Wörterbuch aufnehmen – es wird nirgends mehr markiert"
-],
-"Přihlásit se": [
-"Log in",
-"Anmelden"
-],
-"Přihlášen:": [
-"Logged in:",
-"Angemeldet:"
-],
-"Přihlášení – Publisher": [
-"Login – Publisher",
-"Anmeldung – Publisher"
-],
-"Připraví knihu po stránkách: obálka, titulní strana, tiráž, obsah s čísly stránek, záhlaví a zápatí. Pak klikněte na <b>Tisk / uložit jako PDF</b> a v okně tisku zvolte <b>Uložit jako PDF</b>.": [
-"Lays the book out in pages: cover, title page, colophon, table of contents with page numbers, header and footer. Then click <b>Print / save as PDF</b> and in the print window choose <b>Save as PDF</b>.",
-"Bricht das Buch in Seiten um: Umschlag, Titelseite, Impressum, Inhaltsverzeichnis mit Seitenzahlen, Kopf- und Fußzeile. Dann klicken Sie auf <b>Drucken / als PDF speichern</b> und wählen im Druckfenster <b>Als PDF speichern</b>."
-],
-"Režim vysvětlivek": [
-"Explanation mode",
-"Erklärmodus"
-],
-"Rok vydání": [
-"Year of publication",
-"Erscheinungsjahr"
-],
-"Rukopis": [
-"Manuscript",
-"Manuskript"
-],
-"Rukopis byl mezitím uložen z jiného okna.\\n\\nOK = ponechat tento text a uložit ho (druhá verze zůstane v historii)\\nZrušit = načíst text z druhého okna": [
-"The manuscript was saved from another window in the meantime.\\n\\nOK = keep this text and save it (the other version stays in history)\\nCancel = load the text from the other window",
-"Das Manuskript wurde inzwischen in einem anderen Fenster gespeichert.\\n\\nOK = diesen Text behalten und speichern (die andere Version bleibt im Verlauf)\\nAbbrechen = Text aus dem anderen Fenster laden"
-],
-"Rukopis se stahuje jako soubor HTML (otevře se v prohlížeči i ve Wordu).": [
-"The manuscript is downloading as an HTML file (opens in a browser and in Word).",
-"Das Manuskript wird als HTML-Datei heruntergeladen (öffnet sich im Browser und in Word)."
-],
-"Rychlé rozložení": [
-"Quick layout",
-"Schnelles Layout"
-],
-"Schránka": [
-"Clipboard",
-"Ablage"
-],
-"Sem chodí, co pošlete z transkripce, když je rukopis skrytý. Klikněte do textu a stiskněte": [
-"Items you send from the transcription while the manuscript is hidden land here. Click into the text and press",
-"Hier landet, was Sie aus der Transkription senden, während das Manuskript ausgeblendet ist. Klicken Sie in den Text und drücken Sie"
-],
-"Sem se kdykoli vrátíte. Najdete tu tohoto průvodce, režim vysvětlivek, návody „Jak na to“ a formulář pro nahlášení chyby nebo nápadu.": [
-"You can always come back here. You will find this guide, explanation mode, how-to guides and a form for reporting a bug or idea.",
-"Hierher kommen Sie jederzeit zurück. Hier finden Sie diesen Rundgang, den Erklärmodus, Anleitungen und ein Formular für Fehler oder Ideen."
-],
-"Sken na šířku": [
-"Landscape scan",
-"Querformat-Scan"
-],
-"Sloupce": [
-"Columns",
-"Spalten"
-],
-"Smaže otázku, odpověď i zdroje": [
-"Clears the question, answer and sources",
-"Löscht Frage, Antwort und Quellen"
-],
-"Snímek obrazovky na Macu: Cmd+Shift+4. Můžete ho sem také vložit pomocí Cmd+V.": [
-"Screenshot on a Mac: Cmd+Shift+4. You can also paste it here with Cmd+V.",
-"Bildschirmfoto am Mac: Cmd+Shift+4. Sie können es auch mit Cmd+V hier einfügen."
-],
-"Spojení se přerušilo:": [
-"The connection was interrupted:",
-"Die Verbindung wurde unterbrochen:"
-],
-"Spojit s předchozím textem (i z předchozí strany)": [
-"Merge with the previous text (also from the previous page)",
-"Mit dem vorherigen Text zusammenführen (auch von der vorherigen Seite)"
-],
-"Starší verze rukopisu": [
-"Older manuscript versions",
-"Ältere Versionen des Manuskripts"
-],
-"Strana zatím nemá žádný obsah.": [
-"The page has no content yet.",
-"Die Seite hat noch keinen Inhalt."
-],
-"Stranu se nepodařilo vložit:": [
-"Could not insert the page:",
-"Seite konnte nicht eingefügt werden:"
-],
-"Stáhne celý rukopis i s obrázky jako jednu webovou stránku (HTML)": [
-"Downloads the whole manuscript with images as one web page (HTML)",
-"Lädt das ganze Manuskript mit Bildern als eine Webseite (HTML) herunter"
-],
-"Stáhne celý váš rukopis i s obrázky jako jeden soubor. Otevře se v prohlížeči i ve Wordu. Tlačítko <b>Export transkripce</b> vlevo dole naopak ukládá transkripci zdrojové knihy.": [
-"Downloads your whole manuscript with images as one file. It opens in a browser and in Word. The <b>Export transcription</b> button at the bottom left saves the transcription of the source book instead.",
-"Lädt Ihr ganzes Manuskript mit Bildern als eine Datei herunter. Sie öffnet sich im Browser und in Word. Die Schaltfläche <b>Transkription exportieren</b> unten links speichert dagegen die Transkription des Quellbuchs."
-],
-"Stáhne knihu jako e-knihu EPUB s obálkou, tiráží a obsahem – funguje ve čtečkách i v Kindle": [
-"Downloads the book as an EPUB e-book with cover, colophon and contents – works in readers and on Kindle",
-"Lädt das Buch als EPUB-E-Book mit Umschlag, Impressum und Inhalt herunter – funktioniert in Readern und auf dem Kindle"
-],
-"Stáhne knihu jako e-knihu EPUB s obálkou, tiráží a obsahem. Otevře se ve čtečkách a v Kindlu (přes „Send to Kindle“).": [
-"Downloads the book as an EPUB e-book with cover, colophon and contents. It opens in e-readers and on Kindle (via “Send to Kindle”).",
-"Lädt das Buch als EPUB-E-Book mit Umschlag, Impressum und Inhalt herunter. Es öffnet sich in E-Readern und auf dem Kindle (über „Send to Kindle“)."
-],
-"Střed": [
-"Centre",
-"Mitte"
-],
-"Sytost barev": [
-"Saturation",
-"Sättigung"
-],
-"Sépie": [
-"Sepia",
-"Sepia"
-],
-"Tady se nastavuje jazykový model pro Dotaz: model na serveru, vlastní klíč OpenAI či Anthropic, nebo model v počítači (LM Studio, Ollama).": [
-"Set the language model for Ask here: a model on the server, your own OpenAI or Anthropic key, or a model on your computer (LM Studio, Ollama).",
-"Hier stellen Sie das Sprachmodell für Fragen ein: ein Modell auf dem Server, ein eigener OpenAI- oder Anthropic-Schlüssel oder ein Modell auf Ihrem Computer (LM Studio, Ollama)."
-],
-"Tažením na skenu vyznač nový výřez obrázku.": [
-"Drag on the scan to mark a new image area.",
-"Ziehen Sie auf dem Scan, um einen neuen Bildausschnitt zu markieren."
-],
-"Tažením na skenu vyznač obrázek. Esc = zrušit.": [
-"Drag on the scan to mark the image. Esc = cancel.",
-"Ziehen Sie auf dem Scan, um das Bild zu markieren. Esc = abbrechen."
-],
-"Tažením na skenu vyříznete obrázek do transkripce": [
-"Drag on the scan to cut an image into the transcription",
-"Ziehen Sie auf dem Scan, um ein Bild in die Transkription auszuschneiden"
-],
-"Tažením na skenu vyříznete obrázek rovnou do rukopisu": [
-"Drag on the scan to cut an image straight into the manuscript",
-"Ziehen Sie auf dem Scan, um ein Bild direkt ins Manuskript auszuschneiden"
-],
-"Teplý tón starých fotografií": [
-"Warm tone of old photographs",
-"Warmer Ton alter Fotografien"
-],
-"Text přečtený ze skenu. Opravujte ho přímo v textu. Pod každým odstavcem je tlačítko <b>Do rukopisu</b> (přenese text) a <b>Jako citace</b> (vloží ho jako citaci se zdrojem).": [
-"Text read from the scan. Correct it directly in the text. Below each paragraph are the buttons <b>To manuscript</b> (moves the text) and <b>As quotation</b> (inserts it as a quotation with the source).",
-"Aus dem Scan gelesener Text. Korrigieren Sie ihn direkt im Text. Unter jedem Absatz gibt es <b>Ins Manuskript</b> (übernimmt den Text) und <b>Als Zitat</b> (fügt ihn als Zitat mit Quelle ein)."
-],
-"Text spojen s předchozím odstavcem.": [
-"Text merged with the previous paragraph.",
-"Text mit dem vorherigen Absatz zusammengeführt."
-],
-"Text v záhlaví stránek": [
-"Text in the page header",
-"Text in der Kopfzeile"
-],
-"Times (klasické)": [
-"Times (classic)",
-"Times (klassisch)"
-],
-"Tiráž": [
-"Colophon",
-"Impressum"
-],
-"Tisk / PDF": [
-"Print / PDF",
-"Drucken / PDF"
-],
-"Tisk a e-kniha": [
-"Print and e-book",
-"Druck und E-Book"
-],
-"Titulní strana": [
-"Title page",
-"Titelseite"
-],
-"Tlačítkem <b>A+</b> vpravo nahoře zvětšíte celou aplikaci. V rukopisu je ještě vlastní <b>A+</b> jen pro text.": [
-"The <b>A+</b> button at the top right enlarges the whole app. The manuscript also has its own <b>A+</b> for the text only.",
-"Mit <b>A+</b> oben rechts vergrößern Sie die ganze App. Das Manuskript hat zusätzlich ein eigenes <b>A+</b> nur für den Text."
-],
-"Toto místo je v pořádku, už ho neukazovat": [
-"This place is fine, don't show it again",
-"Diese Stelle ist in Ordnung, nicht mehr anzeigen"
-],
-"Transkripce": [
-"Transcription",
-"Transkription"
-],
-"Transkripce a rukopis vedle sebe – přenášení textů a citací": [
-"Transcription and manuscript side by side – moving texts and quotations",
-"Transkription und Manuskript nebeneinander – Texte und Zitate übernehmen"
-],
-"Transkripce knih…": [
-"Book transcriptions…",
-"Transkriptionen von Büchern…"
-],
-"Tučně": [
-"Bold",
-"Fett"
-],
-"Typ odstavce": [
-"Paragraph type",
-"Absatztyp"
-],
-"Táhni: přesun v rámci strany, nebo na náhled jiné strany vlevo": [
-"Drag: move within the page, or onto another page's thumbnail on the left",
-"Ziehen: innerhalb der Seite verschieben oder auf die Vorschau einer anderen Seite links"
-],
-"Táhněte za bílé čtverečky v rozích, nebo uprostřed rámečku pro posun.": [
-"Drag the white squares in the corners, or the middle of the frame to move it.",
-"Ziehen Sie an den weißen Quadraten in den Ecken oder in der Mitte des Rahmens, um ihn zu verschieben."
-],
-"Tři nejčastější rozložení na jedno kliknutí. Například <b>Píšu s citacemi</b> dá vedle sebe transkripci a rukopis.": [
-"The three most common layouts in one click. For example <b>Writing with quotations</b> puts the transcription and the manuscript side by side.",
-"Die drei häufigsten Layouts mit einem Klick. Zum Beispiel <b>Schreiben mit Zitaten</b> stellt Transkription und Manuskript nebeneinander."
-],
-"U každé kapitoly uvést zdroj": [
-"State the source for each chapter",
-"Bei jedem Kapitel die Quelle angeben"
-],
-"U modelu v počítači klíč obvykle není potřeba.": [
-"A model on your computer usually needs no key.",
-"Ein Modell auf Ihrem Computer braucht meist keinen Schlüssel."
-],
-"U německých knih vložit": [
-"For German books insert",
-"Bei deutschen Büchern einfügen"
-],
-"Ukončit korekturu": [
-"End proofreading",
-"Korrektur beenden"
-],
-"Ukázat v knize": [
-"Show in book",
-"Im Buch zeigen"
-],
-"Ukázat v rukopisu": [
-"Show in manuscript",
-"Im Manuskript zeigen"
-],
-"Uloženo do schránky rukopisu ✓ (rukopis je skrytý)": [
-"Saved to the manuscript clipboard ✓ (the manuscript is hidden)",
-"In der Manuskript-Ablage gespeichert ✓ (das Manuskript ist ausgeblendet)"
-],
-"Uloženo.": [
-"Saved.",
-"Gespeichert."
-],
-"Uloženo. Další dotazy už půjdou na tento model.": [
-"Saved. Further questions will go to this model.",
-"Gespeichert. Weitere Fragen gehen an dieses Modell."
-],
-"Uložení selhalo:": [
-"Saving failed:",
-"Speichern fehlgeschlagen:"
-],
-"Uložit": [
-"Save",
-"Speichern"
-],
-"Uložit pojmenovanou verzi": [
-"Save a named version",
-"Benannte Version speichern"
-],
-"Uloží pojmenovanou verzi rukopisu, třeba „před úpravou kapitoly 3“. Kdykoli se k ní můžete vrátit.": [
-"Saves a named version of the manuscript, e.g. “before editing chapter 3”. You can return to it at any time.",
-"Speichert eine benannte Version des Manuskripts, z. B. „vor Bearbeitung von Kapitel 3“. Sie können jederzeit zu ihr zurückkehren."
-],
-"Uloží transkripci této zdrojové knihy (ne váš rukopis) jako webovou stránku": [
-"Saves the transcription of this source book (not your manuscript) as a web page",
-"Speichert die Transkription dieses Quellbuchs (nicht Ihr Manuskript) als Webseite"
-],
-"Upravit (oříznout, narovnat, barvy)": [
-"Edit (crop, straighten, colours)",
-"Bearbeiten (zuschneiden, gerade richten, Farben)"
-],
-"Upravit obrázek – oříznout, narovnat, barvy": [
-"Edit image – crop, straighten, colours",
-"Bild bearbeiten – zuschneiden, gerade richten, Farben"
-],
-"Upravit popisek a zdroj": [
-"Edit caption and source",
-"Bildunterschrift und Quelle bearbeiten"
-],
-"V rukopisu": [
-"In the manuscript",
-"Im Manuskript"
-],
-"V rukopisu klikněte na tlačítko <b>Obrázek</b>, nebo obrázek zkopírujte (Cmd+C) a v rukopisu vložte (Cmd+V).": [
-"In the manuscript click the <b>Image</b> button, or copy the image (Cmd+C) and paste it in the manuscript (Cmd+V).",
-"Klicken Sie im Manuskript auf <b>Bild</b> oder kopieren Sie das Bild (Cmd+C) und fügen Sie es im Manuskript ein (Cmd+V)."
-],
-"Vaše vlastní kniha. Píše se jako ve Wordu, ukládá se sama každých pár vteřin. Nahoře vpravo vidíte, kdy se naposledy uložila.": [
-"Your own book. You write as in Word; it saves itself every few seconds. At the top right you see when it was last saved.",
-"Ihr eigenes Buch. Sie schreiben wie in Word; es speichert sich alle paar Sekunden. Oben rechts sehen Sie, wann zuletzt gespeichert wurde."
-],
-"Ve schránce rukopisu je nová položka.": [
-"There is a new item in the manuscript clipboard.",
-"In der Manuskript-Ablage ist ein neuer Eintrag."
-],
-"Velikost": [
-"Size",
-"Größe"
-],
-"Velikost obrázku v knize": [
-"Image size in the book",
-"Bildgröße im Buch"
-],
-"Velikost písma": [
-"Font size",
-"Schriftgröße"
-],
-"Velikost písma v knize": [
-"Font size in the book",
-"Schriftgröße im Buch"
-],
-"Velikost…": [
-"Size…",
-"Größe…"
-],
-"Velké": [
-"Large",
-"Groß"
-],
-"Velmi velké": [
-"Very large",
-"Sehr groß"
-],
-"Verze": [
-"Versions",
-"Versionen"
-],
-"Verze uložena do historie.": [
-"Version saved to history.",
-"Version im Verlauf gespeichert."
-],
-"Vlevo": [
-"Left",
-"Links"
-],
-"Vloženo do rukopisu.": [
-"Inserted into the manuscript.",
-"Ins Manuskript eingefügt."
-],
-"Vloženo ze schránky.": [
-"Inserted from the clipboard.",
-"Aus der Ablage eingefügt."
-],
-"Vložit": [
-"Insert",
-"Einfügen"
-],
-"Vložit do rukopisu na označené místo": [
-"Insert into the manuscript at the marked place",
-"An der markierten Stelle ins Manuskript einfügen"
-],
-"Vložit i obrázky z knih": [
-"Also insert images from the books",
-"Auch Bilder aus den Büchern einfügen"
-],
-"Vložit jako citaci s uvedením zdroje": [
-"Insert as a quotation with the source",
-"Als Zitat mit Quellenangabe einfügen"
-],
-"Vložit obrázek z aplikace, z počítače nebo z kamery": [
-"Insert an image from the app, the computer or the camera",
-"Bild aus der App, vom Computer oder von der Kamera einfügen"
-],
-"Vložit obsah a zlom strany": [
-"Insert contents and page break",
-"Inhalt und Seitenumbruch einfügen"
-],
-"Vložit obsah knihy, transkripce knih nebo zlom strany": [
-"Insert table of contents, book transcriptions or page break",
-"Inhaltsverzeichnis, Buchtranskriptionen oder Seitenumbruch einfügen"
-],
-"Vložit sem": [
-"Insert here",
-"Hier einfügen"
-],
-"Vložit transkripce do rukopisu": [
-"Insert transcriptions into the manuscript",
-"Transkriptionen ins Manuskript einfügen"
-],
-"Vložit vybrané": [
-"Insert selected",
-"Ausgewählte einfügen"
-],
-"Vloží <b>automatický obsah</b>, který se sám doplňuje podle kapitol, nebo <b>zlom strany</b> pro tisk a PDF.": [
-"Inserts an <b>automatic table of contents</b> that fills in from the chapters, or a <b>page break</b> for print and PDF.",
-"Fügt ein <b>automatisches Inhaltsverzeichnis</b> ein, das sich aus den Kapiteln füllt, oder einen <b>Seitenumbruch</b> für Druck und PDF."
-],
-"Vpravo": [
-"Right",
-"Rechts"
-],
-"Vrátit": [
-"Undo",
-"Rückgängig"
-],
-"Vrátit text tohoto odstavce do podoby před vašimi úpravami": [
-"Return this paragraph's text to how it was before your edits",
-"Den Text dieses Absatzes in den Zustand vor Ihren Änderungen zurücksetzen"
-],
-"Vyberte aspoň jednu knihu.": [
-"Select at least one book.",
-"Wählen Sie mindestens ein Buch."
-],
-"Vyberte knihu": [
-"Choose a book",
-"Wählen Sie ein Buch"
-],
-"Vyberte knihy. Jejich celé transkripce se vloží za místo, kde je v rukopisu kurzor, každá jako samostatná kapitola s názvem knihy.": [
-"Select books. Their complete transcriptions are inserted after the cursor in the manuscript, each as a separate chapter titled with the book's name.",
-"Wählen Sie Bücher. Ihre vollständigen Transkriptionen werden hinter dem Cursor im Manuskript eingefügt, jede als eigenes Kapitel mit dem Buchtitel."
-],
-"Vyberte verzi vlevo.": [
-"Choose a version on the left.",
-"Wählen Sie links eine Version."
-],
-"Vydání": [
-"Edition",
-"Auflage"
-],
-"Vyfotit a vložit": [
-"Take photo and insert",
-"Foto aufnehmen und einfügen"
-],
-"Vyfotit kamerou": [
-"Take a photo with the camera",
-"Mit der Kamera fotografieren"
-],
-"Vyplňte nastavení knihy": [
-"Fill in the book settings",
-"Füllen Sie die Bucheinstellungen aus"
-],
-"Vyplňte prosím nadpis i popis.": [
-"Please fill in both the title and the description.",
-"Bitte füllen Sie Titel und Beschreibung aus."
-],
-"Vytvořit obálku": [
-"Create cover",
-"Umschlag gestalten"
-],
-"Vytvořit obálku…": [
-"Create cover…",
-"Umschlag gestalten…"
-],
-"Vyzkoušet": [
-"Test",
-"Testen"
-],
-"Vyříznout znovu ze skenu": [
-"Cut again from the scan",
-"Erneut aus dem Scan ausschneiden"
-],
-"Vzhled": [
-"Layout",
-"Gestaltung"
-],
-"Výběr knihy a stránky": [
-"Choosing a book and page",
-"Buch und Seite wählen"
-],
-"Výřez do rukopisu": [
-"Cut-out to manuscript",
-"Ausschnitt ins Manuskript"
-],
-"Výřez do transkripce": [
-"Cut-out to transcription",
-"Ausschnitt in die Transkription"
-],
-"Výřez se nepodařilo uložit:": [
-"Could not save the cut-out:",
-"Ausschnitt konnte nicht gespeichert werden:"
-],
-"Výřez vložen do rukopisu. Narovnat ho můžete tlačítkem Oříznout v rukopisu.": [
-"Cut-out inserted into the manuscript. Straighten it with the Crop button in the manuscript.",
-"Ausschnitt ins Manuskript eingefügt. Gerade richten können Sie ihn mit Zuschneiden im Manuskript."
-],
-"Větší": [
-"Larger",
-"Größer"
-],
-"Větší písmo a ovládání": [
-"Larger text and controls",
-"Größere Schrift und Bedienelemente"
-],
-"Větší písmo rukopisu na obrazovce": [
-"Larger manuscript text on screen",
-"Größere Manuskriptschrift auf dem Bildschirm"
-],
-"Vše": [
-"All",
-"Alle"
-],
-"Vše zpět": [
-"Reset all",
-"Alles zurück"
-],
-"Všechny dřívější verze rukopisu. Aplikace je ukládá sama, nic se neztratí.": [
-"All earlier versions of the manuscript. The app saves them itself; nothing is lost.",
-"Alle früheren Versionen des Manuskripts. Die App speichert sie selbst; nichts geht verloren."
-],
-"Všechny obrázky z knih, z rukopisu i z knihovny. Klikněte na obrázek pro zvětšení, úpravu popisku a zdroje nebo vložení do rukopisu.": [
-"All images from the books, the manuscript and the library. Click an image to enlarge it, edit its caption and source, or insert it into the manuscript.",
-"Alle Bilder aus den Büchern, dem Manuskript und der Bibliothek. Ein Klick vergrößert das Bild; Sie können Unterschrift und Quelle bearbeiten oder es ins Manuskript einfügen."
-],
-"Z knih": [
-"From books",
-"Aus Büchern"
-],
-"Z obrázků v aplikaci": [
-"From images in the app",
-"Aus Bildern in der App"
-],
-"Z počítače": [
-"From the computer",
-"Vom Computer"
-],
-"Zapněte nahoře aspoň jeden sloupec: Originál, Transkripce nebo Rukopis.": [
-"Turn on at least one column at the top: Original, Transcription or Manuscript.",
-"Schalten Sie oben mindestens eine Spalte ein: Original, Transkription oder Manuskript."
-],
-"Zapněte sloupce": [
-"Turn on columns",
-"Schalten Sie Spalten ein"
-],
-"Zapněte sloupec <b>Dotaz</b>, napište otázku a stiskněte <b>Zeptat se</b>. Odpověď trvá obvykle do minuty. Čísla v odpovědi jsou odkazy na zdroje.": [
-"Turn on the <b>Ask</b> column, type a question and press <b>Ask</b>. The answer usually takes under a minute. Numbers in the answer link to the sources.",
-"Schalten Sie die Spalte <b>Frage</b> ein, geben Sie eine Frage ein und drücken Sie <b>Fragen</b>. Die Antwort dauert meist unter einer Minute. Zahlen in der Antwort verweisen auf die Quellen."
-],
-"Zarovnat vlevo": [
-"Align left",
-"Linksbündig"
-],
-"Zarovnat vpravo": [
-"Align right",
-"Rechtsbündig"
-],
-"Zatím žádné starší verze.": [
-"No older versions yet.",
-"Noch keine älteren Versionen."
-],
-"Zavřít": [
-"Close",
-"Schließen"
-],
-"Zavřít ✕": [
-"Close ✕",
-"Schließen ✕"
-],
-"Zdroj": [
-"Source",
-"Quelle"
-],
-"Zdroj (výchozí:": [
-"Source (default:",
-"Quelle (Standard:"
-],
-"Zdrojové knihy (skeny a transkripce)": [
-"Source books (scans and transcriptions)",
-"Quellbücher (Scans und Transkriptionen)"
-],
-"Zdrojové knihy a rukopis": [
-"Source books and manuscript",
-"Quellbücher und Manuskript"
-],
-"Zdrojové knihy pro tuto knihu": [
-"Source books for this book",
-"Quellbücher für dieses Buch"
-],
-"Ze starých tisků k nové knize: originál, transkripce a vlastní rukopis na jednom místě.": [
-"From old prints to a new book: original, transcription and your own manuscript in one place.",
-"Von alten Drucken zum neuen Buch: Original, Transkription und eigenes Manuskript an einem Ort."
-],
-"Zeptat se": [
-"Ask",
-"Fragen"
-],
-"Zeptat se na cokoli z knih a rukopisu": [
-"Ask anything about the books and the manuscript",
-"Fragen Sie alles zu den Büchern und zum Manuskript"
-],
-"Zeptejte se na cokoli z knih a rukopisu. Odpověď má u každého tvrzení číslo zdroje. Na číslo klikněte a otevře se místo v knize. <b>Nový dotaz</b> vše smaže.": [
-"Ask anything about the books and the manuscript. Every statement in the answer has a source number. Click the number to open the place in the book. <b>New question</b> clears everything.",
-"Fragen Sie alles zu den Büchern und zum Manuskript. Jede Aussage der Antwort hat eine Quellennummer. Ein Klick darauf öffnet die Stelle im Buch. <b>Neue Frage</b> löscht alles."
-],
-"Zkouším spojení s modelem…": [
-"Testing the connection to the model…",
-"Teste die Verbindung zum Modell…"
-],
-"Zmenšit sken": [
-"Zoom out scan",
-"Scan verkleinern"
-],
-"Znovu": [
-"Again",
-"Erneut"
-],
-"Znovu zkontrolovat celý text": [
-"Check the whole text again",
-"Den ganzen Text erneut prüfen"
-],
-"Zobrazit / skrýt naskenovaný originál": [
-"Show / hide the scanned original",
-"Gescanntes Original ein-/ausblenden"
-],
-"Zobrazit / skrýt transkripci (přepsaný text)": [
-"Show / hide the transcription (transcribed text)",
-"Transkription ein-/ausblenden (abgeschriebener Text)"
-],
-"Zobrazit / skrýt vlastní rukopis": [
-"Show / hide your own manuscript",
-"Eigenes Manuskript ein-/ausblenden"
-],
-"Zobrazit / skrýt všechny obrázky": [
-"Show / hide all images",
-"Alle Bilder ein-/ausblenden"
-],
-"Zobrazit nebo skrýt osnovu kapitol": [
-"Show or hide the chapter outline",
-"Kapitelgliederung ein- oder ausblenden"
-],
-"Zpět": [
-"Back",
-"Zurück"
-],
-"Zpět k práci": [
-"Back to work",
-"Zurück zur Arbeit"
-],
-"Zrušit": [
-"Cancel",
-"Abbrechen"
-],
-"Zvětšit sken": [
-"Zoom in scan",
-"Scan vergrößern"
-],
-"angličtina": [
-"English",
-"Englisch"
-],
-"celý": [
-"full",
-"ganz"
-],
-"chyba ukládání!": [
-"save error!",
-"Speicherfehler!"
-],
-"je sken,": [
-" is the scan,",
-" ist der Scan,"
-],
-"je text přečtený ze skenu,": [
-" is the text read from the scan,",
-" ist der aus dem Scan gelesene Text,"
-],
-"je vaše kniha.": [
-" is your book.",
-" ist Ihr Buch."
-],
-"nahoře:": [
-" at the top:",
-" oben:"
-],
-"nahrávám obrázek…": [
-"uploading image…",
-"Bild wird hochgeladen…"
-],
-"např. Educie Historie": [
-"e.g. Educie Historie",
-"z. B. Educie Historie"
-],
-"např. Educie Press, Mediatoring.com s.r.o.": [
-"e.g. Educie Press, Mediatoring.com s.r.o.",
-"z. B. Educie Press, Mediatoring.com s.r.o."
-],
-"např. Jindřich Teisinger": [
-"e.g. Jindřich Teisinger",
-"z. B. Jindřich Teisinger"
-],
-"např. Nejde vložit obrázek do rukopisu": [
-"e.g. Can't insert an image into the manuscript",
-"z. B. Bild lässt sich nicht ins Manuskript einfügen"
-],
-"např. gpt-4.1-mini": [
-"e.g. gpt-4.1-mini",
-"z. B. gpt-4.1-mini"
-],
-"např. první": [
-"e.g. first",
-"z. B. erste"
-],
-"načítám…": [
-"loading…",
-"lädt…"
-],
-"neuloženo…": [
-"not saved…",
-"nicht gespeichert…"
-],
-"neznámá chyba": [
-"unknown error",
-"unbekannter Fehler"
-],
-"němčina": [
-"German",
-"Deutsch"
-],
-"obojí": [
-"both",
-"beides"
-],
-"obrázek": [
-"image",
-"Bild"
-],
-"odstavce, citace a obrázky tlačítky pod každým odstavcem, nebo celé transkripce přes": [
-" paragraphs, quotations and images with the buttons below each paragraph, or whole transcriptions via",
-" Absätze, Zitate und Bilder mit den Schaltflächen unter jedem Absatz oder ganze Transkriptionen über"
-],
-"originál": [
-"original",
-"Original"
-],
-"otazník": [
-"question mark",
-"Fragezeichen"
-],
-"podle skenu. Pomůže": [
-" against the scan. Helped by",
-" anhand des Scans. Dabei hilft die"
-],
-"prázdné = název knihy": [
-"empty = book title",
-"leer = Buchtitel"
-],
-"přímo u něj.": [
-" right next to it.",
-" direkt daneben."
-],
-"režim vysvětlivek": [
-"explanation mode",
-"Erklärmodus"
-],
-"rukopis. Ukládá se sám, starší verze najdete v": [
-" the manuscript. It saves itself; older versions are in",
-" das Manuskript. Es speichert sich selbst; ältere Versionen finden Sie im"
-],
-"sem se vloží": [
-"insert here",
-"hier einfügen"
-],
-"ukládám…": [
-"saving…",
-"speichert…"
-],
-"uloženo": [
-"saved",
-"gespeichert"
-],
-"vpravo nahoře. Najdete tam průvodce, který postupně ukáže všechna tlačítka, a formulář, kterým nahlásíte chybu nebo nápad.": [
-" at the top right. There is a guide that shows all buttons one by one, and a form to report a bug or idea.",
-" oben rechts. Dort gibt es einen Rundgang, der alle Schaltflächen nacheinander zeigt, und ein Formular für Fehler oder Ideen."
-],
-"vynechat stranu z knihy": [
-"leave the page out of the book",
-"Seite aus dem Buch auslassen"
-],
-"vyřezávám…": [
-"cutting…",
-"schneide aus…"
-],
-"zatím prázdná": [
-"still empty",
-"noch leer"
-],
-"· rozměr upravíš tažením rámečku na skenu": [
-" · drag the frame on the scan to adjust the size",
-" · Größe durch Ziehen des Rahmens auf dem Scan anpassen"
-],
-"Černobílý": [
-"Black and white",
-"Schwarzweiß"
-],
-"Čtu a opravuji": [
-"Reading and correcting",
-"Lesen und korrigieren"
-],
-"Čísla": [
-"Numbers",
-"Nummern"
-],
-"Čísla stránek v zápatí": [
-"Page numbers in the footer",
-"Seitenzahlen in der Fußzeile"
-],
-"Číslo strany": [
-"Page number",
-"Seitenzahl"
-],
-"Číslování": [
-"Numbering",
-"Nummerierung"
-],
-"český překlad": [
-"Czech translation",
-"tschechische Übersetzung"
-],
-"čeština": [
-"Czech",
-"Tschechisch"
-],
-"Žádný návrh. Opravte slovo přímo v textu.": [
-"No suggestion. Correct the word directly in the text.",
-"Kein Vorschlag. Korrigieren Sie das Wort direkt im Text."
-],
-"– bez obrázku –": [
-"– no image –",
-"– kein Bild –"
-],
-"← Zpět": [
-"← Back",
-"← Zurück"
-],
-"↺ původní text": [
-"↺ original text",
-"↺ Originaltext"
-],
-"↻ Znovu": [
-"↻ Again",
-"↻ Erneut"
-],
-"▶ Projít aplikaci krok za krokem": [
-"▶ Walk through the app step by step",
-"▶ Die App Schritt für Schritt durchgehen"
-],
-"◀ Předchozí": [
-"◀ Previous",
-"◀ Zurück"
-],
-"● píšete…": [
-"● typing…",
-"● Sie schreiben…"
-],
-"⚠ neuloženo – zkouším znovu": [
-"⚠ not saved – retrying",
-"⚠ nicht gespeichert – neuer Versuch"
-],
-"⚠ rukopis je otevřený i jinde": [
-"⚠ the manuscript is open elsewhere too",
-"⚠ das Manuskript ist auch anderswo geöffnet"
-],
-"✉ Nahlásit chybu nebo navrhnout novou funkci": [
-"✉ Report a bug or suggest a new feature",
-"✉ Fehler melden oder neue Funktion vorschlagen"
-],
-"✓ Korektura": [
-"✓ Proofreading",
-"✓ Korrektur"
-],
-"✓ Použít": [
-"✓ Apply",
-"✓ Übernehmen"
-],
-"✓ uloženo": [
-"✓ saved",
-"✓ gespeichert"
-],
-"➜ Do rukopisu": [
-"➜ To manuscript",
-"➜ Ins Manuskript"
-],
-"➜ Obrázek do rukopisu": [
-"➜ Image to manuscript",
-"➜ Bild ins Manuskript"
-],
-"➜ Vložit odpověď do rukopisu": [
-"➜ Insert answer into manuscript",
-"➜ Antwort ins Manuskript einfügen"
-],
-"Jazyk rozhraní": [
-"Interface language",
-"Sprache der Oberfläche"
-],
-"Klikněte v rukopisu tam, kde má obsah být (obvykle za titulní stranu), a v nástrojích zvolte <b>Vložit → Obsah knihy</b>. Obsah se sám doplňuje podle kapitol a podkapitol, nic se v něm nepřepisuje ručně. Stejně tak vložíte <b>Novou stránku</b>, aby další kapitola v tisku a v PDF začala na nové straně.": [
-"In the manuscript click where the contents should go (usually after the title page) and in the toolbar choose <b>Insert → Table of contents</b>. It fills itself from chapters and subchapters; nothing in it is typed by hand. In the same way insert a <b>New page</b> so that the next chapter starts on a new page in print and PDF.",
-"Klicken Sie im Manuskript dorthin, wo das Inhaltsverzeichnis stehen soll (meist nach der Titelseite), und wählen Sie <b>Einfügen → Inhaltsverzeichnis</b>. Es füllt sich selbst aus Kapiteln und Unterkapiteln. Ebenso fügen Sie eine <b>Neue Seite</b> ein, damit das nächste Kapitel im Druck und im PDF auf einer neuen Seite beginnt."
-],
-"Nejdřív vyplňte <b>Nastavení knihy</b> (autor, tiráž, obálka). Pak v rukopisu klikněte na <b>Tisk / PDF</b>. Aplikace knihu rozdělí na stránky, počkejte, až tlačítko nahoře zmodrá, a klikněte na něj. V okně tisku zvolte tiskárnu, nebo <b>Uložit jako PDF</b>.": [
-"First fill in the <b>Book settings</b> (author, colophon, cover). Then click <b>Print / PDF</b> in the manuscript. The app lays the book out in pages; wait until the button at the top turns blue and click it. In the print window choose a printer or <b>Save as PDF</b>.",
-"Füllen Sie zuerst die <b>Bucheinstellungen</b> aus (Autor, Impressum, Umschlag). Klicken Sie dann im Manuskript auf <b>Drucken / PDF</b>. Die App bricht das Buch in Seiten um; warten Sie, bis die Schaltfläche oben blau wird, und klicken Sie darauf. Wählen Sie im Druckfenster einen Drucker oder <b>Als PDF speichern</b>."
-],
-"Pod odstavcem v transkripci klikněte na <b>Do rukopisu</b>. Do rukopisu se vloží odsazená citace a pod ní název knihy se stránkou. Pokud ji chcete mít jako běžný text, změňte v rukopisu typ odstavce na <b>Běžný text</b>.": [
-"Below a paragraph in the transcription click <b>To manuscript</b>. An indented quotation is inserted into the manuscript with the book title and page below it. If you want it as normal text, change the paragraph type in the manuscript to <b>Normal text</b>.",
-"Klicken Sie unter einem Absatz der Transkription auf <b>Ins Manuskript</b>. Ein eingerücktes Zitat mit Buchtitel und Seite wird eingefügt. Als normalen Text erhalten Sie es, indem Sie im Manuskript den Absatztyp auf <b>Normaler Text</b> ändern."
-],
-"Přepnout světlý a tmavý vzhled": [
-"Switch between light and dark appearance",
-"Zwischen heller und dunkler Darstellung wechseln"
-],
-"Text přečtený ze skenu. Opravujte ho přímo v textu. Pod každým odstavcem je tlačítko <b>Do rukopisu</b>, které text vloží do rukopisu jako citaci s uvedením zdroje.": [
-"Text read from the scan. Correct it directly in the text. Below each paragraph is the <b>To manuscript</b> button, which inserts the text into the manuscript as a quotation with its source.",
-"Aus dem Scan gelesener Text. Korrigieren Sie ihn direkt im Text. Unter jedem Absatz fügt <b>Ins Manuskript</b> den Text als Zitat mit Quelle ins Manuskript ein."
-],
-"Tlačítky zapínáte a vypínáte sloupce: <b>Originál</b> (sken), <b>Transkripce</b> (text ze skenu), <b>Rukopis</b> (vaše kniha), <b>Dotaz</b> (otázky na knihy) a <b>Obrázky</b>. Zapnuté tlačítko je modré.": [
-"These buttons switch columns on and off: <b>Original</b> (scan), <b>Transcription</b> (text from the scan), <b>Manuscript</b> (your book), <b>Ask</b> (questions about the books) and <b>Images</b>. A button that is on is blue.",
-"Mit diesen Schaltflächen schalten Sie Spalten ein und aus: <b>Original</b> (Scan), <b>Transkription</b> (Text aus dem Scan), <b>Manuskript</b> (Ihr Buch), <b>Frage</b> (Fragen zu den Büchern) und <b>Bilder</b>. Eine eingeschaltete Schaltfläche ist blau."
-],
-"U transkripce i u rukopisu je tlačítko <b>Korektura</b>. Podezřelá slova se podbarví žlutě a dole se objeví panel. Tlačítkem <b>Další</b> skáčete po slovech, <b>Navrhnout opravu</b> nabídne správná slova a <b>Do slovníku</b> přidá jméno nebo starý tvar, aby se už neoznačoval. Omylem upravený odstavec vrátíte tlačítkem <b>↺ původní text</b>.": [
-"Both the transcription and the manuscript have a <b>Proofreading</b> button. Suspicious words are highlighted in yellow and a panel appears at the bottom. Use <b>Next</b> to jump between words, <b>Suggest a correction</b> offers correct words and <b>To dictionary</b> adds a name or old spelling so it is no longer marked. Restore a paragraph edited by mistake with <b>↺ original text</b>.",
-"Transkription und Manuskript haben die Schaltfläche <b>Korrektur</b>. Verdächtige Wörter werden gelb markiert, unten erscheint ein Bereich. Mit <b>Weiter</b> springen Sie von Wort zu Wort, <b>Korrektur vorschlagen</b> bietet richtige Wörter an und <b>Ins Wörterbuch</b> nimmt einen Namen oder eine alte Schreibweise auf, damit sie nicht mehr markiert wird. Einen versehentlich geänderten Absatz stellen Sie mit <b>↺ Originaltext</b> wieder her."
-],
-"V <b>Nastavení knihy</b> klikněte na <b>Vytvořit obálku…</b>. Vyberte vzhled, obrázek (z knih, z rukopisu nebo z počítače), barvy a písmo. Název a autor se doplní sami. Tlačítkem <b>Použít obálku</b> ji uložíte a nakonec nastavení uložte.": [
-"In <b>Book settings</b> click <b>Create cover…</b>. Choose a layout, image (from the books, the manuscript or the computer), colours and font. Title and author are filled in automatically. <b>Use cover</b> saves it; finally save the settings.",
-"Klicken Sie in den <b>Bucheinstellungen</b> auf <b>Umschlag gestalten…</b>. Wählen Sie Gestaltung, Bild (aus den Büchern, dem Manuskript oder vom Computer), Farben und Schrift. Titel und Autor werden automatisch übernommen. <b>Umschlag verwenden</b> speichert ihn; speichern Sie zum Schluss die Einstellungen."
-],
-"Vložit do rukopisu jako citaci s uvedením zdroje": [
-"Insert into the manuscript as a quotation with its source",
-"Als Zitat mit Quelle ins Manuskript einfügen"
-],
-"Vložit obrázek do rukopisu na označené místo": [
-"Insert the image into the manuscript at the marked place",
-"Bild an der markierten Stelle ins Manuskript einfügen"
-],
-"Zapněte <b>Originál</b> a <b>Rukopis</b> (tlačítko <b>Obrázky do rukopisu</b>). Na skenu obrázek ohraničte nebo upravte rámeček. Pak klikněte na <b>Do rukopisu</b>. V okně můžete obrázek ještě oříznout, narovnat a doplnit popisek.": [
-"Turn on <b>Original</b> and <b>Manuscript</b> (the <b>Images to manuscript</b> button). Mark the image on the scan or adjust the frame. Then click <b>To manuscript</b>. In the window you can still crop, straighten and caption the image.",
-"Schalten Sie <b>Original</b> und <b>Manuskript</b> ein (Schaltfläche <b>Bilder ins Manuskript</b>). Markieren Sie das Bild auf dem Scan oder passen Sie den Rahmen an. Klicken Sie dann auf <b>Ins Manuskript</b>. Im Fenster können Sie das Bild noch zuschneiden, gerade richten und beschriften."
-],
-"Zapněte sloupce <b>Transkripce</b> a <b>Rukopis</b> (tlačítko <b>Píšu s citacemi</b>). V rukopisu klikněte tam, kam má text přijít. Pak pod odstavcem v transkripci klikněte na <b>Do rukopisu</b>, text se vloží jako citace se zdrojem. Když se to nepovede, tlačítko <b>Vrátit</b> v dolní liště krok vrátí.": [
-"Turn on the <b>Transcription</b> and <b>Manuscript</b> columns (the <b>Writing with quotations</b> button). Click in the manuscript where the text should go. Then below the paragraph in the transcription click <b>To manuscript</b>; the text is inserted as a quotation with its source. If something goes wrong, the <b>Undo</b> button in the bottom bar reverts it.",
-"Schalten Sie die Spalten <b>Transkription</b> und <b>Manuskript</b> ein (Schaltfläche <b>Schreiben mit Zitaten</b>). Klicken Sie im Manuskript dorthin, wo der Text hin soll. Klicken Sie dann unter dem Absatz der Transkription auf <b>Ins Manuskript</b>; der Text wird als Zitat mit Quelle eingefügt. Geht etwas schief, macht <b>Rückgängig</b> in der unteren Leiste es rückgängig."
-],
-"Čeština": [
-"Čeština",
-"Čeština"
-],
-"☀ Světlý režim": [
-"☀ Light mode",
-"☀ Heller Modus"
-],
-"☾ Tmavý režim": [
-"☾ Dark mode",
-"☾ Dunkler Modus"
-],
-"Nová kniha": [
-"New book",
-"Neues Buch"
-],
-"Založit knihu": [
-"Create book",
-"Buch anlegen"
-],
-"např. Mince Českých Budějovic": [
-"e.g. The coins of České Budějovice",
-"z. B. Die Münzen von Budweis"
-],
-"jméno autora": [
-"author's name",
-"Name des Autors"
-],
-"Pokračovat v psaní": [
-"Continue writing",
-"Weiterschreiben"
-],
-"Nastavení a tiráž": [
-"Settings and colophon",
-"Einstellungen und Impressum"
-],
-"Navrhnout opravu": [
-"Suggest a correction",
-"Korrektur vorschlagen"
-],
-"Korektura transkripce": [
-"Proofreading the transcription",
-"Korrektur der Transkription"
-],
-"Korektura rukopisu": [
-"Proofreading the manuscript",
-"Korrektur des Manuskripts"
-],
-"Obsah – vytváří se sám z kapitol": [
-"Table of contents – built automatically from chapters",
-"Inhaltsverzeichnis – entsteht automatisch aus den Kapiteln"
-],
-"Nová stránka – další text začne na nové straně": [
-"New page – the following text starts on a new page",
-"Neue Seite – der folgende Text beginnt auf einer neuen Seite"
-],
-"Zatím žádné kapitoly. Nadpis kapitoly nastavíte v nabídce typu odstavce.": [
-"No chapters yet. Set a chapter heading in the paragraph type menu.",
-"Noch keine Kapitel. Eine Kapitelüberschrift stellen Sie im Menü Absatztyp ein."
-],
-"Zatím žádné kapitoly": [
-"No chapters yet",
-"Noch keine Kapitel"
-],
-"Použité zdroje": [
-"Sources used",
-"Verwendete Quellen"
-],
-"Schránka je prázdná.": [
-"The clipboard is empty.",
-"Die Ablage ist leer."
-],
-"Vybrané knihy se nabídnou jako první při vkládání transkripcí a použijí se pro seznam pramenů.": [
-"The selected books are offered first when inserting transcriptions and are used for the list of sources.",
-"Die gewählten Bücher werden beim Einfügen von Transkriptionen zuerst angeboten und für das Quellenverzeichnis verwendet."
-],
-"Obnovit": [
-"Restore",
-"Wiederherstellen"
-],
-"Tisk / uložit jako PDF": [
-"Print / save as PDF",
-"Drucken / als PDF speichern"
-],
-"Připravuji stránky…": [
-"Preparing pages…",
-"Seiten werden vorbereitet…"
-],
-"autor nevyplněn": [
-"author not set",
-"Autor nicht angegeben"
-],
-"Krok": [
-"Step",
-"Schritt"
-],
-"❝ Jako citace do rukopisu": [
-"❝ As quotation into the manuscript",
-"❝ Als Zitat ins Manuskript"
-],
-"Nahlásit chybu": [
-"Report a bug",
-"Fehler melden"
-],
-"šířka": [
-"width",
-"Breite"
-],
-"bez textu": [
-"no text",
-"ohne Text"
-],
-"Zúžit sloupec": [
-"Narrow the column",
-"Spalte verschmälern"
-],
-"Rozšířit sloupec": [
-"Widen the column",
-"Spalte verbreitern"
-],
-"Dvojklik vrátí původní šířku": [
-"Double-click restores the original width",
-"Doppelklick stellt die ursprüngliche Breite her"
-],
-"Uložit slovo do slovníku této knihy – v ní se už nebude označovat": [
-"Save the word to this book's dictionary – it will no longer be marked in this book",
-"Wort im Wörterbuch dieses Buches speichern – es wird darin nicht mehr markiert"
-],
-"+ Do slovníku knihy": [
-"+ To book dictionary",
-"+ Ins Buchwörterbuch"
-],
-"+ Do centrálního slovníku": [
-"+ To central dictionary",
-"+ Ins zentrale Wörterbuch"
-],
-"Uložit slovo do centrálního slovníku aplikace – nebude se označovat v žádné knize": [
-"Save the word to the app's central dictionary – it will not be marked in any book",
-"Wort im zentralen Wörterbuch der App speichern – es wird in keinem Buch mehr markiert"
-],
-"Označí podezřelá slova (neznámá slovníku nebo typické chyby čtení) a tlačítkem <b>Další</b> mezi nimi skáče. Správná jména uložíte do slovníku knihy, nebo do centrálního slovníku pro všechny knihy. Stejné tlačítko je i u transkripce.": [
-"Marks suspicious words (unknown to the dictionary or typical reading errors) and jumps between them with <b>Next</b>. Save correct names to the book's dictionary, or to the central dictionary for all books. The same button is also in the transcription.",
-"Markiert verdächtige Wörter (dem Wörterbuch unbekannt oder typische Lesefehler) und springt mit <b>Weiter</b> zwischen ihnen. Richtige Namen speichern Sie im Wörterbuch des Buches oder im zentralen Wörterbuch für alle Bücher. Dieselbe Schaltfläche gibt es auch bei der Transkription."
-],
-"U transkripce i u rukopisu je tlačítko <b>Korektura</b>. Podezřelá slova se podbarví žlutě a dole se objeví panel. Tlačítkem <b>Další</b> skáčete po slovech, <b>Navrhnout opravu</b> nabídne správná slova a <b>Do slovníku knihy</b> nebo <b>Do centrálního slovníku</b> uloží jméno nebo starý tvar, aby se už neoznačoval jen v této knize, nebo ve všech knihách. Omylem upravený odstavec vrátíte tlačítkem <b>↺ původní text</b>.": [
-"Both the transcription and the manuscript have a <b>Proofreading</b> button. Suspicious words are highlighted in yellow and a panel appears at the bottom. Use <b>Next</b> to jump between words, <b>Suggest a correction</b> offers correct words, and <b>To book dictionary</b> or <b>To central dictionary</b> saves a name or old spelling so it is no longer marked in this book, or in any book. Restore a paragraph edited by mistake with <b>↺ original text</b>.",
-"Transkription und Manuskript haben die Schaltfläche <b>Korrektur</b>. Verdächtige Wörter werden gelb markiert, unten erscheint ein Bereich. Mit <b>Weiter</b> springen Sie von Wort zu Wort, <b>Korrektur vorschlagen</b> bietet richtige Wörter an, und <b>Ins Buchwörterbuch</b> oder <b>Ins zentrale Wörterbuch</b> speichert einen Namen oder eine alte Schreibweise, damit sie in diesem Buch oder in keinem Buch mehr markiert wird. Einen versehentlich geänderten Absatz stellen Sie mit <b>↺ Originaltext</b> wieder her."
-]
+ "(autor, tiráž, záhlaví a zápatí) a vytiskněte nebo exportujte knihu do PDF a e-knihy.": [
+  "(author, colophon, header and footer) and print or export the book to PDF and e-book.",
+  "(Autor, Impressum, Kopf- und Fußzeile) und drucken oder exportieren Sie das Buch als PDF und E-Book."
+ ],
+ "(bez názvu)": [
+  "(untitled)",
+  "(ohne Titel)"
+ ],
+ "(pozná i nadpisy a obrázky, které sama vyřízne), a když to nejde, programem Tesseract. Okno můžete zavřít, čtení poběží dál. Další strany do knihy přidáte v": [
+  "(it also recognises headings and pictures, which it cuts out itself), and if that fails, with Tesseract. You can close the window, reading continues. Add more pages to the book in",
+  "(sie erkennt auch Überschriften und Bilder, die sie selbst ausschneidet), und wenn das nicht geht, mit Tesseract. Sie können das Fenster schließen, das Lesen läuft weiter. Weitere Seiten fügen Sie hinzu unter"
+ ],
+ "(překlad)": [
+  "(translation)",
+  "(Übersetzung)"
+ ],
+ "(x¹). Napište text poznámky a uložte. V rukopisu se ukáže jen žluté číslo; kliknutím na něj poznámku upravíte nebo odstraníte. Čísla se řadí sama. V tisku a PDF je poznámka dole na stránce, v e-knize na konci kapitoly. Všechny poznámky najdete v pravém panelu na kartě": [
+  "(x¹). Write the footnote text and save. The manuscript shows only a yellow number; click it to edit or remove the footnote. The numbers order themselves. In print and PDF the footnote is at the bottom of the page, in the e-book at the end of the chapter. All footnotes are in the right-hand panel on the tab",
+  "(x¹). Schreiben Sie den Text der Fußnote und speichern Sie. Im Manuskript erscheint nur eine gelbe Nummer; durch Klicken darauf bearbeiten oder entfernen Sie die Fußnote. Die Nummern ordnen sich selbst. Im Druck und PDF steht die Fußnote unten auf der Seite, im E-Book am Kapitelende. Alle Fußnoten finden Sie in der rechten Leiste auf der Karte"
+ ],
+ "+ Do centrálního slovníku": [
+  "+ To central dictionary",
+  "+ Ins zentrale Wörterbuch"
+ ],
+ "+ Do slovníku": [
+  "+ Add to dictionary",
+  "+ Ins Wörterbuch"
+ ],
+ "+ Do slovníku knihy": [
+  "+ To book dictionary",
+  "+ Ins Buchwörterbuch"
+ ],
+ "+ Kapitola": [
+  "+ Chapter",
+  "+ Kapitel"
+ ],
+ "+ Odstavec": [
+  "+ Paragraph",
+  "+ Absatz"
+ ],
+ "+ Poznámka": [
+  "+ Note",
+  "+ Anmerkung"
+ ],
+ "+ Přidat obrázek": [
+  "+ Add image",
+  "+ Bild hinzufügen"
+ ],
+ "+ Přidat strany": [
+  "+ Add pages",
+  "+ Seiten hinzufügen"
+ ],
+ "+ Přidat zdrojovou knihu": [
+  "+ Add a source book",
+  "+ Quellenbuch hinzufügen"
+ ],
+ ", kde na něj jde odpovědět. Když je věc vyřízená, klikněte na": [
+  ", where it can be answered. When the matter is settled, click",
+  ", wo man darauf antworten kann. Wenn die Sache erledigt ist, klicken Sie auf"
+ ],
+ ", kterou píšete, nebo založte novou. Každá kniha má vlastní text, verze a nastavení.": [
+  " you are writing, or create a new one. Each book has its own text, versions and settings.",
+  " das Sie schreiben, oder legen Sie ein neues an. Jedes Buch hat eigenen Text, Versionen und Einstellungen."
+ ],
+ ", která ukáže podezřelá slova a skáče mezi nimi.": [
+  ", which shows suspicious words and jumps between them.",
+  ", die verdächtige Wörter zeigt und zwischen ihnen springt."
+ ],
+ ", otočte je ⟳ a nepovedené smažte ✕. Tlačítkem": [
+  ", rotate them ⟳ and delete failed ones ✕. The button",
+  ", drehen Sie sie ⟳ und löschen Sie misslungene ✕. Mit der Schaltfläche"
+ ],
+ ", vyříznuto {n} obrázků": [
+  ", {n} images cut out",
+  ", {n} Bilder ausgeschnitten"
+ ],
+ ", {n} stran se přečíst nepodařilo": [
+  ", {n} pages could not be read",
+  ", {n} Seiten konnten nicht gelesen werden"
+ ],
+ ". Komentáře slouží jen pro práci na knize, do tisku ani e-knihy se nedostanou.": [
+  ". Comments are only for working on the book; they never appear in print or the e-book.",
+  ". Kommentare dienen nur der Arbeit am Buch, sie erscheinen weder im Druck noch im E-Book."
+ ],
+ ". Může to být model na serveru, vlastní účet u OpenAI nebo Anthropicu, nebo model v počítači (LM Studio, Ollama).": [
+  ". It can be a model on the server, your own OpenAI or Anthropic account, or a model on your computer (LM Studio, Ollama).",
+  ". Das kann ein Modell auf dem Server sein, ein eigenes OpenAI- oder Anthropic-Konto oder ein Modell auf Ihrem Computer (LM Studio, Ollama)."
+ ],
+ ". Pak můžete Claudovi napsat třeba „Přepiš stranu 12 knihy Pražské groše podle skenu“ nebo „Projdi strany bez textu v knize X a přepiš je“. Claude si přečte obrázek strany a text zapíše do transkripce v rámci vašeho předplatného. Adresu nikomu nedávejte; novou adresou starou zrušíte.": [
+  ". Then you can write to Claude, for example “Transcribe page 12 of the book Prague groschen from the scan” or “Go through the pages without text in book X and transcribe them”. Claude reads the page image and writes the text into the transcription within your subscription. Do not give the address to anyone; a new address cancels the old one.",
+  ". Dann können Sie Claude zum Beispiel schreiben: „Transkribiere Seite 12 des Buches Prager Groschen nach dem Scan“ oder „Geh die Seiten ohne Text im Buch X durch und transkribiere sie“. Claude liest das Seitenbild und schreibt den Text im Rahmen Ihres Abonnements in die Transkription. Geben Sie die Adresse niemandem; eine neue Adresse macht die alte ungültig."
+ ],
+ ". Text se podbarví žlutě a komentář se objeví v pravém panelu na kartě": [
+  ". The text is highlighted in yellow and the comment appears in the right-hand panel on the tab",
+  ". Der Text wird gelb hinterlegt und der Kommentar erscheint in der rechten Leiste auf der Karte"
+ ],
+ ". Text se z nich přečte sám.": [
+  ". The text is read from them automatically.",
+  " hoch. Der Text wird daraus automatisch gelesen."
+ ],
+ ". Text strany se nahradí nově přečteným, předchozí stav zůstane v": [
+  ". The text of the page is replaced by newly read text; the previous state stays in the",
+  ". Der Text der Seite wird durch neu gelesenen ersetzt, der vorherige Stand bleibt im"
+ ],
+ ". Vyplňte název a jazyk a přetáhněte do okna fotografie stran nebo PDF. Strany seřaďte tažením nebo tlačítkem": [
+  ". Fill in the title and language and drag photos of the pages or a PDF into the window. Put the pages in order by dragging or with the button",
+  ". Geben Sie Titel und Sprache ein und ziehen Sie Fotos der Seiten oder ein PDF in das Fenster. Ordnen Sie die Seiten durch Ziehen oder mit der Schaltfläche"
+ ],
+ ". Zvolte rozvržení, fotografii (z knih, z počítače, nebo ji vyfoťte), barvy a písmo. Fotografii i text posunete tažením přímo po obálce, kolečkem myši změníte velikost. U rozvržení": [
+  ". Choose the layout, a photo (from the books, from the computer, or take one), colours and font. Move the photo and the text by dragging them right on the cover; the mouse wheel changes the size. In the layout",
+  ". Wählen Sie Aufteilung, Foto (aus den Büchern, vom Computer oder neu aufgenommen), Farben und Schrift. Foto und Text verschieben Sie durch Ziehen direkt auf dem Umschlag, mit dem Mausrad ändern Sie die Größe. Bei der Aufteilung"
+ ],
+ ": fotografie stran nebo PDF nahrajte tlačítkem": [
+  ": upload photos of the pages or a PDF with the button",
+  ": Laden Sie Fotos der Seiten oder ein PDF mit der Schaltfläche"
+ ],
+ ": pak stačí kliknout na libovolné tlačítko a aplikace napíše, k čemu slouží.": [
+  ": then just click any button and the app explains what it does.",
+  ": Dann genügt ein Klick auf eine beliebige Schaltfläche, und die App erklärt, wozu sie dient."
+ ],
+ "<b>A+</b> a <b>A−</b> zvětší nebo zmenší písmo i tlačítka v celé aplikaci. Nastavení si aplikace pamatuje.": [
+  "<b>A+</b> and <b>A−</b> enlarge or reduce the text and buttons in the whole app. The app remembers the setting.",
+  "<b>A+</b> und <b>A−</b> vergrößern oder verkleinern Schrift und Schaltflächen in der ganzen App. Die Einstellung wird gespeichert."
+ ],
+ "<h3>Použité zdroje</h3>": [
+  "<h3>Sources used</h3>",
+  "<h3>Verwendete Quellen</h3>"
+ ],
+ "<p class='tour-tip'>Klikněte na další prvek, nebo stiskněte <b>Konec</b>.</p>": [
+  "<p class='tour-tip'>Click another element, or press <b>End</b>.</p>",
+  "<p class='tour-tip'>Klicken Sie auf ein weiteres Element oder auf <b>Ende</b>.</p>"
+ ],
+ "API klíč": [
+  "API key",
+  "API-Schlüssel"
+ ],
+ "Adresa API": [
+  "API address",
+  "API-Adresse"
+ ],
+ "Adresa MCP serveru": [
+  "MCP server address",
+  "Adresse des MCP-Servers"
+ ],
+ "Adresa musí začínat http:// nebo https://": [
+  "The address must start with http:// or https://",
+  "Die Adresse muss mit http:// oder https:// beginnen"
+ ],
+ "Adresa zkopírována.": [
+  "Address copied.",
+  "Adresse kopiert."
+ ],
+ "Anthropic Claude (vlastní klíč)": [
+  "Anthropic Claude (own key)",
+  "Anthropic Claude (eigener Schlüssel)"
+ ],
+ "Aplikace ukládá verzi transkripce každé tři minuty práce. Obnovením se vrátí celá kniha do zvoleného stavu, současný stav se předtím sám uloží, takže se nic neztratí. Jednotlivý odstavec vrátíte tlačítkem": [
+  "The app saves a version of the transcription every three minutes of work. Restoring returns the whole book to the chosen state; the current state is saved first, so nothing is lost. Restore a single paragraph with the <b>↺ original text</b> button next to it.",
+  "Die App speichert alle drei Arbeitsminuten eine Version der Transkription. Beim Wiederherstellen kehrt das ganze Buch in den gewählten Zustand zurück; der aktuelle Stand wird vorher gespeichert, nichts geht verloren. Einen einzelnen Absatz stellen Sie mit <b>↺ Originaltext</b> direkt daneben wieder her."
+ ],
+ "Automaticky bílé nebo černé podle pozadí": [
+  "Automatically white or black depending on the background",
+  "Automatisch weiß oder schwarz je nach Hintergrund"
+ ],
+ "Autor": [
+  "Author",
+  "Autor"
+ ],
+ "Autor nad názvem (jinak pod ním)": [
+  "Author above the title (otherwise below it)",
+  "Autor über dem Titel (sonst darunter)"
+ ],
+ "Barevné pozadí, fotografie v rámečku": [
+  "Coloured background, photo in a frame",
+  "Farbiger Hintergrund, Foto im Rahmen"
+ ],
+ "Barva názvu": [
+  "Title colour",
+  "Titelfarbe"
+ ],
+ "Barva ostatního textu": [
+  "Colour of the other text",
+  "Farbe des übrigen Textes"
+ ],
+ "Barva pozadí": [
+  "Background colour",
+  "Hintergrundfarbe"
+ ],
+ "Barva textu": [
+  "Text colour",
+  "Textfarbe"
+ ],
+ "Barvy zpět": [
+  "Reset colours",
+  "Farben zurücksetzen"
+ ],
+ "Bez loga": [
+  "No logo",
+  "Ohne Logo"
+ ],
+ "Bez obálky": [
+  "No cover",
+  "Ohne Umschlag"
+ ],
+ "Bezpatkové": [
+  "Sans serif",
+  "Serifenlos"
+ ],
+ "Blok": [
+  "Justify",
+  "Blocksatz"
+ ],
+ "Bílé": [
+  "White",
+  "Weiß"
+ ],
+ "Běžný text": [
+  "Normal text",
+  "Normaler Text"
+ ],
+ "Běží stará verze serveru. Zavřete okno Terminálu a znovu spusťte": [
+  "An old version of the server is running. Close the Terminal window and start again",
+  "Eine alte Serverversion läuft. Schließen Sie das Terminal-Fenster und starten Sie erneut"
+ ],
+ "Celá strana do rukopisu": [
+  "Whole page to manuscript",
+  "Ganze Seite ins Manuskript"
+ ],
+ "Celá strana jako obrázek do rukopisu": [
+  "Whole page as image to manuscript",
+  "Ganze Seite als Bild ins Manuskript"
+ ],
+ "Celá strana vložena do rukopisu.": [
+  "Whole page inserted into the manuscript.",
+  "Ganze Seite ins Manuskript eingefügt."
+ ],
+ "Celý obrázek bez ořezu": [
+  "Whole picture, no crop",
+  "Ganzes Bild ohne Zuschnitt"
+ ],
+ "Citace": [
+  "Quotation",
+  "Zitat"
+ ],
+ "Citace vložena do rukopisu.": [
+  "Quotation inserted into the manuscript.",
+  "Zitat ins Manuskript eingefügt."
+ ],
+ "Co je na obrázku…": [
+  "What is in the picture…",
+  "Was ist auf dem Bild…"
+ ],
+ "Co jste dělali, co se stalo a co jste čekali…": [
+  "What you did, what happened and what you expected…",
+  "Was Sie getan haben, was passiert ist und was Sie erwartet haben…"
+ ],
+ "Co posíláte": [
+  "What are you sending",
+  "Was senden Sie"
+ ],
+ "Co zobrazit": [
+  "What to show",
+  "Was anzeigen"
+ ],
+ "Copyright": [
+  "Copyright",
+  "Copyright"
+ ],
+ "Další": [
+  "Next",
+  "Weiter"
+ ],
+ "Další podezřelé slovo": [
+  "Next suspicious word",
+  "Nächstes verdächtiges Wort"
+ ],
+ "Další strana": [
+  "Next page",
+  "Nächste Seite"
+ ],
+ "Další údaje do tiráže": [
+  "Other colophon details",
+  "Weitere Angaben im Impressum"
+ ],
+ "Další →": [
+  "Next →",
+  "Weiter →"
+ ],
+ "Další ▶": [
+  "Next ▶",
+  "Weiter ▶"
+ ],
+ "Didot (slavnostní)": [
+  "Didot (formal)",
+  "Didot (festlich)"
+ ],
+ "Do bloku": [
+  "To block",
+  "Als Block"
+ ],
+ "Dolů": [
+  "Down",
+  "Nach unten"
+ ],
+ "Doplňte název modelu.": [
+  "Fill in the model name.",
+  "Geben Sie den Modellnamen ein."
+ ],
+ "Dotaz": [
+  "Ask",
+  "Frage"
+ ],
+ "Dotaz na knihy a rukopis": [
+  "Questions about the books and the manuscript",
+  "Fragen zu den Büchern und zum Manuskript"
+ ],
+ "Dotaz zrušen.": [
+  "Question cancelled.",
+  "Frage abgebrochen."
+ ],
+ "Dotaz, jak něco udělat": [
+  "Question about how to do something",
+  "Frage, wie man etwas macht"
+ ],
+ "Dvojklik vrátí původní šířku": [
+  "Double-click restores the original width",
+  "Doppelklick stellt die ursprüngliche Breite her"
+ ],
+ "Děkujeme, hlášení je odeslané.": [
+  "Thank you, the report has been sent.",
+  "Danke, die Meldung wurde gesendet."
+ ],
+ "Dřívější verze transkripce této knihy": [
+  "Earlier versions of this book's transcription",
+  "Frühere Versionen der Transkription dieses Buches"
+ ],
+ "E-kniha": [
+  "E-book",
+  "E-Book"
+ ],
+ "E-kniha (EPUB)": [
+  "E-book (EPUB)",
+  "E-Book (EPUB)"
+ ],
+ "E-kniha se stahuje (EPUB). Do Kindlu ji pošlete přes „Send to Kindle“.": [
+  "The e-book is downloading (EPUB). Send it to Kindle via “Send to Kindle”.",
+  "Das E-Book wird heruntergeladen (EPUB). Auf den Kindle schicken Sie es mit „Send to Kindle“."
+ ],
+ "Edice": [
+  "Series",
+  "Reihe"
+ ],
+ "Edice nebo nakladatel dole": [
+  "Series or publisher at the bottom",
+  "Reihe oder Verlag unten"
+ ],
+ "Editor, uspořádal, komentář": [
+  "Editor, compiled by, commentary",
+  "Herausgeber, Bearbeitung, Kommentar"
+ ],
+ "Educie Scriptorium": [
+  "Educie Scriptorium",
+  "Educie Scriptorium"
+ ],
+ "Export dvojjazyčně": [
+  "Bilingual export",
+  "Zweisprachiger Export"
+ ],
+ "Export transkripce této knihy": [
+  "Export this book's transcription",
+  "Transkription dieses Buches exportieren"
+ ],
+ "Export v originále": [
+  "Export in the original",
+  "Export im Original"
+ ],
+ "Export česky": [
+  "Export in Czech",
+  "Export auf Tschechisch"
+ ],
+ "Formát transkripce": [
+  "Transcription format",
+  "Format der Transkription"
+ ],
+ "Fotka nahoře": [
+  "Photo at the top",
+  "Foto oben"
+ ],
+ "Fotka přes celou obálku": [
+  "Photo across the whole cover",
+  "Foto über den ganzen Umschlag"
+ ],
+ "Fotka v rámečku": [
+  "Photo in a frame",
+  "Foto im Rahmen"
+ ],
+ "Fotografie": [
+  "Photo",
+  "Foto"
+ ],
+ "Fotografie nahoře, pod ní barevný pruh s textem": [
+  "Photo at the top, a coloured band with text below it",
+  "Foto oben, darunter ein farbiger Streifen mit Text"
+ ],
+ "Fotografie přes celou obálku, text přes ni": [
+  "Photo across the whole cover, text over it",
+  "Foto über den ganzen Umschlag, Text darüber"
+ ],
+ "Fotografii posunete tažením myší (prstem) po obálce, kolečkem ji zvětšíte nebo zmenšíte.": [
+  "Move the photo by dragging it on the cover with the mouse (or finger); the wheel enlarges or shrinks it.",
+  "Verschieben Sie das Foto durch Ziehen auf dem Umschlag mit der Maus (oder dem Finger); mit dem Mausrad vergrößern oder verkleinern Sie es."
+ ],
+ "Georgia (patkové)": [
+  "Georgia (serif)",
+  "Georgia (Serifen)"
+ ],
+ "HTML": [
+  "HTML",
+  "HTML"
+ ],
+ "Helvetica (bezpatkové)": [
+  "Helvetica (sans serif)",
+  "Helvetica (serifenlos)"
+ ],
+ "Historie": [
+  "History",
+  "Verlauf"
+ ],
+ "Historie transkripce": [
+  "Transcription history",
+  "Verlauf der Transkription"
+ ],
+ "Historie verzí rukopisu": [
+  "Manuscript version history",
+  "Versionsverlauf des Manuskripts"
+ ],
+ "Historii": [
+  "History",
+  "Verlauf"
+ ],
+ "Historii transkripce": [
+  "Transcription history",
+  "Transkriptionsverlauf"
+ ],
+ "Hledat v popiscích a zdrojích…": [
+  "Search captions and sources…",
+  "In Bildunterschriften und Quellen suchen…"
+ ],
+ "Hledat všude…": [
+  "Search everywhere…",
+  "Überall suchen…"
+ ],
+ "Hledám návrhy…": [
+  "Looking for suggestions…",
+  "Suche Vorschläge…"
+ ],
+ "Hledám podezřelá slova…": [
+  "Looking for suspicious words…",
+  "Suche verdächtige Wörter…"
+ ],
+ "Hledám v knihách a rukopisu…": [
+  "Searching the books and the manuscript…",
+  "Suche in Büchern und Manuskript…"
+ ],
+ "Hledání": [
+  "Search",
+  "Suche"
+ ],
+ "Hotovo, všechna podezřelá slova jsou vyřešená. 👍": [
+  "Done, all suspicious words are resolved. 👍",
+  "Fertig, alle verdächtigen Wörter sind erledigt. 👍"
+ ],
+ "Hotovo. Rámeček na skenu můžeš posunout nebo roztáhnout, obrázek narovnat vpravo.": [
+  "Done. You can move or resize the frame on the scan and straighten the image on the right.",
+  "Fertig. Den Rahmen auf dem Scan können Sie verschieben oder vergrößern, das Bild rechts gerade richten."
+ ],
+ "Hotovo: přečteno {read} z {total} stran": [
+  "Done: {read} of {total} pages read",
+  "Fertig: {read} von {total} Seiten gelesen"
+ ],
+ "ISBN (PDF)": [
+  "ISBN (PDF)",
+  "ISBN (PDF)"
+ ],
+ "ISBN (ePub)": [
+  "ISBN (ePub)",
+  "ISBN (ePub)"
+ ],
+ "Ikony: Flaticon (flaticon.com)": [
+  "Icons: Flaticon (flaticon.com)",
+  "Icons: Flaticon (flaticon.com)"
+ ],
+ "Jak na to": [
+  "How to",
+  "Anleitungen"
+ ],
+ "Jak najít slovo ve všech knihách": [
+  "How to find a word in all books",
+  "Ein Wort in allen Büchern finden"
+ ],
+ "Jak napsat komentář": [
+  "How to write a comment",
+  "Wie man einen Kommentar schreibt"
+ ],
+ "Jak opravit chyby po čtení skenu": [
+  "How to fix errors after scanning",
+  "Fehler nach dem Einlesen korrigieren"
+ ],
+ "Jak přenést odstavec z knihy do rukopisu": [
+  "How to move a paragraph from a book to the manuscript",
+  "Einen Absatz aus einem Buch ins Manuskript übernehmen"
+ ],
+ "Jak přidat novou zdrojovou knihu": [
+  "How to add a new source book",
+  "Wie man ein neues Quellenbuch hinzufügt"
+ ],
+ "Jak připojit Claude (MCP)": [
+  "How to connect Claude (MCP)",
+  "Wie man Claude verbindet (MCP)"
+ ],
+ "Jak se s programem pracuje": [
+  "How the program works",
+  "So arbeiten Sie mit dem Programm"
+ ],
+ "Jak se zeptat na něco z knih": [
+  "How to ask about something in the books",
+  "Etwas zu den Büchern fragen"
+ ],
+ "Jak udělat nadpis kapitoly": [
+  "How to make a chapter heading",
+  "Eine Kapitelüberschrift erstellen"
+ ],
+ "Jak vložit citaci se zdrojem": [
+  "How to insert a quotation with its source",
+  "Ein Zitat mit Quelle einfügen"
+ ],
+ "Jak vložit obrázek z počítače": [
+  "How to insert an image from the computer",
+  "Ein Bild vom Computer einfügen"
+ ],
+ "Jak vložit obsah knihy": [
+  "How to insert the table of contents",
+  "Das Inhaltsverzeichnis einfügen"
+ ],
+ "Jak vložit poznámku pod čarou": [
+  "How to insert a footnote",
+  "Wie man eine Fußnote einfügt"
+ ],
+ "Jak vrátit starší verzi rukopisu": [
+  "How to restore an older version of the manuscript",
+  "Eine ältere Version des Manuskripts wiederherstellen"
+ ],
+ "Jak vytisknout nebo uložit PDF": [
+  "How to print or save a PDF",
+  "Drucken oder als PDF speichern"
+ ],
+ "Jak vytvořit obálku": [
+  "How to create a cover",
+  "Einen Umschlag gestalten"
+ ],
+ "Jak vyříznout obrázek ze skenu": [
+  "How to cut an image out of a scan",
+  "Ein Bild aus dem Scan ausschneiden"
+ ],
+ "Jak znovu přečíst špatně přečtenou stranu": [
+  "How to read a badly read page again",
+  "Wie man eine schlecht gelesene Seite erneut liest"
+ ],
+ "Jas": [
+  "Brightness",
+  "Helligkeit"
+ ],
+ "Jazyk exportu": [
+  "Export language",
+  "Exportsprache"
+ ],
+ "Jazyk knihy": [
+  "Book language",
+  "Sprache des Buches"
+ ],
+ "Jazyk rozhraní": [
+  "Interface language",
+  "Sprache der Oberfläche"
+ ],
+ "Je to jen obrázek nebo tabulka": [
+  "It is only an image or a table",
+  "Es ist nur ein Bild oder eine Tabelle"
+ ],
+ "Je to správně": [
+  "This is correct",
+  "Das ist richtig"
+ ],
+ "Jednobarevná s obrázkem v rámečku": [
+  "Plain colour with framed image",
+  "Einfarbig mit gerahmtem Bild"
+ ],
+ "Jemně": [
+  "Fine",
+  "Fein"
+ ],
+ "Jen Tesseract (zdarma, slabší na staré písmo)": [
+  "Tesseract only (free, weaker on old typefaces)",
+  "Nur Tesseract (kostenlos, schwächer bei alten Schriften)"
+ ],
+ "Jen barevné pozadí a text": [
+  "Only a coloured background and text",
+  "Nur farbiger Hintergrund und Text"
+ ],
+ "Jen originál": [
+  "Original only",
+  "Nur Original"
+ ],
+ "Jen překlad": [
+  "Translation only",
+  "Nur Übersetzung"
+ ],
+ "Jen text": [
+  "Text only",
+  "Nur Text"
+ ],
+ "Jen text (bez obrázku)": [
+  "Text only (no image)",
+  "Nur Text (ohne Bild)"
+ ],
+ "Jen umělá inteligence": [
+  "AI only",
+  "Nur KI"
+ ],
+ "Jméno": [
+  "Name",
+  "Name"
+ ],
+ "Kameru se nepodařilo zapnout. Povolte ji v prohlížeči, nebo vyberte fotku z počítače.": [
+  "The camera could not be started. Allow it in the browser, or choose a photo from the computer.",
+  "Die Kamera konnte nicht gestartet werden. Erlauben Sie sie im Browser oder wählen Sie ein Foto vom Computer."
+ ],
+ "Kapitola (1. úroveň)": [
+  "Chapter (level 1)",
+  "Kapitel (Ebene 1)"
+ ],
+ "Kapitola – nadpis 1. úrovně": [
+  "Chapter – level 1 heading",
+  "Kapitel – Überschrift Ebene 1"
+ ],
+ "Kde model běží": [
+  "Where the model runs",
+  "Wo das Modell läuft"
+ ],
+ "Kdykoli si nevíte rady, klikněte na": [
+  "Whenever you are unsure, click the",
+  "Wenn Sie nicht weiterwissen, klicken Sie auf das"
+ ],
+ "Když je písmo malé": [
+  "When the text is small",
+  "Wenn die Schrift klein ist"
+ ],
+ "Klasické": [
+  "Classic",
+  "Klassisch"
+ ],
+ "Klikněte do odstavce a tady zvolíte, zda je to nadpis, citace nebo poznámka, a nastavíte tučné písmo či zarovnání.": [
+  "Click into a paragraph and choose here whether it is a heading, quotation or note, and set bold or alignment.",
+  "Klicken Sie in einen Absatz und wählen Sie hier, ob es eine Überschrift, ein Zitat oder eine Anmerkung ist, und stellen Sie Fettdruck oder Ausrichtung ein."
+ ],
+ "Klikněte do textu rukopisu tam, kam patří číslo poznámky, a pak na Poznámka.": [
+  "Click in the manuscript where the footnote number belongs, then on Footnote.",
+  "Klicken Sie im Manuskript dorthin, wo die Fußnotennummer hingehört, und dann auf Fußnote."
+ ],
+ "Klikněte do textu rukopisu tam, kam patří číslo poznámky, a v nástrojích zvolte": [
+  "Click in the manuscript where the footnote number belongs and in the tools choose",
+  "Klicken Sie im Manuskript dorthin, wo die Fußnotennummer hingehört, und wählen Sie in den Werkzeugen"
+ ],
+ "Klikněte do řádku v rukopisu a v nabídce vlevo nahoře (kde je <b>Běžný text</b>) zvolte <b>Kapitola</b>. Kapitoly se samy objeví v obsahu.": [
+  "Click into a line in the manuscript and in the menu at the top left (where it says <b>Normal text</b>) choose <b>Chapter</b>. Chapters appear in the table of contents automatically.",
+  "Klicken Sie in eine Zeile des Manuskripts und wählen Sie oben links im Menü (wo <b>Normaler Text</b> steht) <b>Kapitel</b>. Kapitel erscheinen automatisch im Inhaltsverzeichnis."
+ ],
+ "Klikněte na <b>Historie</b>, vyberte čas a stiskněte <b>Obnovit</b>. Současná verze se předtím sama uloží, takže se nic neztratí.": [
+  "Click <b>History</b>, choose a time and press <b>Restore</b>. The current version is saved first, so nothing is lost.",
+  "Klicken Sie auf <b>Verlauf</b>, wählen Sie einen Zeitpunkt und drücken Sie <b>Wiederherstellen</b>. Die aktuelle Version wird vorher gespeichert, nichts geht verloren."
+ ],
+ "Klikněte na kterékoli tlačítko nebo část aplikace a zobrazí se, k čemu slouží. Nic se tím nespustí.": [
+  "Click any button or part of the app and you will see what it is for. Nothing is triggered.",
+  "Klicken Sie auf eine Schaltfläche oder einen Teil der App, und Sie sehen, wozu er dient. Es wird nichts ausgelöst."
+ ],
+ "Klikněte na obrázek v Obrázkách a pak na „Vložit do rukopisu“.": [
+  "Click an image in Images and then “Insert into manuscript”.",
+  "Klicken Sie auf ein Bild unter Bilder und dann auf „Ins Manuskript einfügen“."
+ ],
+ "Klikněte v rukopisu tam, kde má obsah být (obvykle za titulní stranu), a v nástrojích zvolte <b>Vložit → Obsah knihy</b>. Obsah se sám doplňuje podle kapitol a podkapitol, nic se v něm nepřepisuje ručně. Stejně tak vložíte <b>Novou stránku</b>, aby další kapitola v tisku a v PDF začala na nové straně.": [
+  "In the manuscript click where the contents should go (usually after the title page) and in the toolbar choose <b>Insert → Table of contents</b>. It fills itself from chapters and subchapters; nothing in it is typed by hand. In the same way insert a <b>New page</b> so that the next chapter starts on a new page in print and PDF.",
+  "Klicken Sie im Manuskript dorthin, wo das Inhaltsverzeichnis stehen soll (meist nach der Titelseite), und wählen Sie <b>Einfügen → Inhaltsverzeichnis</b>. Es füllt sich selbst aus Kapiteln und Unterkapiteln. Ebenso fügen Sie eine <b>Neue Seite</b> ein, damit das nächste Kapitel im Druck und im PDF auf einer neuen Seite beginnt."
+ ],
+ "Klíč je uložený. Nechte pole prázdné, pokud ho nechcete měnit.": [
+  "The key is saved. Leave the field empty if you don't want to change it.",
+  "Der Schlüssel ist gespeichert. Lassen Sie das Feld leer, wenn Sie ihn nicht ändern wollen."
+ ],
+ "Klíč najdete v účtu u poskytovatele. Uloží se jen na serveru, do prohlížeče se už nevrací.": [
+  "You will find the key in your account with the provider. It is stored only on the server and never sent back to the browser.",
+  "Den Schlüssel finden Sie in Ihrem Konto beim Anbieter. Er wird nur auf dem Server gespeichert und nie an den Browser zurückgegeben."
+ ],
+ "Kniha": [
+  "Book",
+  "Buch"
+ ],
+ "Knihovna": [
+  "Library",
+  "Bibliothek"
+ ],
+ "Knihu se nepodařilo odebrat.": [
+  "The book could not be removed.",
+  "Das Buch konnte nicht entfernt werden."
+ ],
+ "Knižní": [
+  "Book",
+  "Buch"
+ ],
+ "Komentář": [
+  "Comment",
+  "Kommentar"
+ ],
+ "Komentář – do tisku ani e-knihy se nedostane": [
+  "Comment – it never appears in print or the e-book",
+  "Kommentar – erscheint weder im Druck noch im E-Book"
+ ],
+ "Komentář: {text}": [
+  "Comment: {text}",
+  "Kommentar: {text}"
+ ],
+ "Komentáře": [
+  "Comments",
+  "Kommentare"
+ ],
+ "Konec": [
+  "End",
+  "Ende"
+ ],
+ "Kontrast": [
+  "Contrast",
+  "Kontrast"
+ ],
+ "Korektura": [
+  "Proofreading",
+  "Korrektur"
+ ],
+ "Korektura rukopisu": [
+  "Proofreading the manuscript",
+  "Korrektur des Manuskripts"
+ ],
+ "Korektura transkripce": [
+  "Proofreading the transcription",
+  "Korrektur der Transkription"
+ ],
+ "Korektura: projde podezřelá slova v celé knize a skáče mezi nimi": [
+  "Proofreading: goes through suspicious words in the whole book and jumps between them",
+  "Korrektur: geht verdächtige Wörter im ganzen Buch durch und springt zwischen ihnen"
+ ],
+ "Korektura: projde podezřelá slova v rukopisu a skáče mezi nimi": [
+  "Proofreading: goes through suspicious words in the manuscript and jumps between them",
+  "Korrektur: geht verdächtige Wörter im Manuskript durch und springt zwischen ihnen"
+ ],
+ "Krok": [
+  "Step",
+  "Schritt"
+ ],
+ "Krátce, o co jde": [
+  "Briefly, what is it about",
+  "Kurz, worum geht es"
+ ],
+ "Kurzíva": [
+  "Italic",
+  "Kursiv"
+ ],
+ "LM Studio (běží tam, kde aplikace)": [
+  "LM Studio (runs where the app runs)",
+  "LM Studio (läuft dort, wo die App läuft)"
+ ],
+ "Licence a práva": [
+  "Licence and rights",
+  "Lizenz und Rechte"
+ ],
+ "Logo Educie Press dole": [
+  "Educie Press logo at the bottom",
+  "Educie-Press-Logo unten"
+ ],
+ "Lupa": [
+  "Magnifier",
+  "Lupe"
+ ],
+ "Lupa – zvětší místo pod myší": [
+  "Magnifier – enlarges the area under the mouse",
+  "Lupe – vergrößert die Stelle unter der Maus"
+ ],
+ "Lupa: přejeďte myší po skenu.": [
+  "Magnifier: move the mouse over the scan.",
+  "Lupe: Fahren Sie mit der Maus über den Scan."
+ ],
+ "Malé": [
+  "Small",
+  "Klein"
+ ],
+ "Menší písmo a ovládání": [
+  "Smaller text and controls",
+  "Kleinere Schrift und Bedienelemente"
+ ],
+ "Menší písmo rukopisu na obrazovce": [
+  "Smaller manuscript text on screen",
+  "Kleinere Manuskriptschrift auf dem Bildschirm"
+ ],
+ "Model obrázek nepřečetl: {error}. Ke čtení stran se použije Tesseract.": [
+  "The model did not read the image: {error}. Tesseract will be used to read pages.",
+  "Das Modell hat das Bild nicht gelesen: {error}. Zum Lesen von Seiten wird Tesseract verwendet."
+ ],
+ "Model odpovídá na otázky ve sloupci": [
+  "The model answers questions in the",
+  "Das Modell beantwortet Fragen in der Spalte"
+ ],
+ "Model odpověděl „{reply}“, ale text z obrázku nepřečetl. Ke čtení stran se nehodí – použije se Tesseract.": [
+  "The model answered “{reply}” but did not read the text in the image. It is not suitable for reading pages – Tesseract will be used.",
+  "Das Modell antwortete „{reply}“, hat den Text im Bild aber nicht gelesen. Zum Lesen von Seiten ungeeignet – Tesseract wird verwendet."
+ ],
+ "Model čte obrázky (za {s} s přečetl „{reply}“). Může číst strany knih.": [
+  "The model reads images (in {s} s it read “{reply}”). It can read book pages.",
+  "Das Modell liest Bilder (in {s} s las es „{reply}“). Es kann Buchseiten lesen."
+ ],
+ "Moje knihy": [
+  "My books",
+  "Meine Bücher"
+ ],
+ "Moje knihy – výběr knihy, nastavení a nápověda": [
+  "My books – choose a book, settings and help",
+  "Meine Bücher – Buch wählen, Einstellungen und Hilfe"
+ ],
+ "Místo vydání": [
+  "Place of publication",
+  "Erscheinungsort"
+ ],
+ "Můj rukopis": [
+  "My manuscript",
+  "Mein Manuskript"
+ ],
+ "Může jít o ručně psaný text, fotografii nebo tabulku. Přepište text ručně tlačítkem + Odstavec dole, nebo stranu označte jako obrázek.": [
+  "It may be handwriting, a photograph or a table. Type the text in using + Paragraph below, or mark the page as an image.",
+  "Es kann Handschrift, ein Foto oder eine Tabelle sein. Tippen Sie den Text mit + Absatz unten ab oder markieren Sie die Seite als Bild."
+ ],
+ "Na rozcestníku klikněte na": [
+  "On the home screen click",
+  "Klicken Sie auf der Startseite auf"
+ ],
+ "Na rozcestníku klikněte na obálku knihy nebo na tlačítko": [
+  "On the home screen click the book's cover or the button",
+  "Klicken Sie auf der Startseite auf den Buchumschlag oder auf die Schaltfläche"
+ ],
+ "Na straně není přečtený text": [
+  "No recognised text on this page",
+  "Kein erkannter Text auf dieser Seite"
+ ],
+ "Na střed": [
+  "Centre",
+  "Zentriert"
+ ],
+ "Na této straně se text nepodařilo přečíst.": [
+  "The text on this page could not be read.",
+  "Der Text auf dieser Seite konnte nicht gelesen werden."
+ ],
+ "Nahlásit chybu": [
+  "Report a bug",
+  "Fehler melden"
+ ],
+ "Nahoře vyberete knihu, šipkami listujete stránkami. Náhledy stránek jsou pod tím, kliknutím stránku otevřete.": [
+  "Choose a book at the top and page through with the arrows. Page thumbnails are below; click one to open it.",
+  "Oben wählen Sie das Buch, mit den Pfeilen blättern Sie. Darunter sind Seitenvorschauen; ein Klick öffnet die Seite."
+ ],
+ "Nahrajte naskenované strany knihy – fotografie (JPG, PNG, HEIC z iPhonu převeďte na JPG) nebo PDF. Strany seřaďte tažením, otočte nebo smažte. Aplikace je uloží a v pozadí z nich přečte text; mezitím můžete dělat něco jiného.": [
+  "Upload the scanned pages of the book – photos (JPG, PNG; convert HEIC from an iPhone to JPG) or a PDF. Put the pages in order by dragging, rotate or delete them. The app stores them and reads the text in the background; meanwhile you can do something else.",
+  "Laden Sie die gescannten Seiten des Buches hoch – Fotos (JPG, PNG; HEIC vom iPhone in JPG umwandeln) oder ein PDF. Ordnen Sie die Seiten durch Ziehen, drehen oder löschen Sie sie. Die App speichert sie und liest den Text im Hintergrund; währenddessen können Sie etwas anderes tun."
+ ],
+ "Nahrání se nepovedlo:": [
+  "Upload failed: ",
+  "Hochladen fehlgeschlagen: "
+ ],
+ "Nahrát a přečíst text": [
+  "Upload and read the text",
+  "Hochladen und Text lesen"
+ ],
+ "Nahrát hotovou obálku": [
+  "Upload a finished cover",
+  "Fertigen Umschlag hochladen"
+ ],
+ "Nahrávám stranu {i} z {n}…": [
+  "Uploading page {i} of {n}…",
+  "Seite {i} von {n} wird hochgeladen…"
+ ],
+ "Nakladatel": [
+  "Publisher",
+  "Verlag"
+ ],
+ "Nakladatel / edice dole": [
+  "Publisher / series at the bottom",
+  "Verlag / Reihe unten"
+ ],
+ "Napište ho do pole <b>Hledat všude…</b> nahoře. Výsledky z rukopisu jsou první, pak z knih.": [
+  "Type it into the <b>Search everywhere…</b> field at the top. Results from the manuscript come first, then from the books.",
+  "Geben Sie es oben in das Feld <b>Überall suchen…</b> ein. Treffer aus dem Manuskript kommen zuerst, dann aus den Büchern."
+ ],
+ "Napište otázku, např.: Kde se razily grešle Leopolda I.?": [
+  "Type a question, e.g.: Where were Leopold I's greschels minted?",
+  "Stellen Sie eine Frage, z. B.: Wo wurden die Gröschel Leopolds I. geprägt?"
+ ],
+ "Napište slovo a aplikace ho najde ve všech knihách i v rukopisu. Při psaní nabízí návrhy. Kliknutím na výsledek se na místo přesunete.": [
+  "Type a word and the app finds it in all books and in the manuscript. It makes suggestions as you type. Click a result to go there.",
+  "Geben Sie ein Wort ein, und die App findet es in allen Büchern und im Manuskript. Beim Tippen gibt es Vorschläge. Ein Klick auf ein Ergebnis führt dorthin."
+ ],
+ "Napište, co nefunguje nebo co by se hodilo. Hlášení dostane autor aplikace i s informací, kde v aplikaci jste byli.": [
+  "Write what doesn't work or what would help. The report reaches the app's author together with where in the app you were.",
+  "Schreiben Sie, was nicht funktioniert oder was helfen würde. Die Meldung erreicht den Autor der App samt Angabe, wo in der App Sie waren."
+ ],
+ "Narovnat (stupně)": [
+  "Straighten (degrees)",
+  "Gerade richten (Grad)"
+ ],
+ "Narovnat:": [
+  "Straighten:",
+  "Gerade richten:"
+ ],
+ "Naskenovaná stránka. Kolečkem nebo tlačítky ji zvětšíte. Rámeček kolem obrázku můžete tahem upravit a obrázek tím přesněji vyříznout.": [
+  "The scanned page. Zoom with the wheel or the buttons. You can drag the frame around an image to cut it out more precisely.",
+  "Die gescannte Seite. Mit dem Mausrad oder den Schaltflächen zoomen. Den Rahmen um ein Bild können Sie ziehen, um es genauer auszuschneiden."
+ ],
+ "Nastavení": [
+  "Settings",
+  "Einstellungen"
+ ],
+ "Nastavení AI": [
+  "AI settings",
+  "KI-Einstellungen"
+ ],
+ "Nastavení a tiráž": [
+  "Settings and colophon",
+  "Einstellungen und Impressum"
+ ],
+ "Nastavení jazykového modelu": [
+  "Language model settings",
+  "Einstellungen des Sprachmodells"
+ ],
+ "Nastavení knihy": [
+  "Book settings",
+  "Bucheinstellungen"
+ ],
+ "Nastavení knihy uloženo.": [
+  "Book settings saved.",
+  "Bucheinstellungen gespeichert."
+ ],
+ "Nastavení knihy –": [
+  "Book settings –",
+  "Bucheinstellungen –"
+ ],
+ "Nastavení modelu uloženo.": [
+  "Model settings saved.",
+  "Modelleinstellungen gespeichert."
+ ],
+ "Nastavení zdrojové knihy": [
+  "Source book settings",
+  "Einstellungen des Quellbuchs"
+ ],
+ "Nastavení zdrojové knihy → Přidat strany": [
+  "Source book settings → Add pages",
+  "Einstellungen des Quellenbuchs → Seiten hinzufügen"
+ ],
+ "Nastavení – jazykový model pro Dotaz": [
+  "Settings – language model for Ask",
+  "Einstellungen – Sprachmodell für Fragen"
+ ],
+ "Nastavení → Konektory → Přidat vlastní konektor": [
+  "Settings → Connectors → Add custom connector",
+  "Einstellungen → Konnektoren → Eigenen Konnektor hinzufügen"
+ ],
+ "Navrhnout opravu": [
+  "Suggest a correction",
+  "Korrektur vorschlagen"
+ ],
+ "Načte celou naskenovanou stranu, ze které byl obrázek vyříznut, aby šel oříznout znovu a lépe": [
+  "Loads the whole scanned page the image was cut from, so it can be cropped again and better",
+  "Lädt die ganze gescannte Seite, aus der das Bild ausgeschnitten wurde, damit es erneut und besser zugeschnitten werden kann"
+ ],
+ "Načíst znovu": [
+  "Reload",
+  "Neu laden"
+ ],
+ "Načítám PDF…": [
+  "Loading PDF…",
+  "PDF wird geladen…"
+ ],
+ "Načítám…": [
+  "Loading…",
+  "Lädt…"
+ ],
+ "Nebo zapněte": [
+  "Or turn on",
+  "Oder schalten Sie den"
+ ],
+ "Nejdřív označte text v odstavci.": [
+  "First select text in the paragraph.",
+  "Markieren Sie zuerst Text im Absatz."
+ ],
+ "Nejdřív v rukopisu označte text, ke kterému chcete napsat komentář.": [
+  "First select the text in the manuscript you want to comment on.",
+  "Markieren Sie zuerst den Text im Manuskript, den Sie kommentieren möchten."
+ ],
+ "Nejdřív vyplňte <b>Nastavení knihy</b> (autor, tiráž, obálka). Pak v rukopisu klikněte na <b>Tisk / PDF</b>. Aplikace knihu rozdělí na stránky, počkejte, až tlačítko nahoře zmodrá, a klikněte na něj. V okně tisku zvolte tiskárnu, nebo <b>Uložit jako PDF</b>.": [
+  "First fill in the <b>Book settings</b> (author, colophon, cover). Then click <b>Print / PDF</b> in the manuscript. The app lays the book out in pages; wait until the button at the top turns blue and click it. In the print window choose a printer or <b>Save as PDF</b>.",
+  "Füllen Sie zuerst die <b>Bucheinstellungen</b> aus (Autor, Impressum, Umschlag). Klicken Sie dann im Manuskript auf <b>Drucken / PDF</b>. Die App bricht das Buch in Seiten um; warten Sie, bis die Schaltfläche oben blau wird, und klicken Sie darauf. Wählen Sie im Druckfenster einen Drucker oder <b>Als PDF speichern</b>."
+ ],
+ "Nenašel jsem žádné podezřelé slovo. 👍": [
+  "No suspicious word found. 👍",
+  "Kein verdächtiges Wort gefunden. 👍"
+ ],
+ "Není s čím spojit.": [
+  "Nothing to merge with.",
+  "Nichts zum Zusammenführen."
+ ],
+ "Nepodařilo se odeslat:": [
+  "Could not send:",
+  "Senden fehlgeschlagen:"
+ ],
+ "Normální": [
+  "Normal",
+  "Normal"
+ ],
+ "Nová kniha": [
+  "New book",
+  "Neues Buch"
+ ],
+ "Nová nápověda: klikněte na otazník vpravo nahoře.": [
+  "New help: click the question mark at the top right.",
+  "Neue Hilfe: Klicken Sie oben rechts auf das Fragezeichen."
+ ],
+ "Nová stránka (další text začne na nové straně v PDF i e-knize)": [
+  "New page (the following text starts on a new page in PDF and e-book)",
+  "Neue Seite (der folgende Text beginnt im PDF und E-Book auf einer neuen Seite)"
+ ],
+ "Nová stránka vložena.": [
+  "New page inserted.",
+  "Neue Seite eingefügt."
+ ],
+ "Nová stránka – další text začne na nové straně": [
+  "New page – the following text starts on a new page",
+  "Neue Seite – der folgende Text beginnt auf einer neuen Seite"
+ ],
+ "Nový dotaz": [
+  "New question",
+  "Neue Frage"
+ ],
+ "Nový obrázek do knihovny": [
+  "New image for the library",
+  "Neues Bild für die Bibliothek"
+ ],
+ "Nápad na novou funkci": [
+  "Idea for a new feature",
+  "Idee für eine neue Funktion"
+ ],
+ "Nápověda": [
+  "Help",
+  "Hilfe"
+ ],
+ "Nápověda a podpora": [
+  "Help and support",
+  "Hilfe und Support"
+ ],
+ "Nápověda a průvodce": [
+  "Help and guide",
+  "Hilfe und Rundgang"
+ ],
+ "Nápověda a průvodce aplikací": [
+  "Help and guided tour of the app",
+  "Hilfe und Rundgang durch die App"
+ ],
+ "Návrat na úvodní stránku. Tam vyberete knihu, kterou píšete, založíte novou, vyplníte její nastavení a tiráž, nebo otevřete zdrojovou knihu.": [
+  "Back to the start page. There you choose the book you are writing, create a new one, fill in its settings and colophon, or open a source book.",
+  "Zurück zur Startseite. Dort wählen Sie das Buch, an dem Sie schreiben, legen ein neues an, füllen Einstellungen und Impressum aus oder öffnen ein Quellbuch."
+ ],
+ "Název": [
+  "Title",
+  "Titel"
+ ],
+ "Název knihy": [
+  "Book title",
+  "Buchtitel"
+ ],
+ "Název knihy (titulní strana, obálka e-knihy)": [
+  "Book title (title page, e-book cover)",
+  "Buchtitel (Titelseite, E-Book-Umschlag)"
+ ],
+ "Název knihy nesmí být prázdný.": [
+  "The book title must not be empty.",
+  "Der Buchtitel darf nicht leer sein."
+ ],
+ "Název modelu": [
+  "Model name",
+  "Modellname"
+ ],
+ "Název vaší knihy. Použije se na titulní straně a v e-knize.": [
+  "The title of your book. Used on the title page and in the e-book.",
+  "Der Titel Ihres Buches. Er erscheint auf der Titelseite und im E-Book."
+ ],
+ "Název, autor, tiráž (nakladatel, rok, ISBN…), záhlaví a čísla stránek a <b>obálka</b>. Z těchto údajů se skládá titulní strana a tiráž v PDF i v e-knize.": [
+  "Title, author, colophon (publisher, year, ISBN…), header, page numbers and the <b>cover</b>. The title page and colophon in the PDF and e-book are built from these.",
+  "Titel, Autor, Impressum (Verlag, Jahr, ISBN…), Kopfzeile, Seitenzahlen und <b>Umschlag</b>. Daraus entstehen Titelseite und Impressum in PDF und E-Book."
+ ],
+ "Název, autor, tiráž, záhlaví a zápatí této knihy": [
+  "Title, author, colophon, header and footer of this book",
+  "Titel, Autor, Impressum, Kopf- und Fußzeile dieses Buches"
+ ],
+ "Něco nefunguje (chyba)": [
+  "Something doesn't work (bug)",
+  "Etwas funktioniert nicht (Fehler)"
+ ],
+ "O stranu dříve": [
+  "One page earlier",
+  "Eine Seite nach vorn"
+ ],
+ "O stranu později": [
+  "One page later",
+  "Eine Seite nach hinten"
+ ],
+ "Obnoven neuložený text z minula – ukládám.": [
+  "Restored unsaved text from last time – saving.",
+  "Ungespeicherter Text vom letzten Mal wiederhergestellt – wird gespeichert."
+ ],
+ "Obnovení se nepovedlo.": [
+  "Restore failed.",
+  "Wiederherstellen fehlgeschlagen."
+ ],
+ "Obnovit": [
+  "Restore",
+  "Wiederherstellen"
+ ],
+ "Obnovit tuto verzi": [
+  "Restore this version",
+  "Diese Version wiederherstellen"
+ ],
+ "Obnovit vybranou verzi?\\n\\nSoučasný text se předtím uloží do historie, takže o nic nepřijdete.": [
+  "Restore the selected version?\\n\\nThe current text is saved to history first, so you lose nothing.",
+  "Ausgewählte Version wiederherstellen?\\n\\nDer aktuelle Text wird vorher im Verlauf gespeichert, Sie verlieren nichts."
+ ],
+ "Obrázek": [
+  "Image",
+  "Bild"
+ ],
+ "Obrázek nahoře, text dole": [
+  "Image on top, text below",
+  "Bild oben, Text unten"
+ ],
+ "Obrázek obrazovky (nepovinné)": [
+  "Screenshot (optional)",
+  "Bildschirmfoto (optional)"
+ ],
+ "Obrázek přes celou obálku, text přes něj": [
+  "Image over the whole cover, text on top",
+  "Bild über den ganzen Umschlag, Text darüber"
+ ],
+ "Obrázek se nepodařilo uložit.": [
+  "The image could not be saved.",
+  "Das Bild konnte nicht gespeichert werden."
+ ],
+ "Obrázek se nepodařilo uložit:": [
+  "The image could not be saved:",
+  "Das Bild konnte nicht gespeichert werden:"
+ ],
+ "Obrázek se nepodařilo vložit.": [
+  "The image could not be inserted.",
+  "Das Bild konnte nicht eingefügt werden."
+ ],
+ "Obrázek upraven. Původní zůstává v historii verzí.": [
+  "Image edited. The original remains in the version history.",
+  "Bild bearbeitet. Das Original bleibt im Versionsverlauf."
+ ],
+ "Obrázek vložen do rukopisu.": [
+  "Image inserted into the manuscript.",
+  "Bild ins Manuskript eingefügt."
+ ],
+ "Obrázek vložen. Oříznout ho můžete tlačítkem ✂ nad textem.": [
+  "Image inserted. You can crop it with the ✂ button above the text.",
+  "Bild eingefügt. Zuschneiden können Sie es mit ✂ über dem Text."
+ ],
+ "Obrázek z počítače…": [
+  "Image from computer…",
+  "Bild vom Computer…"
+ ],
+ "Obrázek zpět doprostřed": [
+  "Picture back to the centre",
+  "Bild zurück in die Mitte"
+ ],
+ "Obrázek:": [
+  "Image:",
+  "Bild:"
+ ],
+ "Obrázky": [
+  "Images",
+  "Bilder"
+ ],
+ "Obrázky a jejich zdroje": [
+  "Images and their sources",
+  "Bilder und ihre Quellen"
+ ],
+ "Obrázky do rukopisu": [
+  "Images to manuscript",
+  "Bilder ins Manuskript"
+ ],
+ "Obrázky přidány do knihovny.": [
+  "Images added to the library.",
+  "Bilder zur Bibliothek hinzugefügt."
+ ],
+ "Obsah": [
+  "Contents",
+  "Inhalt"
+ ],
+ "Obsah a schránka": [
+  "Contents and clipboard",
+  "Inhalt und Ablage"
+ ],
+ "Obsah knihy (vytvoří se sám z kapitol)": [
+  "Table of contents (built automatically from chapters)",
+  "Inhaltsverzeichnis (entsteht automatisch aus den Kapiteln)"
+ ],
+ "Obsah rukopisu a schránka": [
+  "Manuscript contents and clipboard",
+  "Inhalt des Manuskripts und Ablage"
+ ],
+ "Obsah už v rukopisu je.": [
+  "The table of contents is already in the manuscript.",
+  "Das Inhaltsverzeichnis ist bereits im Manuskript."
+ ],
+ "Obsah vložen. Sám se doplní podle kapitol.": [
+  "Table of contents inserted. It fills in from the chapters.",
+  "Inhaltsverzeichnis eingefügt. Es füllt sich aus den Kapiteln."
+ ],
+ "Obsah – vytváří se sám z kapitol": [
+  "Table of contents – built automatically from chapters",
+  "Inhaltsverzeichnis – entsteht automatisch aus den Kapiteln"
+ ],
+ "Obálka": [
+  "Cover",
+  "Umschlag"
+ ],
+ "Obálka je připravená. Nezapomeňte nastavení uložit.": [
+  "The cover is ready. Don't forget to save the settings.",
+  "Der Umschlag ist fertig. Vergessen Sie nicht, die Einstellungen zu speichern."
+ ],
+ "Obálka knihy": [
+  "Book cover",
+  "Buchumschlag"
+ ],
+ "Obálka se použije v PDF i v e-knize. Doporučený poměr stran 1 : 1,6.": [
+  "The cover is used in the PDF and the e-book. Recommended aspect ratio 1 : 1.6.",
+  "Der Umschlag wird in PDF und E-Book verwendet. Empfohlenes Seitenverhältnis 1 : 1,6."
+ ],
+ "Obálku se nepodařilo uložit:": [
+  "The cover could not be saved: ",
+  "Der Umschlag konnte nicht gespeichert werden: "
+ ],
+ "Oddíl – 3. úroveň": [
+  "Section – level 3",
+  "Abschnitt – Ebene 3"
+ ],
+ "Odebere tuto zdrojovou knihu z aplikace. Na serveru se přesune do koše, nic se nesmaže natrvalo.": [
+  "Removes this source book from the app. On the server it moves to the trash; nothing is deleted permanently.",
+  "Entfernt dieses Quellenbuch aus der App. Auf dem Server kommt es in den Papierkorb, nichts wird endgültig gelöscht."
+ ],
+ "Odebrat": [
+  "Remove",
+  "Entfernen"
+ ],
+ "Odebrat stranu": [
+  "Remove page",
+  "Seite entfernen"
+ ],
+ "Odebrat tuto zdrojovou knihu": [
+  "Remove this source book",
+  "Dieses Quellenbuch entfernen"
+ ],
+ "Odebrat vše": [
+  "Remove all",
+  "Alle entfernen"
+ ],
+ "Odebrat zdrojovou knihu „{title}“?": [
+  "Remove the source book “{title}”?",
+  "Quellenbuch „{title}“ entfernen?"
+ ],
+ "Odeslat": [
+  "Send",
+  "Senden"
+ ],
+ "Odesílám…": [
+  "Sending…",
+  "Wird gesendet…"
+ ],
+ "Odhlásit": [
+  "Log out",
+  "Abmelden"
+ ],
+ "Odkud obrázek pochází (kniha, archiv, web, fotograf)…": [
+  "Where the image comes from (book, archive, web, photographer)…",
+  "Woher das Bild stammt (Buch, Archiv, Web, Fotograf)…"
+ ],
+ "Odpovědět": [
+  "Reply",
+  "Antworten"
+ ],
+ "Odpověď na komentář": [
+  "Reply to the comment",
+  "Antwort auf den Kommentar"
+ ],
+ "Odpověď vložena do rukopisu.": [
+  "Answer inserted into the manuscript.",
+  "Antwort ins Manuskript eingefügt."
+ ],
+ "Odpověď vzniká pomocí AI jen z přepsaných knih a rukopisu a u každého tvrzení je číslo zdroje.": [
+  "The answer is created by AI only from the transcribed books and the manuscript, with a source number for every statement.",
+  "Die Antwort entsteht mit KI nur aus den transkribierten Büchern und dem Manuskript, jede Aussage mit Quellennummer."
+ ],
+ "Odpověď zastavena.": [
+  "Answer stopped.",
+  "Antwort angehalten."
+ ],
+ "Odrážky": [
+  "Bullets",
+  "Aufzählung"
+ ],
+ "Odstavec": [
+  "Paragraph",
+  "Absatz"
+ ],
+ "Odstavec ještě nebyl upraven.": [
+  "The paragraph has not been edited yet.",
+  "Der Absatz wurde noch nicht bearbeitet."
+ ],
+ "Odstavec vložen do rukopisu.": [
+  "Paragraph inserted into the manuscript.",
+  "Absatz ins Manuskript eingefügt."
+ ],
+ "Odstavec vrácen do původní podoby.": [
+  "Paragraph restored to its original form.",
+  "Absatz in die ursprüngliche Form zurückgesetzt."
+ ],
+ "Odstranit": [
+  "Remove",
+  "Entfernen"
+ ],
+ "Odstranit obrázek z textu?\\n(Lze vrátit tlačítkem Zpět nebo z historie.)": [
+  "Remove the image from the text?\\n(Can be undone with Undo or from history.)",
+  "Bild aus dem Text entfernen?\\n(Rückgängig mit Zurück oder über den Verlauf.)"
+ ],
+ "Okomentovat označený text. Komentáře se do tisku ani e-knihy nedostanou.": [
+  "Comment on the selected text. Comments never appear in print or the e-book.",
+  "Den markierten Text kommentieren. Kommentare erscheinen weder im Druck noch im E-Book."
+ ],
+ "Ollama (běží tam, kde aplikace)": [
+  "Ollama (runs where the app runs)",
+  "Ollama (läuft dort, wo die App läuft)"
+ ],
+ "OpenAI (vlastní klíč)": [
+  "OpenAI (own key)",
+  "OpenAI (eigener Schlüssel)"
+ ],
+ "Opravte transkripci": [
+  "Correct the transcription",
+  "Korrigieren Sie die Transkription"
+ ],
+ "Originál": [
+  "Original",
+  "Original"
+ ],
+ "Originál + překlad": [
+  "Original + translation",
+  "Original + Übersetzung"
+ ],
+ "Originál a rukopis vedle sebe – vyřezávání obrázků do rukopisu": [
+  "Original and manuscript side by side – cutting images into the manuscript",
+  "Original und Manuskript nebeneinander – Bilder ins Manuskript ausschneiden"
+ ],
+ "Originál a transkripce vedle sebe – čtení a opravy transkripce": [
+  "Original and transcription side by side – reading and correcting the transcription",
+  "Original und Transkription nebeneinander – Lesen und Korrigieren der Transkription"
+ ],
+ "Osnova": [
+  "Outline",
+  "Gliederung"
+ ],
+ "Osnova rukopisu": [
+  "Manuscript outline",
+  "Gliederung des Manuskripts"
+ ],
+ "Otevře obsah rukopisu (kapitoly, kliknutím na ně skočíte) a schránku s texty a obrázky, které jste si odložili.": [
+  "Opens the manuscript contents (chapters, click to jump) and the clipboard with texts and images you put aside.",
+  "Öffnet den Inhalt des Manuskripts (Kapitel, Klick springt hin) und die Ablage mit beiseitegelegten Texten und Bildern."
+ ],
+ "Otevře rukopis připravený k tisku – v okně tisku lze zvolit Uložit jako PDF": [
+  "Opens the manuscript ready for printing – in the print window you can choose Save as PDF",
+  "Öffnet das druckfertige Manuskript – im Druckfenster können Sie Als PDF speichern wählen"
+ ],
+ "Otevřít": [
+  "Open",
+  "Öffnen"
+ ],
+ "Otevřít knihu": [
+  "Open the book",
+  "Buch öffnen"
+ ],
+ "Otevřít knihu (zbytek se dočte)": [
+  "Open the book (the rest is still being read)",
+  "Buch öffnen (der Rest wird noch gelesen)"
+ ],
+ "Otočit o 90°": [
+  "Rotate by 90°",
+  "Um 90° drehen"
+ ],
+ "Otočit o 90° doleva": [
+  "Rotate 90° left",
+  "Um 90° nach links drehen"
+ ],
+ "Otočit o 90° doprava": [
+  "Rotate 90° right",
+  "Um 90° nach rechts drehen"
+ ],
+ "Ovládací prvek": [
+  "Control",
+  "Bedienelement"
+ ],
+ "Ověřovat certifikát HTTPS": [
+  "Verify the HTTPS certificate",
+  "HTTPS-Zertifikat prüfen"
+ ],
+ "Označený text byl z rukopisu smazán.": [
+  "The marked text has been deleted from the manuscript.",
+  "Der markierte Text wurde aus dem Manuskript gelöscht."
+ ],
+ "Označte v rukopisu text a v nástrojích zvolte": [
+  "Select text in the manuscript and in the tools choose",
+  "Markieren Sie Text im Manuskript und wählen Sie in den Werkzeugen"
+ ],
+ "Označí podezřelá slova (neznámá slovníku nebo typické chyby čtení) a tlačítkem <b>Další</b> mezi nimi skáče. Správná jména přidáte <b>Do slovníku</b>. Stejné tlačítko je i u transkripce.": [
+  "Marks suspicious words (unknown to the dictionary or typical reading errors) and jumps between them with <b>Next</b>. Add correct names <b>To dictionary</b>. The same button is also in the transcription.",
+  "Markiert verdächtige Wörter (dem Wörterbuch unbekannt oder typische Lesefehler) und springt mit <b>Weiter</b> zwischen ihnen. Richtige Namen fügen Sie <b>Ins Wörterbuch</b> hinzu. Dieselbe Schaltfläche gibt es auch bei der Transkription."
+ ],
+ "Označí podezřelá slova (neznámá slovníku nebo typické chyby čtení) a tlačítkem <b>Další</b> mezi nimi skáče. Správná jména uložíte do slovníku knihy, nebo do centrálního slovníku pro všechny knihy. Stejné tlačítko je i u transkripce.": [
+  "Marks suspicious words (unknown to the dictionary or typical reading errors) and jumps between them with <b>Next</b>. Save correct names to the book's dictionary, or to the central dictionary for all books. The same button is also in the transcription.",
+  "Markiert verdächtige Wörter (dem Wörterbuch unbekannt oder typische Lesefehler) und springt mit <b>Weiter</b> zwischen ihnen. Richtige Namen speichern Sie im Wörterbuch des Buches oder im zentralen Wörterbuch für alle Bücher. Dieselbe Schaltfläche gibt es auch bei der Transkription."
+ ],
+ "PDF {name} se nepodařilo otevřít: {error}": [
+  "PDF {name} could not be opened: {error}",
+  "PDF {name} konnte nicht geöffnet werden: {error}"
+ ],
+ "PIN": [
+  "PIN",
+  "PIN"
+ ],
+ "Palatino": [
+  "Palatino",
+  "Palatino"
+ ],
+ "Pište a upravujte": [
+  "Write and edit",
+  "Schreiben und bearbeiten"
+ ],
+ "Pod odstavcem v transkripci klikněte na <b>Do rukopisu</b>. Do rukopisu se vloží odsazená citace a pod ní název knihy se stránkou. Pokud ji chcete mít jako běžný text, změňte v rukopisu typ odstavce na <b>Běžný text</b>.": [
+  "Below a paragraph in the transcription click <b>To manuscript</b>. An indented quotation is inserted into the manuscript with the book title and page below it. If you want it as normal text, change the paragraph type in the manuscript to <b>Normal text</b>.",
+  "Klicken Sie unter einem Absatz der Transkription auf <b>Ins Manuskript</b>. Ein eingerücktes Zitat mit Buchtitel und Seite wird eingefügt. Als normalen Text erhalten Sie es, indem Sie im Manuskript den Absatztyp auf <b>Normaler Text</b> ändern."
+ ],
+ "Pod odstavcem v transkripci klikněte na <b>Jako citace</b>. Do rukopisu se vloží odsazená citace a pod ní název knihy se stránkou.": [
+  "Below a paragraph in the transcription click <b>As quotation</b>. An indented quotation is inserted into the manuscript with the book title and page below it.",
+  "Klicken Sie unter einem Absatz der Transkription auf <b>Als Zitat</b>. Ins Manuskript wird ein eingerücktes Zitat mit Buchtitel und Seite eingefügt."
+ ],
+ "Podkapitola (2. úroveň)": [
+  "Subchapter (level 2)",
+  "Unterkapitel (Ebene 2)"
+ ],
+ "Podkapitola – 2. úroveň": [
+  "Subchapter – level 2",
+  "Unterkapitel – Ebene 2"
+ ],
+ "Podpis": [
+  "Signature",
+  "Unterschrift"
+ ],
+ "Podpora": [
+  "Support",
+  "Support"
+ ],
+ "Podtitul": [
+  "Subtitle",
+  "Untertitel"
+ ],
+ "Podtrh.": [
+  "Underl.",
+  "Unterstr."
+ ],
+ "Podtrhnout": [
+  "Underline",
+  "Unterstreichen"
+ ],
+ "Poděkování": [
+  "Acknowledgements",
+  "Danksagung"
+ ],
+ "Pojmenujte verzi (např. „hotová kapitola 2“):": [
+  "Name the version (e.g. “finished chapter 2”):",
+  "Benennen Sie die Version (z. B. „Kapitel 2 fertig“):"
+ ],
+ "Pokračovat v psaní": [
+  "Continue writing",
+  "Weiterschreiben"
+ ],
+ "Popis": [
+  "Description",
+  "Beschreibung"
+ ],
+ "Popisek": [
+  "Caption",
+  "Bildunterschrift"
+ ],
+ "Popisek a zdroj obrázku": [
+  "Image caption and source",
+  "Bildunterschrift und Quelle"
+ ],
+ "Popisek a zdroj uloženy.": [
+  "Caption and source saved.",
+  "Bildunterschrift und Quelle gespeichert."
+ ],
+ "Popisek obrázku…": [
+  "Image caption…",
+  "Bildunterschrift…"
+ ],
+ "Použité zdroje": [
+  "Sources used",
+  "Verwendete Quellen"
+ ],
+ "Použít barevný přechod (shora dolů)": [
+  "Use a colour gradient (top to bottom)",
+  "Farbverlauf verwenden (von oben nach unten)"
+ ],
+ "Použít obálku": [
+  "Use the cover",
+  "Umschlag verwenden"
+ ],
+ "Používá se model nastavený na serveru (": [
+  "Using the model set on the server (",
+  "Es wird das auf dem Server eingestellte Modell verwendet ("
+ ],
+ "Pozadí": [
+  "Background",
+  "Hintergrund"
+ ],
+ "Poznámka": [
+  "Footnote",
+  "Fußnote"
+ ],
+ "Poznámka odstraněna.": [
+  "Footnote removed.",
+  "Fußnote entfernt."
+ ],
+ "Poznámka pod čarou": [
+  "Footnote",
+  "Fußnote"
+ ],
+ "Poznámka pod čarou vložena.": [
+  "Footnote inserted.",
+  "Fußnote eingefügt."
+ ],
+ "Poznámka pod čarou {n}": [
+  "Footnote {n}",
+  "Fußnote {n}"
+ ],
+ "Poznámka {n}: {text}": [
+  "Footnote {n}: {text}",
+  "Fußnote {n}: {text}"
+ ],
+ "Poznámky": [
+  "Footnotes",
+  "Fußnoten"
+ ],
+ "Prolnout okraje do pozadí": [
+  "Fade the edges into the background",
+  "Ränder in den Hintergrund übergehen lassen"
+ ],
+ "Publisher": [
+  "Publisher",
+  "Publisher"
+ ],
+ "Písmo": [
+  "Font",
+  "Schrift"
+ ],
+ "Písmo…": [
+  "Font…",
+  "Schrift…"
+ ],
+ "Píšu odpověď…": [
+  "Writing the answer…",
+  "Antwort wird geschrieben…"
+ ],
+ "Píšu s citacemi": [
+  "Writing with quotations",
+  "Schreiben mit Zitaten"
+ ],
+ "Přechod do barvy": [
+  "Gradient to colour",
+  "Verlauf zur Farbe"
+ ],
+ "Předchozí": [
+  "Previous",
+  "Zurück"
+ ],
+ "Předchozí podezřelé slovo": [
+  "Previous suspicious word",
+  "Vorheriges verdächtiges Wort"
+ ],
+ "Předchozí strana": [
+  "Previous page",
+  "Vorherige Seite"
+ ],
+ "Přenos do rukopisu se nepovedl:": [
+  "Transfer to manuscript failed:",
+  "Übertragung ins Manuskript fehlgeschlagen:"
+ ],
+ "Přenášejte do rukopisu": [
+  "Move into the manuscript",
+  "Ins Manuskript übernehmen"
+ ],
+ "Přepnout světlý a tmavý vzhled": [
+  "Switch between light and dark appearance",
+  "Zwischen heller und dunkler Darstellung wechseln"
+ ],
+ "Přesunout na stranu": [
+  "Move to page",
+  "Auf Seite verschieben"
+ ],
+ "Převést na černobílý obrázek": [
+  "Convert to black and white",
+  "In Schwarzweiß umwandeln"
+ ],
+ "Přečíst strany bez textu": [
+  "Read pages without text",
+  "Seiten ohne Text lesen"
+ ],
+ "Přečíst text této strany znovu (umělá inteligence nebo Tesseract). Současný text se nahradí, předchozí stav zůstane v historii.": [
+  "Read the text of this page again (AI or Tesseract). The current text is replaced; the previous state stays in the history.",
+  "Den Text dieser Seite erneut lesen (KI oder Tesseract). Der aktuelle Text wird ersetzt, der vorherige Stand bleibt im Verlauf."
+ ],
+ "Přečíst text všech stran, které ho zatím nemají": [
+  "Read the text of all pages that have none yet",
+  "Den Text aller Seiten lesen, die noch keinen haben"
+ ],
+ "Přečíst {n} stran bez textu?": [
+  "Read {n} pages without text?",
+  "{n} Seiten ohne Text lesen?"
+ ],
+ "Přiblížení (ořez) fotografie": [
+  "Photo zoom (crop)",
+  "Zoom (Zuschnitt) des Fotos"
+ ],
+ "Přidat do knihovny": [
+  "Add to library",
+  "Zur Bibliothek hinzufügen"
+ ],
+ "Přidat do této knihy další naskenované strany nebo PDF": [
+  "Add more scanned pages or a PDF to this book",
+  "Weitere gescannte Seiten oder ein PDF zu diesem Buch hinzufügen"
+ ],
+ "Přidat obrázky ze souboru do knihovny": [
+  "Add images from file to the library",
+  "Bilder aus Datei zur Bibliothek hinzufügen"
+ ],
+ "Přidat slovo do slovníku – už se nebude označovat nikde": [
+  "Add the word to the dictionary – it will not be marked anywhere again",
+  "Wort ins Wörterbuch aufnehmen – es wird nirgends mehr markiert"
+ ],
+ "Přidat strany do zdrojové knihy": [
+  "Add pages to the source book",
+  "Seiten zum Quellenbuch hinzufügen"
+ ],
+ "Přidat zdrojovou knihu": [
+  "Add a source book",
+  "Quellenbuch hinzufügen"
+ ],
+ "Přidejte zdrojové knihy": [
+  "Add source books",
+  "Fügen Sie Quellenbücher hinzu"
+ ],
+ "Přihlásit se": [
+  "Log in",
+  "Anmelden"
+ ],
+ "Přihlášen:": [
+  "Logged in:",
+  "Angemeldet:"
+ ],
+ "Přihlášení – Publisher": [
+  "Login – Publisher",
+  "Anmeldung – Publisher"
+ ],
+ "Připojení pro Claude (MCP)": [
+  "Connection for Claude (MCP)",
+  "Verbindung für Claude (MCP)"
+ ],
+ "Připravuji stránky…": [
+  "Preparing pages…",
+  "Seiten werden vorbereitet…"
+ ],
+ "Připraví knihu po stránkách: obálka, titulní strana, tiráž, obsah s čísly stránek, záhlaví a zápatí. Pak klikněte na <b>Tisk / uložit jako PDF</b> a v okně tisku zvolte <b>Uložit jako PDF</b>.": [
+  "Lays the book out in pages: cover, title page, colophon, table of contents with page numbers, header and footer. Then click <b>Print / save as PDF</b> and in the print window choose <b>Save as PDF</b>.",
+  "Bricht das Buch in Seiten um: Umschlag, Titelseite, Impressum, Inhaltsverzeichnis mit Seitenzahlen, Kopf- und Fußzeile. Dann klicken Sie auf <b>Drucken / als PDF speichern</b> und wählen im Druckfenster <b>Als PDF speichern</b>."
+ ],
+ "Přístupy a změny": [
+  "Access and changes",
+  "Zugriffe und Änderungen"
+ ],
+ "Původní strana: {title}, s. {n}. Rámeček můžete rozšířit.": [
+  "Original page: {title}, p. {n}. You can widen the frame.",
+  "Originalseite: {title}, S. {n}. Sie können den Rahmen erweitern."
+ ],
+ "Původní strana: {title}, {n}. strana skenu. Rámeček můžete rozšířit.": [
+  "Original page: {title}, scan page {n}. You can widen the frame.",
+  "Originalseite: {title}, Scanseite {n}. Sie können den Rahmen erweitern."
+ ],
+ "Režim vysvětlivek": [
+  "Explanation mode",
+  "Erklärmodus"
+ ],
+ "Rok vydání": [
+  "Year of publication",
+  "Erscheinungsjahr"
+ ],
+ "Rozvržení": [
+  "Layout",
+  "Aufteilung"
+ ],
+ "Rozšířit sloupec": [
+  "Widen the column",
+  "Spalte verbreitern"
+ ],
+ "Rukopis": [
+  "Manuscript",
+  "Manuskript"
+ ],
+ "Rukopis byl mezitím uložen z jiného okna.\\n\\nOK = ponechat tento text a uložit ho (druhá verze zůstane v historii)\\nZrušit = načíst text z druhého okna": [
+  "The manuscript was saved from another window in the meantime.\\n\\nOK = keep this text and save it (the other version stays in history)\\nCancel = load the text from the other window",
+  "Das Manuskript wurde inzwischen in einem anderen Fenster gespeichert.\\n\\nOK = diesen Text behalten und speichern (die andere Version bleibt im Verlauf)\\nAbbrechen = Text aus dem anderen Fenster laden"
+ ],
+ "Rukopis se stahuje jako soubor HTML (otevře se v prohlížeči i ve Wordu).": [
+  "The manuscript is downloading as an HTML file (opens in a browser and in Word).",
+  "Das Manuskript wird als HTML-Datei heruntergeladen (öffnet sich im Browser und in Word)."
+ ],
+ "Rychlé rozložení": [
+  "Quick layout",
+  "Schnelles Layout"
+ ],
+ "Rámeček kolem obrázku": [
+  "Frame around the picture",
+  "Rahmen um das Bild"
+ ],
+ "S touto adresou může Claude (aplikace Claude na počítači nebo claude.ai) v rámci vašeho předplatného číst naskenované strany zdrojových knih a psát nebo opravovat jejich transkripci. Kdo adresu zná, má ke knihám přístup – nesdílejte ji. Novou adresou tu starou zrušíte.": [
+  "With this address Claude (the Claude desktop app or claude.ai) can read the scanned pages of source books and write or correct their transcription within your subscription. Anyone who knows the address has access to the books – do not share it. A new address cancels the old one.",
+  "Mit dieser Adresse kann Claude (die Claude-App auf dem Computer oder claude.ai) im Rahmen Ihres Abonnements die gescannten Seiten der Quellenbücher lesen und ihre Transkription schreiben oder korrigieren. Wer die Adresse kennt, hat Zugriff auf die Bücher – geben Sie sie nicht weiter. Eine neue Adresse macht die alte ungültig."
+ ],
+ "Schránka": [
+  "Clipboard",
+  "Ablage"
+ ],
+ "Schránka je prázdná.": [
+  "The clipboard is empty.",
+  "Die Ablage ist leer."
+ ],
+ "Sem chodí, co pošlete z transkripce, když je rukopis skrytý. Klikněte do textu a stiskněte": [
+  "Items you send from the transcription while the manuscript is hidden land here. Click into the text and press",
+  "Hier landet, was Sie aus der Transkription senden, während das Manuskript ausgeblendet ist. Klicken Sie in den Text und drücken Sie"
+ ],
+ "Sem přetáhněte fotografie nebo PDF": [
+  "Drag photos or a PDF here",
+  "Fotos oder PDF hierher ziehen"
+ ],
+ "Sem se kdykoli vrátíte. Najdete tu tohoto průvodce, režim vysvětlivek, návody „Jak na to“ a formulář pro nahlášení chyby nebo nápadu.": [
+  "You can always come back here. You will find this guide, explanation mode, how-to guides and a form for reporting a bug or idea.",
+  "Hierher kommen Sie jederzeit zurück. Hier finden Sie diesen Rundgang, den Erklärmodus, Anleitungen und ein Formular für Fehler oder Ideen."
+ ],
+ "Seřadit podle názvu souborů": [
+  "Sort by file name",
+  "Nach Dateiname sortieren"
+ ],
+ "Sken na šířku": [
+  "Landscape scan",
+  "Querformat-Scan"
+ ],
+ "Sloupce": [
+  "Columns",
+  "Spalten"
+ ],
+ "Smazat komentář? Text v rukopisu zůstane, jen se přestane zvýrazňovat.": [
+  "Delete the comment? The text in the manuscript stays, it just stops being highlighted.",
+  "Kommentar löschen? Der Text im Manuskript bleibt, er wird nur nicht mehr hervorgehoben."
+ ],
+ "Smaže otázku, odpověď i zdroje": [
+  "Clears the question, answer and sources",
+  "Löscht Frage, Antwort und Quellen"
+ ],
+ "Snímek obrazovky na Macu: Cmd+Shift+4. Můžete ho sem také vložit pomocí Cmd+V.": [
+  "Screenshot on a Mac: Cmd+Shift+4. You can also paste it here with Cmd+V.",
+  "Bildschirmfoto am Mac: Cmd+Shift+4. Sie können es auch mit Cmd+V hier einfügen."
+ ],
+ "Současný text strany se nahradí nově přečteným. Předchozí stav zůstane v Historii transkripce.": [
+  "The current text of the page is replaced by newly read text. The previous state stays in the transcription history.",
+  "Der aktuelle Text der Seite wird durch neu gelesenen ersetzt. Der vorherige Stand bleibt im Transkriptionsverlauf."
+ ],
+ "Spojení se přerušilo:": [
+  "The connection was interrupted:",
+  "Die Verbindung wurde unterbrochen:"
+ ],
+ "Spojit s předchozím textem (i z předchozí strany)": [
+  "Merge with the previous text (also from the previous page)",
+  "Mit dem vorherigen Text zusammenführen (auch von der vorherigen Seite)"
+ ],
+ "Srovnat perspektivu (4 rohy)": [
+  "Straighten perspective (4 corners)",
+  "Perspektive begradigen (4 Ecken)"
+ ],
+ "Starší verze rukopisu": [
+  "Older manuscript versions",
+  "Ältere Versionen des Manuskripts"
+ ],
+ "Strana zatím nemá žádný obsah.": [
+  "The page has no content yet.",
+  "Die Seite hat noch keinen Inhalt."
+ ],
+ "Strana {i} ({name}) se nenahrála: {error}": [
+  "Page {i} ({name}) was not uploaded: {error}",
+  "Seite {i} ({name}) wurde nicht hochgeladen: {error}"
+ ],
+ "Strana {i}: {error}": [
+  "Page {i}: {error}",
+  "Seite {i}: {error}"
+ ],
+ "Stranu se nepodařilo vložit:": [
+  "Could not insert the page:",
+  "Seite konnte nicht eingefügt werden:"
+ ],
+ "Stáhne celý rukopis i s obrázky jako jednu webovou stránku (HTML)": [
+  "Downloads the whole manuscript with images as one web page (HTML)",
+  "Lädt das ganze Manuskript mit Bildern als eine Webseite (HTML) herunter"
+ ],
+ "Stáhne celý váš rukopis i s obrázky jako jeden soubor. Otevře se v prohlížeči i ve Wordu. Tlačítko <b>Export transkripce</b> vlevo dole naopak ukládá transkripci zdrojové knihy.": [
+  "Downloads your whole manuscript with images as one file. It opens in a browser and in Word. The <b>Export transcription</b> button at the bottom left saves the transcription of the source book instead.",
+  "Lädt Ihr ganzes Manuskript mit Bildern als eine Datei herunter. Sie öffnet sich im Browser und in Word. Die Schaltfläche <b>Transkription exportieren</b> unten links speichert dagegen die Transkription des Quellbuchs."
+ ],
+ "Stáhne knihu jako e-knihu EPUB s obálkou, tiráží a obsahem – funguje ve čtečkách i v Kindle": [
+  "Downloads the book as an EPUB e-book with cover, colophon and contents – works in readers and on Kindle",
+  "Lädt das Buch als EPUB-E-Book mit Umschlag, Impressum und Inhalt herunter – funktioniert in Readern und auf dem Kindle"
+ ],
+ "Stáhne knihu jako e-knihu EPUB s obálkou, tiráží a obsahem. Otevře se ve čtečkách a v Kindlu (přes „Send to Kindle“).": [
+  "Downloads the book as an EPUB e-book with cover, colophon and contents. It opens in e-readers and on Kindle (via “Send to Kindle”).",
+  "Lädt das Buch als EPUB-E-Book mit Umschlag, Impressum und Inhalt herunter. Es öffnet sich in E-Readern und auf dem Kindle (über „Send to Kindle“)."
+ ],
+ "Střed": [
+  "Centre",
+  "Mitte"
+ ],
+ "Sytost barev": [
+  "Saturation",
+  "Sättigung"
+ ],
+ "Sépie": [
+  "Sepia",
+  "Sepia"
+ ],
+ "Tady se nastavuje jazykový model pro Dotaz a pro čtení stran nových knih: model na serveru, vlastní klíč OpenAI či Anthropic, nebo model v počítači (LM Studio, Ollama). Je tu i adresa pro připojení Claude (MCP).": [
+  "Here you set the language model for Ask and for reading the pages of new books: the model on the server, your own OpenAI or Anthropic key, or a model on a computer (LM Studio, Ollama). The address for connecting Claude (MCP) is here too.",
+  "Hier wird das Sprachmodell für Fragen und für das Lesen der Seiten neuer Bücher eingestellt: das Modell auf dem Server, ein eigener OpenAI- oder Anthropic-Schlüssel oder ein Modell auf einem Computer (LM Studio, Ollama). Hier ist auch die Adresse zum Verbinden von Claude (MCP)."
+ ],
+ "Tady se nastavuje jazykový model pro Dotaz: model na serveru, vlastní klíč OpenAI či Anthropic, nebo model v počítači (LM Studio, Ollama).": [
+  "Set the language model for Ask here: a model on the server, your own OpenAI or Anthropic key, or a model on your computer (LM Studio, Ollama).",
+  "Hier stellen Sie das Sprachmodell für Fragen ein: ein Modell auf dem Server, ein eigener OpenAI- oder Anthropic-Schlüssel oder ein Modell auf Ihrem Computer (LM Studio, Ollama)."
+ ],
+ "Tažení po obrázku:": [
+  "Dragging on the picture:",
+  "Ziehen auf dem Bild:"
+ ],
+ "Tažením na skenu vyznač nový výřez obrázku.": [
+  "Drag on the scan to mark a new image area.",
+  "Ziehen Sie auf dem Scan, um einen neuen Bildausschnitt zu markieren."
+ ],
+ "Tažením na skenu vyznač obrázek. Esc = zrušit.": [
+  "Drag on the scan to mark the image. Esc = cancel.",
+  "Ziehen Sie auf dem Scan, um das Bild zu markieren. Esc = abbrechen."
+ ],
+ "Tažením na skenu vyříznete obrázek do transkripce": [
+  "Drag on the scan to cut an image into the transcription",
+  "Ziehen Sie auf dem Scan, um ein Bild in die Transkription auszuschneiden"
+ ],
+ "Tažením na skenu vyříznete obrázek rovnou do rukopisu": [
+  "Drag on the scan to cut an image straight into the manuscript",
+  "Ziehen Sie auf dem Scan, um ein Bild direkt ins Manuskript auszuschneiden"
+ ],
+ "Teplý tón starých fotografií": [
+  "Warm tone of old photographs",
+  "Warmer Ton alter Fotografien"
+ ],
+ "Text": [
+  "Text",
+  "Text"
+ ],
+ "Text i fotografii posunete tažením myší (prstem) po obálce. Kolečko nad textem mění velikost textu, nad fotografií její přiblížení.": [
+  "Move the text and the photo by dragging them on the cover with the mouse (or finger). The wheel over the text changes its size, over the photo its zoom.",
+  "Text und Foto verschieben Sie durch Ziehen auf dem Umschlag mit der Maus (oder dem Finger). Das Mausrad über dem Text ändert seine Größe, über dem Foto den Zoom."
+ ],
+ "Text knihy je přečtený": [
+  "The text of the book has been read",
+  "Der Text des Buches ist gelesen"
+ ],
+ "Text na fotografii": [
+  "Text on the photo",
+  "Text auf dem Foto"
+ ],
+ "Text posunete tažením myší (prstem) po obálce, kolečkem nad ním změníte jeho velikost.": [
+  "Move the text by dragging it on the cover with the mouse (or finger); the wheel over it changes its size.",
+  "Den Text verschieben Sie durch Ziehen auf dem Umschlag; das Mausrad darüber ändert seine Größe."
+ ],
+ "Text poznámky": [
+  "Footnote text",
+  "Text der Fußnote"
+ ],
+ "Text poznámky – v tisku a PDF bude dole na stránce, v e-knize na konci kapitoly": [
+  "Footnote text – in print and PDF at the bottom of the page, in the e-book at the end of the chapter",
+  "Text der Fußnote – im Druck und PDF unten auf der Seite, im E-Book am Kapitelende"
+ ],
+ "Text přečtený ze skenu. Opravujte ho přímo v textu. Pod každým odstavcem je tlačítko <b>Do rukopisu</b> (přenese text) a <b>Jako citace</b> (vloží ho jako citaci se zdrojem).": [
+  "Text read from the scan. Correct it directly in the text. Below each paragraph are the buttons <b>To manuscript</b> (moves the text) and <b>As quotation</b> (inserts it as a quotation with the source).",
+  "Aus dem Scan gelesener Text. Korrigieren Sie ihn direkt im Text. Unter jedem Absatz gibt es <b>Ins Manuskript</b> (übernimmt den Text) und <b>Als Zitat</b> (fügt ihn als Zitat mit Quelle ein)."
+ ],
+ "Text přečtený ze skenu. Opravujte ho přímo v textu. Pod každým odstavcem je tlačítko <b>Do rukopisu</b>, které text vloží do rukopisu jako citaci s uvedením zdroje.": [
+  "Text read from the scan. Correct it directly in the text. Below each paragraph is the <b>To manuscript</b> button, which inserts the text into the manuscript as a quotation with its source.",
+  "Aus dem Scan gelesener Text. Korrigieren Sie ihn direkt im Text. Unter jedem Absatz fügt <b>Ins Manuskript</b> den Text als Zitat mit Quelle ins Manuskript ein."
+ ],
+ "Text spojen s předchozím odstavcem.": [
+  "Text merged with the previous paragraph.",
+  "Text mit dem vorherigen Absatz zusammengeführt."
+ ],
+ "Text stran bez textu se doplní nově přečteným. Předchozí stav zůstane v Historii transkripce.": [
+  "Pages without text get newly read text. The previous state stays in the transcription history.",
+  "Seiten ohne Text erhalten neu gelesenen Text. Der vorherige Stand bleibt im Transkriptionsverlauf."
+ ],
+ "Text v záhlaví stránek": [
+  "Text in the page header",
+  "Text in der Kopfzeile"
+ ],
+ "Text zkontrolujte proti skenu, nejlépe s Korekturou.": [
+  "Check the text against the scan, ideally with Proofreading.",
+  "Prüfen Sie den Text am Scan, am besten mit der Korrektur."
+ ],
+ "Times (klasické)": [
+  "Times (classic)",
+  "Times (klassisch)"
+ ],
+ "Tiráž": [
+  "Colophon",
+  "Impressum"
+ ],
+ "Tisk / PDF": [
+  "Print / PDF",
+  "Drucken / PDF"
+ ],
+ "Tisk / uložit jako PDF": [
+  "Print / save as PDF",
+  "Drucken / als PDF speichern"
+ ],
+ "Tisk A4": [
+  "Print A4",
+  "Druck A4"
+ ],
+ "Tisk a e-kniha": [
+  "Print and e-book",
+  "Druck und E-Book"
+ ],
+ "Titulní strana": [
+  "Title page",
+  "Titelseite"
+ ],
+ "Tlačítkem <b>A+</b> vpravo nahoře zvětšíte celou aplikaci. V rukopisu je ještě vlastní <b>A+</b> jen pro text.": [
+  "The <b>A+</b> button at the top right enlarges the whole app. The manuscript also has its own <b>A+</b> for the text only.",
+  "Mit <b>A+</b> oben rechts vergrößern Sie die ganze App. Das Manuskript hat zusätzlich ein eigenes <b>A+</b> nur für den Text."
+ ],
+ "Tlačítky zapínáte a vypínáte sloupce: <b>Originál</b> (sken), <b>Transkripce</b> (text ze skenu), <b>Rukopis</b> (vaše kniha), <b>Dotaz</b> (otázky na knihy) a <b>Obrázky</b>. Zapnuté tlačítko je modré.": [
+  "These buttons switch columns on and off: <b>Original</b> (scan), <b>Transcription</b> (text from the scan), <b>Manuscript</b> (your book), <b>Ask</b> (questions about the books) and <b>Images</b>. A button that is on is blue.",
+  "Mit diesen Schaltflächen schalten Sie Spalten ein und aus: <b>Original</b> (Scan), <b>Transkription</b> (Text aus dem Scan), <b>Manuskript</b> (Ihr Buch), <b>Frage</b> (Fragen zu den Büchern) und <b>Bilder</b>. Eine eingeschaltete Schaltfläche ist blau."
+ ],
+ "Toto místo je v pořádku, už ho neukazovat": [
+  "This place is fine, don't show it again",
+  "Diese Stelle ist in Ordnung, nicht mehr anzeigen"
+ ],
+ "Toto zařízení:": [
+  "This device: ",
+  "Dieses Gerät: "
+ ],
+ "Transkripce": [
+  "Transcription",
+  "Transkription"
+ ],
+ "Transkripce a rukopis vedle sebe – přenášení textů a citací": [
+  "Transcription and manuscript side by side – moving texts and quotations",
+  "Transkription und Manuskript nebeneinander – Texte und Zitate übernehmen"
+ ],
+ "Transkripce knih…": [
+  "Book transcriptions…",
+  "Transkriptionen von Büchern…"
+ ],
+ "Tučně": [
+  "Bold",
+  "Fett"
+ ],
+ "Typ odstavce": [
+  "Paragraph type",
+  "Absatztyp"
+ ],
+ "Táhni: přesun v rámci strany, nebo na náhled jiné strany vlevo": [
+  "Drag: move within the page, or onto another page's thumbnail on the left",
+  "Ziehen: innerhalb der Seite verschieben oder auf die Vorschau einer anderen Seite links"
+ ],
+ "Táhněte za bílé čtverečky v rozích, nebo uprostřed rámečku pro posun.": [
+  "Drag the white squares in the corners, or the middle of the frame to move it.",
+  "Ziehen Sie an den weißen Quadraten in den Ecken oder in der Mitte des Rahmens, um ihn zu verschieben."
+ ],
+ "Tři nejčastější rozložení na jedno kliknutí. Například <b>Píšu s citacemi</b> dá vedle sebe transkripci a rukopis.": [
+  "The three most common layouts in one click. For example <b>Writing with quotations</b> puts the transcription and the manuscript side by side.",
+  "Die drei häufigsten Layouts mit einem Klick. Zum Beispiel <b>Schreiben mit Zitaten</b> stellt Transkription und Manuskript nebeneinander."
+ ],
+ "U každé kapitoly uvést zdroj": [
+  "State the source for each chapter",
+  "Bei jedem Kapitel die Quelle angeben"
+ ],
+ "U modelu v počítači klíč obvykle není potřeba.": [
+  "A model on your computer usually needs no key.",
+  "Ein Modell auf Ihrem Computer braucht meist keinen Schlüssel."
+ ],
+ "U německých knih vložit": [
+  "For German books insert",
+  "Bei deutschen Büchern einfügen"
+ ],
+ "U transkripce i u rukopisu je tlačítko <b>Korektura</b>. Podezřelá slova se podbarví žlutě a dole se objeví panel. Tlačítkem <b>Další</b> skáčete po slovech, <b>Navrhnout opravu</b> nabídne správná slova a <b>Do slovníku knihy</b> nebo <b>Do centrálního slovníku</b> uloží jméno nebo starý tvar, aby se už neoznačoval jen v této knize, nebo ve všech knihách. Omylem upravený odstavec vrátíte tlačítkem <b>↺ původní text</b>.": [
+  "Both the transcription and the manuscript have a <b>Proofreading</b> button. Suspicious words are highlighted in yellow and a panel appears at the bottom. Use <b>Next</b> to jump between words, <b>Suggest a correction</b> offers correct words, and <b>To book dictionary</b> or <b>To central dictionary</b> saves a name or old spelling so it is no longer marked in this book, or in any book. Restore a paragraph edited by mistake with <b>↺ original text</b>.",
+  "Transkription und Manuskript haben die Schaltfläche <b>Korrektur</b>. Verdächtige Wörter werden gelb markiert, unten erscheint ein Bereich. Mit <b>Weiter</b> springen Sie von Wort zu Wort, <b>Korrektur vorschlagen</b> bietet richtige Wörter an, und <b>Ins Buchwörterbuch</b> oder <b>Ins zentrale Wörterbuch</b> speichert einen Namen oder eine alte Schreibweise, damit sie in diesem Buch oder in keinem Buch mehr markiert wird. Einen versehentlich geänderten Absatz stellen Sie mit <b>↺ Originaltext</b> wieder her."
+ ],
+ "U transkripce i u rukopisu je tlačítko <b>Korektura</b>. Podezřelá slova se podbarví žlutě a dole se objeví panel. Tlačítkem <b>Další</b> skáčete po slovech, <b>Navrhnout opravu</b> nabídne správná slova a <b>Do slovníku</b> přidá jméno nebo starý tvar, aby se už neoznačoval. Omylem upravený odstavec vrátíte tlačítkem <b>↺ původní text</b>.": [
+  "Both the transcription and the manuscript have a <b>Proofreading</b> button. Suspicious words are highlighted in yellow and a panel appears at the bottom. Use <b>Next</b> to jump between words, <b>Suggest a correction</b> offers correct words and <b>To dictionary</b> adds a name or old spelling so it is no longer marked. Restore a paragraph edited by mistake with <b>↺ original text</b>.",
+  "Transkription und Manuskript haben die Schaltfläche <b>Korrektur</b>. Verdächtige Wörter werden gelb markiert, unten erscheint ein Bereich. Mit <b>Weiter</b> springen Sie von Wort zu Wort, <b>Korrektur vorschlagen</b> bietet richtige Wörter an und <b>Ins Wörterbuch</b> nimmt einen Namen oder eine alte Schreibweise auf, damit sie nicht mehr markiert wird. Einen versehentlich geänderten Absatz stellen Sie mit <b>↺ Originaltext</b> wieder her."
+ ],
+ "Ukončit korekturu": [
+  "End proofreading",
+  "Korrektur beenden"
+ ],
+ "Ukázat v knize": [
+  "Show in book",
+  "Im Buch zeigen"
+ ],
+ "Ukázat v rukopisu": [
+  "Show in manuscript",
+  "Im Manuskript zeigen"
+ ],
+ "Uloženo do schránky rukopisu ✓ (rukopis je skrytý)": [
+  "Saved to the manuscript clipboard ✓ (the manuscript is hidden)",
+  "In der Manuskript-Ablage gespeichert ✓ (das Manuskript ist ausgeblendet)"
+ ],
+ "Uloženo.": [
+  "Saved.",
+  "Gespeichert."
+ ],
+ "Uloženo. Další dotazy už půjdou na tento model.": [
+  "Saved. Further questions will go to this model.",
+  "Gespeichert. Weitere Fragen gehen an dieses Modell."
+ ],
+ "Uložení selhalo:": [
+  "Saving failed:",
+  "Speichern fehlgeschlagen:"
+ ],
+ "Uložit": [
+  "Save",
+  "Speichern"
+ ],
+ "Uložit pojmenovanou verzi": [
+  "Save a named version",
+  "Benannte Version speichern"
+ ],
+ "Uložit slovo do centrálního slovníku aplikace – nebude se označovat v žádné knize": [
+  "Save the word to the app's central dictionary – it will not be marked in any book",
+  "Wort im zentralen Wörterbuch der App speichern – es wird in keinem Buch mehr markiert"
+ ],
+ "Uložit slovo do slovníku této knihy – v ní se už nebude označovat": [
+  "Save the word to this book's dictionary – it will no longer be marked in this book",
+  "Wort im Wörterbuch dieses Buches speichern – es wird darin nicht mehr markiert"
+ ],
+ "Uloží pojmenovanou verzi rukopisu, třeba „před úpravou kapitoly 3“. Kdykoli se k ní můžete vrátit.": [
+  "Saves a named version of the manuscript, e.g. “before editing chapter 3”. You can return to it at any time.",
+  "Speichert eine benannte Version des Manuskripts, z. B. „vor Bearbeitung von Kapitel 3“. Sie können jederzeit zu ihr zurückkehren."
+ ],
+ "Uloží transkripci této zdrojové knihy (ne váš rukopis) jako webovou stránku": [
+  "Saves the transcription of this source book (not your manuscript) as a web page",
+  "Speichert die Transkription dieses Quellbuchs (nicht Ihr Manuskript) als Webseite"
+ ],
+ "Umělá inteligence z Nastavení AI, při chybě Tesseract": [
+  "AI from AI settings, Tesseract if it fails",
+  "KI aus den KI-Einstellungen, bei Fehler Tesseract"
+ ],
+ "Upravit (oříznout, narovnat, barvy)": [
+  "Edit (crop, straighten, colours)",
+  "Bearbeiten (zuschneiden, gerade richten, Farben)"
+ ],
+ "Upravit obrázek – oříznout, narovnat, barvy": [
+  "Edit image – crop, straighten, colours",
+  "Bild bearbeiten – zuschneiden, gerade richten, Farben"
+ ],
+ "Upravit obálku": [
+  "Edit the cover",
+  "Umschlag bearbeiten"
+ ],
+ "Upravit obálku…": [
+  "Edit the cover…",
+  "Umschlag bearbeiten…"
+ ],
+ "Upravit popisek a zdroj": [
+  "Edit caption and source",
+  "Bildunterschrift und Quelle bearbeiten"
+ ],
+ "V": [
+  "In",
+  "In den"
+ ],
+ "V <b>Nastavení knihy</b> klikněte na <b>Vytvořit obálku…</b>. Vyberte vzhled, obrázek (z knih, z rukopisu nebo z počítače), barvy a písmo. Název a autor se doplní sami. Tlačítkem <b>Použít obálku</b> ji uložíte a nakonec nastavení uložte.": [
+  "In <b>Book settings</b> click <b>Create cover…</b>. Choose a layout, image (from the books, the manuscript or the computer), colours and font. Title and author are filled in automatically. <b>Use cover</b> saves it; finally save the settings.",
+  "Klicken Sie in den <b>Bucheinstellungen</b> auf <b>Umschlag gestalten…</b>. Wählen Sie Gestaltung, Bild (aus den Büchern, dem Manuskript oder vom Computer), Farben und Schrift. Titel und Autor werden automatisch übernommen. <b>Umschlag verwenden</b> speichert ihn; speichern Sie zum Schluss die Einstellungen."
+ ],
+ "V rukopisu": [
+  "In the manuscript",
+  "Im Manuskript"
+ ],
+ "V rukopisu klikněte na tlačítko <b>Obrázek</b>, nebo obrázek zkopírujte (Cmd+C) a v rukopisu vložte (Cmd+V).": [
+  "In the manuscript click the <b>Image</b> button, or copy the image (Cmd+C) and paste it in the manuscript (Cmd+V).",
+  "Klicken Sie im Manuskript auf <b>Bild</b> oder kopieren Sie das Bild (Cmd+C) und fügen Sie es im Manuskript ein (Cmd+V)."
+ ],
+ "V transkripci otevřete dole vlevo": [
+  "In the transcription open at the bottom left",
+  "Öffnen Sie in der Transkription unten links"
+ ],
+ "Vaše vlastní kniha. Píše se jako ve Wordu, ukládá se sama každých pár vteřin. Nahoře vpravo vidíte, kdy se naposledy uložila.": [
+  "Your own book. You write as in Word; it saves itself every few seconds. At the top right you see when it was last saved.",
+  "Ihr eigenes Buch. Sie schreiben wie in Word; es speichert sich alle paar Sekunden. Oben rechts sehen Sie, wann zuletzt gespeichert wurde."
+ ],
+ "Ve schránce rukopisu je nová položka.": [
+  "There is a new item in the manuscript clipboard.",
+  "In der Manuskript-Ablage ist ein neuer Eintrag."
+ ],
+ "Velikost": [
+  "Size",
+  "Größe"
+ ],
+ "Velikost autora a podtitulu": [
+  "Author and subtitle size",
+  "Größe von Autor und Untertitel"
+ ],
+ "Velikost názvu": [
+  "Title size",
+  "Titelgröße"
+ ],
+ "Velikost obrázku v knize": [
+  "Image size in the book",
+  "Bildgröße im Buch"
+ ],
+ "Velikost písma": [
+  "Font size",
+  "Schriftgröße"
+ ],
+ "Velikost písma v knize": [
+  "Font size in the book",
+  "Schriftgröße im Buch"
+ ],
+ "Velikost…": [
+  "Size…",
+  "Größe…"
+ ],
+ "Velké": [
+  "Large",
+  "Groß"
+ ],
+ "Velmi velké": [
+  "Very large",
+  "Sehr groß"
+ ],
+ "Verze": [
+  "Versions",
+  "Versionen"
+ ],
+ "Verze uložena do historie.": [
+  "Version saved to history.",
+  "Version im Verlauf gespeichert."
+ ],
+ "Vlastní adresa (OpenAI-kompatibilní API)": [
+  "Custom address (OpenAI-compatible API)",
+  "Eigene Adresse (OpenAI-kompatible API)"
+ ],
+ "Vlevo": [
+  "Left",
+  "Links"
+ ],
+ "Vloženo do rukopisu.": [
+  "Inserted into the manuscript.",
+  "Ins Manuskript eingefügt."
+ ],
+ "Vloženo ze schránky.": [
+  "Inserted from the clipboard.",
+  "Aus der Ablage eingefügt."
+ ],
+ "Vložit": [
+  "Insert",
+  "Einfügen"
+ ],
+ "Vložit do rukopisu jako citaci s uvedením zdroje": [
+  "Insert into the manuscript as a quotation with its source",
+  "Als Zitat mit Quelle ins Manuskript einfügen"
+ ],
+ "Vložit do rukopisu na označené místo": [
+  "Insert into the manuscript at the marked place",
+  "An der markierten Stelle ins Manuskript einfügen"
+ ],
+ "Vložit i obrázky z knih": [
+  "Also insert images from the books",
+  "Auch Bilder aus den Büchern einfügen"
+ ],
+ "Vložit jako citaci s uvedením zdroje": [
+  "Insert as a quotation with the source",
+  "Als Zitat mit Quellenangabe einfügen"
+ ],
+ "Vložit obrázek do rukopisu na označené místo": [
+  "Insert the image into the manuscript at the marked place",
+  "Bild an der markierten Stelle ins Manuskript einfügen"
+ ],
+ "Vložit obrázek z aplikace, z počítače nebo z kamery": [
+  "Insert an image from the app, the computer or the camera",
+  "Bild aus der App, vom Computer oder von der Kamera einfügen"
+ ],
+ "Vložit obsah a zlom strany": [
+  "Insert contents and page break",
+  "Inhalt und Seitenumbruch einfügen"
+ ],
+ "Vložit obsah knihy, transkripce knih nebo zlom strany": [
+  "Insert table of contents, book transcriptions or page break",
+  "Inhaltsverzeichnis, Buchtranskriptionen oder Seitenumbruch einfügen"
+ ],
+ "Vložit poznámku pod čarou na místo kurzoru. V tisku a PDF bude dole na stránce, v e-knize na konci kapitoly.": [
+  "Insert a footnote at the cursor. In print and PDF it goes to the bottom of the page, in the e-book to the end of the chapter.",
+  "Fußnote an der Cursorposition einfügen. Im Druck und PDF steht sie unten auf der Seite, im E-Book am Kapitelende."
+ ],
+ "Vložit sem": [
+  "Insert here",
+  "Hier einfügen"
+ ],
+ "Vložit transkripce do rukopisu": [
+  "Insert transcriptions into the manuscript",
+  "Transkriptionen ins Manuskript einfügen"
+ ],
+ "Vložit vybrané": [
+  "Insert selected",
+  "Ausgewählte einfügen"
+ ],
+ "Vloží <b>automatický obsah</b>, který se sám doplňuje podle kapitol, nebo <b>zlom strany</b> pro tisk a PDF.": [
+  "Inserts an <b>automatic table of contents</b> that fills in from the chapters, or a <b>page break</b> for print and PDF.",
+  "Fügt ein <b>automatisches Inhaltsverzeichnis</b> ein, das sich aus den Kapiteln füllt, oder einen <b>Seitenumbruch</b> für Druck und PDF."
+ ],
+ "Vpravo": [
+  "Right",
+  "Rechts"
+ ],
+ "Vrátit": [
+  "Undo",
+  "Rückgängig"
+ ],
+ "Vrátit text na výchozí místo a velikost": [
+  "Text back to its default place and size",
+  "Text an Standardposition und -größe zurücksetzen"
+ ],
+ "Vrátit text tohoto odstavce do podoby před vašimi úpravami": [
+  "Return this paragraph's text to how it was before your edits",
+  "Den Text dieses Absatzes in den Zustand vor Ihren Änderungen zurücksetzen"
+ ],
+ "Vyberte aspoň jednu knihu.": [
+  "Select at least one book.",
+  "Wählen Sie mindestens ein Buch."
+ ],
+ "Vyberte knihu": [
+  "Choose a book",
+  "Wählen Sie ein Buch"
+ ],
+ "Vyberte knihy. Jejich celé transkripce se vloží za místo, kde je v rukopisu kurzor, každá jako samostatná kapitola s názvem knihy.": [
+  "Select books. Their complete transcriptions are inserted after the cursor in the manuscript, each as a separate chapter titled with the book's name.",
+  "Wählen Sie Bücher. Ihre vollständigen Transkriptionen werden hinter dem Cursor im Manuskript eingefügt, jede als eigenes Kapitel mit dem Buchtitel."
+ ],
+ "Vyberte verzi vlevo.": [
+  "Choose a version on the left.",
+  "Wählen Sie links eine Version."
+ ],
+ "Vybrané knihy se nabídnou jako první při vkládání transkripcí a použijí se pro seznam pramenů.": [
+  "The selected books are offered first when inserting transcriptions and are used for the list of sources.",
+  "Die gewählten Bücher werden beim Einfügen von Transkriptionen zuerst angeboten und für das Quellenverzeichnis verwendet."
+ ],
+ "Vybrat soubory…": [
+  "Choose files…",
+  "Dateien auswählen…"
+ ],
+ "Vycentrovat": [
+  "Centre",
+  "Zentrieren"
+ ],
+ "Vydání": [
+  "Edition",
+  "Auflage"
+ ],
+ "Vyfotit a vložit": [
+  "Take photo and insert",
+  "Foto aufnehmen und einfügen"
+ ],
+ "Vyfotit kamerou": [
+  "Take a photo with the camera",
+  "Mit der Kamera fotografieren"
+ ],
+ "Vyfotit…": [
+  "Take a photo…",
+  "Foto aufnehmen…"
+ ],
+ "Vyplňte nastavení knihy": [
+  "Fill in the book settings",
+  "Füllen Sie die Bucheinstellungen aus"
+ ],
+ "Vyplňte prosím nadpis i popis.": [
+  "Please fill in both the title and the description.",
+  "Bitte füllen Sie Titel und Beschreibung aus."
+ ],
+ "Vypnout připojení": [
+  "Turn off the connection",
+  "Verbindung ausschalten"
+ ],
+ "Vypnout připojení pro Claude? Adresa přestane fungovat.": [
+  "Turn off the connection for Claude? The address stops working.",
+  "Verbindung für Claude ausschalten? Die Adresse funktioniert dann nicht mehr."
+ ],
+ "Vytvořit adresu pro Claude": [
+  "Create an address for Claude",
+  "Adresse für Claude erstellen"
+ ],
+ "Vytvořit novou adresu": [
+  "Create a new address",
+  "Neue Adresse erstellen"
+ ],
+ "Vytvořit novou adresu? Stará přestane fungovat a v Claude ji bude potřeba vyměnit.": [
+  "Create a new address? The old one stops working and has to be replaced in Claude.",
+  "Neue Adresse erstellen? Die alte funktioniert dann nicht mehr und muss in Claude ersetzt werden."
+ ],
+ "Vytvořit obálku": [
+  "Create cover",
+  "Umschlag gestalten"
+ ],
+ "Vytvořit obálku…": [
+  "Create a cover…",
+  "Umschlag erstellen…"
+ ],
+ "Vyzkoušet": [
+  "Test",
+  "Testen"
+ ],
+ "Vyzkoušet čtení obrázku": [
+  "Test reading an image",
+  "Bilderkennung testen"
+ ],
+ "Vyřezávám obrázky…": [
+  "Cutting out images…",
+  "Bilder werden ausgeschnitten…"
+ ],
+ "Vyřešeno": [
+  "Resolved",
+  "Erledigt"
+ ],
+ "Vyříznout znovu ze skenu": [
+  "Cut again from the scan",
+  "Erneut aus dem Scan ausschneiden"
+ ],
+ "Vzhled": [
+  "Layout",
+  "Gestaltung"
+ ],
+ "Výběr knihy a stránky": [
+  "Choosing a book and page",
+  "Buch und Seite wählen"
+ ],
+ "Výchozí model serveru": [
+  "Server default model",
+  "Standardmodell des Servers"
+ ],
+ "Výřez do rukopisu": [
+  "Cut-out to manuscript",
+  "Ausschnitt ins Manuskript"
+ ],
+ "Výřez do transkripce": [
+  "Cut-out to transcription",
+  "Ausschnitt in die Transkription"
+ ],
+ "Výřez se nepodařilo uložit:": [
+  "Could not save the cut-out:",
+  "Ausschnitt konnte nicht gespeichert werden:"
+ ],
+ "Výřez vložen do rukopisu. Narovnat ho můžete tlačítkem Oříznout v rukopisu.": [
+  "Cut-out inserted into the manuscript. Straighten it with the Crop button in the manuscript.",
+  "Ausschnitt ins Manuskript eingefügt. Gerade richten können Sie ihn mit Zuschneiden im Manuskript."
+ ],
+ "Výška obrázku": [
+  "Picture height",
+  "Bildhöhe"
+ ],
+ "Větší": [
+  "Larger",
+  "Größer"
+ ],
+ "Větší písmo a ovládání": [
+  "Larger text and controls",
+  "Größere Schrift und Bedienelemente"
+ ],
+ "Větší písmo rukopisu na obrazovce": [
+  "Larger manuscript text on screen",
+  "Größere Manuskriptschrift auf dem Bildschirm"
+ ],
+ "Vše": [
+  "All",
+  "Alle"
+ ],
+ "Vše zpět": [
+  "Reset all",
+  "Alles zurück"
+ ],
+ "Všechny dřívější verze rukopisu. Aplikace je ukládá sama, nic se neztratí.": [
+  "All earlier versions of the manuscript. The app saves them itself; nothing is lost.",
+  "Alle früheren Versionen des Manuskripts. Die App speichert sie selbst; nichts geht verloren."
+ ],
+ "Všechny obrázky z knih, z rukopisu i z knihovny. Klikněte na obrázek pro zvětšení, úpravu popisku a zdroje nebo vložení do rukopisu.": [
+  "All images from the books, the manuscript and the library. Click an image to enlarge it, edit its caption and source, or insert it into the manuscript.",
+  "Alle Bilder aus den Büchern, dem Manuskript und der Bibliothek. Ein Klick vergrößert das Bild; Sie können Unterschrift und Quelle bearbeiten oder es ins Manuskript einfügen."
+ ],
+ "Všechny strany už text mají.": [
+  "All pages already have text.",
+  "Alle Seiten haben bereits Text."
+ ],
+ "Z aplikace zmizí i její transkripce. Na serveru zůstane v koši, takže ji správce může vrátit.": [
+  "Its transcription disappears from the app too. It stays in the trash on the server, so the administrator can restore it.",
+  "Auch seine Transkription verschwindet aus der App. Es bleibt auf dem Server im Papierkorb, der Administrator kann es wiederherstellen."
+ ],
+ "Z knih": [
+  "From books",
+  "Aus Büchern"
+ ],
+ "Z obrázků v aplikaci": [
+  "From images in the app",
+  "Aus Bildern in der App"
+ ],
+ "Z počítače": [
+  "From the computer",
+  "Vom Computer"
+ ],
+ "Z počítače…": [
+  "From the computer…",
+  "Vom Computer…"
+ ],
+ "Založit knihu": [
+  "Create book",
+  "Buch anlegen"
+ ],
+ "Zapněte <b>Originál</b> a <b>Rukopis</b> (tlačítko <b>Obrázky do rukopisu</b>). Na skenu obrázek ohraničte nebo upravte rámeček. Pak klikněte na <b>Do rukopisu</b>. V okně můžete obrázek ještě oříznout, narovnat a doplnit popisek.": [
+  "Turn on <b>Original</b> and <b>Manuscript</b> (the <b>Images to manuscript</b> button). Mark the image on the scan or adjust the frame. Then click <b>To manuscript</b>. In the window you can still crop, straighten and caption the image.",
+  "Schalten Sie <b>Original</b> und <b>Manuskript</b> ein (Schaltfläche <b>Bilder ins Manuskript</b>). Markieren Sie das Bild auf dem Scan oder passen Sie den Rahmen an. Klicken Sie dann auf <b>Ins Manuskript</b>. Im Fenster können Sie das Bild noch zuschneiden, gerade richten und beschriften."
+ ],
+ "Zapněte nahoře aspoň jeden sloupec: Originál, Transkripce nebo Rukopis.": [
+  "Turn on at least one column at the top: Original, Transcription or Manuscript.",
+  "Schalten Sie oben mindestens eine Spalte ein: Original, Transkription oder Manuskript."
+ ],
+ "Zapněte sloupce": [
+  "Turn on columns",
+  "Schalten Sie Spalten ein"
+ ],
+ "Zapněte sloupce <b>Transkripce</b> a <b>Rukopis</b> (tlačítko <b>Píšu s citacemi</b>). V rukopisu klikněte tam, kam má text přijít. Pak pod odstavcem v transkripci klikněte na <b>Do rukopisu</b>, text se vloží jako citace se zdrojem. Když se to nepovede, tlačítko <b>Vrátit</b> v dolní liště krok vrátí.": [
+  "Turn on the <b>Transcription</b> and <b>Manuscript</b> columns (the <b>Writing with quotations</b> button). Click in the manuscript where the text should go. Then below the paragraph in the transcription click <b>To manuscript</b>; the text is inserted as a quotation with its source. If something goes wrong, the <b>Undo</b> button in the bottom bar reverts it.",
+  "Schalten Sie die Spalten <b>Transkription</b> und <b>Manuskript</b> ein (Schaltfläche <b>Schreiben mit Zitaten</b>). Klicken Sie im Manuskript dorthin, wo der Text hin soll. Klicken Sie dann unter dem Absatz der Transkription auf <b>Ins Manuskript</b>; der Text wird als Zitat mit Quelle eingefügt. Geht etwas schief, macht <b>Rückgängig</b> in der unteren Leiste es rückgängig."
+ ],
+ "Zapněte sloupec <b>Dotaz</b>, napište otázku a stiskněte <b>Zeptat se</b>. Odpověď trvá obvykle do minuty. Čísla v odpovědi jsou odkazy na zdroje.": [
+  "Turn on the <b>Ask</b> column, type a question and press <b>Ask</b>. The answer usually takes under a minute. Numbers in the answer link to the sources.",
+  "Schalten Sie die Spalte <b>Frage</b> ein, geben Sie eine Frage ein und drücken Sie <b>Fragen</b>. Die Antwort dauert meist unter einer Minute. Zahlen in der Antwort verweisen auf die Quellen."
+ ],
+ "Zarovnat vlevo": [
+  "Align left",
+  "Linksbündig"
+ ],
+ "Zarovnat vpravo": [
+  "Align right",
+  "Rechtsbündig"
+ ],
+ "Zatím žádná. Přidejte první knihu tlačítkem": [
+  "None yet. Add the first book with the button",
+  "Noch keine. Fügen Sie das erste Buch mit der Schaltfläche"
+ ],
+ "Zatím žádné kapitoly": [
+  "No chapters yet",
+  "Noch keine Kapitel"
+ ],
+ "Zatím žádné kapitoly. Nadpis kapitoly nastavíte v nabídce typu odstavce.": [
+  "No chapters yet. Set a chapter heading in the paragraph type menu.",
+  "Noch keine Kapitel. Eine Kapitelüberschrift stellen Sie im Menü Absatztyp ein."
+ ],
+ "Zatím žádné komentáře. Označte v rukopisu text a v nástrojích zvolte": [
+  "No comments yet. Select text in the manuscript and in the tools choose",
+  "Noch keine Kommentare. Markieren Sie Text im Manuskript und wählen Sie in den Werkzeugen"
+ ],
+ "Zatím žádné poznámky pod čarou. Klikněte do textu a v nástrojích zvolte": [
+  "No footnotes yet. Click into the text and in the tools choose",
+  "Noch keine Fußnoten. Klicken Sie in den Text und wählen Sie in den Werkzeugen"
+ ],
+ "Zatím žádné starší verze.": [
+  "No older versions yet.",
+  "Noch keine älteren Versionen."
+ ],
+ "Zatím žádné záznamy.": [
+  "No records yet.",
+  "Noch keine Einträge."
+ ],
+ "Zavřít": [
+  "Close",
+  "Schließen"
+ ],
+ "Zavřít bez nahrání vybraných stran?": [
+  "Close without uploading the selected pages?",
+  "Schließen, ohne die ausgewählten Seiten hochzuladen?"
+ ],
+ "Zavřít ✕": [
+  "Close ✕",
+  "Schließen ✕"
+ ],
+ "Zdroj": [
+  "Source",
+  "Quelle"
+ ],
+ "Zdroj (výchozí:": [
+  "Source (default:",
+  "Quelle (Standard:"
+ ],
+ "Zdrojové knihy (skeny a transkripce)": [
+  "Source books (scans and transcriptions)",
+  "Quellbücher (Scans und Transkriptionen)"
+ ],
+ "Zdrojové knihy a rukopis": [
+  "Source books and manuscript",
+  "Quellbücher und Manuskript"
+ ],
+ "Zdrojové knihy pro tuto knihu": [
+  "Source books for this book",
+  "Quellbücher für dieses Buch"
+ ],
+ "Ze starých tisků k nové knize: originál, transkripce a vlastní rukopis na jednom místě.": [
+  "From old prints to a new book: original, transcription and your own manuscript in one place.",
+  "Von alten Drucken zum neuen Buch: Original, Transkription und eigenes Manuskript an einem Ort."
+ ],
+ "Zeptat se": [
+  "Ask",
+  "Fragen"
+ ],
+ "Zeptat se na cokoli z knih a rukopisu": [
+  "Ask anything about the books and the manuscript",
+  "Fragen Sie alles zu den Büchern und zum Manuskript"
+ ],
+ "Zeptejte se na cokoli z knih a rukopisu. Odpověď má u každého tvrzení číslo zdroje. Na číslo klikněte a otevře se místo v knize. <b>Nový dotaz</b> vše smaže.": [
+  "Ask anything about the books and the manuscript. Every statement in the answer has a source number. Click the number to open the place in the book. <b>New question</b> clears everything.",
+  "Fragen Sie alles zu den Büchern und zum Manuskript. Jede Aussage der Antwort hat eine Quellennummer. Ein Klick darauf öffnet die Stelle im Buch. <b>Neue Frage</b> löscht alles."
+ ],
+ "Zkontrolujte ho proti skenu.": [
+  "Check it against the scan.",
+  "Prüfen Sie ihn am Scan."
+ ],
+ "Zkopírovat": [
+  "Copy",
+  "Kopieren"
+ ],
+ "Zkouším spojení s modelem…": [
+  "Testing the connection to the model…",
+  "Teste die Verbindung zum Modell…"
+ ],
+ "Zkouším, jestli model přečte text z obrázku…": [
+  "Testing whether the model reads text from an image…",
+  "Es wird geprüft, ob das Modell Text aus einem Bild liest…"
+ ],
+ "Zmenšit sken": [
+  "Zoom out scan",
+  "Scan verkleinern"
+ ],
+ "Znovu": [
+  "Again",
+  "Erneut"
+ ],
+ "Znovu otevřít": [
+  "Reopen",
+  "Wieder öffnen"
+ ],
+ "Znovu přečíst stranu {n}?": [
+  "Read page {n} again?",
+  "Seite {n} erneut lesen?"
+ ],
+ "Znovu přečíst tuto stranu": [
+  "Read this page again",
+  "Diese Seite erneut lesen"
+ ],
+ "Znovu zkontrolovat celý text": [
+  "Check the whole text again",
+  "Den ganzen Text erneut prüfen"
+ ],
+ "Zobrazit / skrýt naskenovaný originál": [
+  "Show / hide the scanned original",
+  "Gescanntes Original ein-/ausblenden"
+ ],
+ "Zobrazit / skrýt transkripci (přepsaný text)": [
+  "Show / hide the transcription (transcribed text)",
+  "Transkription ein-/ausblenden (abgeschriebener Text)"
+ ],
+ "Zobrazit / skrýt vlastní rukopis": [
+  "Show / hide your own manuscript",
+  "Eigenes Manuskript ein-/ausblenden"
+ ],
+ "Zobrazit / skrýt všechny obrázky": [
+  "Show / hide all images",
+  "Alle Bilder ein-/ausblenden"
+ ],
+ "Zobrazit nebo skrýt boční panel": [
+  "Show or hide the side panel",
+  "Seitenleiste ein- oder ausblenden"
+ ],
+ "Zobrazit nebo skrýt osnovu kapitol": [
+  "Show or hide the chapter outline",
+  "Kapitelgliederung ein- oder ausblenden"
+ ],
+ "Zpět": [
+  "Back",
+  "Zurück"
+ ],
+ "Zpět k práci": [
+  "Back to work",
+  "Zurück zur Arbeit"
+ ],
+ "Zrušit": [
+  "Cancel",
+  "Abbrechen"
+ ],
+ "Ztmavení fotografie": [
+  "Darken the photo",
+  "Foto abdunkeln"
+ ],
+ "Zvětšit sken": [
+  "Zoom in scan",
+  "Scan vergrößern"
+ ],
+ "Záznam přihlášení a úprav: kdo (přihlašovací jméno), odkud (IP adresa) a na jakém zařízení (prohlížeč, systém a otisk počítače). Opakované automatické ukládání téže knihy se zapisuje nejvýš jednou za minutu.": [
+  "Record of sign-ins and edits: who (login name), from where (IP address) and on which device (browser, system and computer fingerprint). Repeated automatic saving of the same book is recorded at most once a minute.",
+  "Protokoll der Anmeldungen und Änderungen: wer (Anmeldename), von wo (IP-Adresse) und auf welchem Gerät (Browser, System und Gerätefingerabdruck). Wiederholtes automatisches Speichern desselben Buches wird höchstens einmal pro Minute erfasst."
+ ],
+ "Zúžit sloupec": [
+  "Narrow the column",
+  "Spalte verschmälern"
+ ],
+ "a adresu zkopírujte. V Claude (claude.ai nebo aplikace na počítači) ji přidejte v": [
+  "and copy the address. In Claude (claude.ai or the desktop app) add it under",
+  "und kopieren Sie die Adresse. Fügen Sie sie in Claude (claude.ai oder der App auf dem Computer) hinzu unter"
+ ],
+ "a klikněte na": [
+  "and click",
+  "und klicken Sie auf"
+ ],
+ "a čte text z naskenovaných stran nových zdrojových knih. Může to být model na serveru, vlastní účet u OpenAI nebo Anthropicu, nebo model v počítači (LM Studio, Ollama). Ke čtení stran musí model umět číst obrázky – ověříte to tlačítkem": [
+  "column and reads the text of scanned pages of new source books. It can be the model on the server, your own OpenAI or Anthropic account, or a model on a computer (LM Studio, Ollama). To read pages the model must be able to read images – check it with the button",
+  "und liest den Text gescannter Seiten neuer Quellenbücher. Es kann das Modell auf dem Server sein, ein eigenes Konto bei OpenAI oder Anthropic oder ein Modell auf einem Computer (LM Studio, Ollama). Zum Lesen von Seiten muss das Modell Bilder lesen können – prüfen Sie es mit der Schaltfläche"
+ ],
+ "angličtina": [
+  "English",
+  "Englisch"
+ ],
+ "autor nevyplněn": [
+  "author not set",
+  "Autor nicht angegeben"
+ ],
+ "bez textu": [
+  "no text",
+  "ohne Text"
+ ],
+ "celý": [
+  "full",
+  "ganz"
+ ],
+ "chyba ukládání!": [
+  "save error!",
+  "Speicherfehler!"
+ ],
+ "claude.ai: Nastavení → Konektory → Přidat vlastní konektor → vložte adresu. Aplikace Claude na počítači: totéž v Nastavení → Konektory. Pak stačí napsat např. „Přepiš stranu 12 knihy Pražské groše podle skenu“.": [
+  "claude.ai: Settings → Connectors → Add custom connector → paste the address. Claude desktop app: the same under Settings → Connectors. Then just write e.g. “Transcribe page 12 of the book Prague groschen from the scan”.",
+  "claude.ai: Einstellungen → Konnektoren → Eigenen Konnektor hinzufügen → Adresse einfügen. Claude-App auf dem Computer: dasselbe unter Einstellungen → Konnektoren. Dann genügt z. B. „Transkribiere Seite 12 des Buches Prager Groschen nach dem Scan“."
+ ],
+ "dole": [
+  "at the bottom",
+  "unten"
+ ],
+ "doplní všechny strany, které text zatím nemají.": [
+  "fills in all pages that have no text yet.",
+  "ergänzt alle Seiten, die noch keinen Text haben."
+ ],
+ "je sken,": [
+  " is the scan,",
+  " ist der Scan,"
+ ],
+ "je text přečtený ze skenu,": [
+  " is the text read from the scan,",
+  " ist der aus dem Scan gelesene Text,"
+ ],
+ "je vaše kniha.": [
+  " is your book.",
+  " ist Ihr Buch."
+ ],
+ "ji uložíte a nakonec nastavení uložte. Obálku lze kdykoli znovu upravit.": [
+  "saves it; finally save the settings. The cover can be edited again at any time.",
+  "speichern Sie ihn, zum Schluss speichern Sie die Einstellungen. Der Umschlag kann jederzeit erneut bearbeitet werden."
+ ],
+ "jméno autora": [
+  "author's name",
+  "Name des Autors"
+ ],
+ "klikněte na": [
+  "click",
+  "klicken Sie auf"
+ ],
+ "lze rámeček vypnout a okraje obrázku prolnout do pozadí. Logo Educie Press se samo obarví bíle nebo černě podle pozadí. Tlačítkem": [
+  "the frame can be turned off and the picture's edges faded into the background. The Educie Press logo turns white or black by itself depending on the background. The button",
+  "lässt sich der Rahmen ausschalten und die Bildränder in den Hintergrund übergehen. Das Educie-Press-Logo färbt sich je nach Hintergrund selbst weiß oder schwarz. Mit der Schaltfläche"
+ ],
+ "nahoře": [
+  "at the top",
+  "oben"
+ ],
+ "nahoře:": [
+  " at the top:",
+  " oben:"
+ ],
+ "nahrávám obrázek…": [
+  "uploading image…",
+  "Bild wird hochgeladen…"
+ ],
+ "např. Educie Historie": [
+  "e.g. Educie Historie",
+  "z. B. Educie Historie"
+ ],
+ "např. Educie Press, Mediatoring.com s.r.o.": [
+  "e.g. Educie Press, Mediatoring.com s.r.o.",
+  "z. B. Educie Press, Mediatoring.com s.r.o."
+ ],
+ "např. Jindřich Teisinger": [
+  "e.g. Jindřich Teisinger",
+  "z. B. Jindřich Teisinger"
+ ],
+ "např. Mince Českých Budějovic": [
+  "e.g. The coins of České Budějovice",
+  "z. B. Die Münzen von Budweis"
+ ],
+ "např. Nejde vložit obrázek do rukopisu": [
+  "e.g. Can't insert an image into the manuscript",
+  "z. B. Bild lässt sich nicht ins Manuskript einfügen"
+ ],
+ "např. Pražské groše (Teisinger 1934)": [
+  "e.g. Prague groschen (Teisinger 1934)",
+  "z. B. Prager Groschen (Teisinger 1934)"
+ ],
+ "např. gpt-4.1-mini": [
+  "e.g. gpt-4.1-mini",
+  "z. B. gpt-4.1-mini"
+ ],
+ "např. první": [
+  "e.g. first",
+  "z. B. erste"
+ ],
+ "načítám…": [
+  "loading…",
+  "lädt…"
+ ],
+ "nebo": [
+  "or",
+  "oder"
+ ],
+ "neuloženo…": [
+  "not saved…",
+  "nicht gespeichert…"
+ ],
+ "neznámá chyba": [
+  "unknown error",
+  "unbekannter Fehler"
+ ],
+ "neúspěšné přihlášení": [
+  "failed sign-in",
+  "fehlgeschlagene Anmeldung"
+ ],
+ "němčina": [
+  "German",
+  "Deutsch"
+ ],
+ "němčina (i švabach)": [
+  "German (also Fraktur)",
+  "Deutsch (auch Fraktur)"
+ ],
+ "obojí": [
+  "both",
+  "beides"
+ ],
+ "obrázek": [
+  "image",
+  "Bild"
+ ],
+ "odhlášení": [
+  "sign-out",
+  "Abmeldung"
+ ],
+ "odstavce, citace a obrázky tlačítky pod každým odstavcem, nebo celé transkripce přes": [
+  " paragraphs, quotations and images with the buttons below each paragraph, or whole transcriptions via",
+  " Absätze, Zitate und Bilder mit den Schaltflächen unter jedem Absatz oder ganze Transkriptionen über"
+ ],
+ "originál": [
+  "original",
+  "Original"
+ ],
+ "otazník": [
+  "question mark",
+  "Fragezeichen"
+ ],
+ "podle skenu. Pomůže": [
+  " against the scan. Helped by",
+  " anhand des Scans. Dabei hilft die"
+ ],
+ "posouvá výřez": [
+  "moves the crop",
+  "verschiebt den Ausschnitt"
+ ],
+ "prázdné = název knihy": [
+  "empty = book title",
+  "leer = Buchtitel"
+ ],
+ "přesouvá obrázek": [
+  "moves the picture",
+  "verschiebt das Bild"
+ ],
+ "přihlášení": [
+  "sign-in",
+  "Anmeldung"
+ ],
+ "přímo u něj.": [
+  " right next to it.",
+  " direkt daneben."
+ ],
+ "režim vysvětlivek": [
+  "explanation mode",
+  "Erklärmodus"
+ ],
+ "rukopis „{title}“": [
+  "manuscript “{title}”",
+  "Manuskript „{title}“"
+ ],
+ "rukopis. Ukládá se sám, starší verze najdete v": [
+  " the manuscript. It saves itself; older versions are in",
+  " das Manuskript. Es speichert sich selbst; ältere Versionen finden Sie im"
+ ],
+ "se strany uloží a aplikace z nich v pozadí přečte text: umělou inteligencí z": [
+  "stores the pages and the app reads their text in the background: with the AI from",
+  "werden die Seiten gespeichert und die App liest im Hintergrund ihren Text: mit der KI aus den"
+ ],
+ "sem se vloží": [
+  "insert here",
+  "hier einfügen"
+ ],
+ "transkripce „{title}“": [
+  "transcription “{title}”",
+  "Transkription „{title}“"
+ ],
+ "ukládám…": [
+  "saving…",
+  "speichert…"
+ ],
+ "uloženo": [
+  "saved",
+  "gespeichert"
+ ],
+ "umělá inteligence": [
+  "AI",
+  "KI"
+ ],
+ "uprostřed": [
+  "in the middle",
+  "in der Mitte"
+ ],
+ "vaše jméno": [
+  "your name",
+  "Ihr Name"
+ ],
+ "vlastní fotografie": [
+  "own photo",
+  "eigenes Foto"
+ ],
+ "vpravo nahoře. Najdete tam průvodce, který postupně ukáže všechna tlačítka, a formulář, kterým nahlásíte chybu nebo nápad.": [
+  " at the top right. There is a guide that shows all buttons one by one, and a form to report a bug or idea.",
+  " oben rechts. Dort gibt es einen Rundgang, der alle Schaltflächen nacheinander zeigt, und ein Formular für Fehler oder Ideen."
+ ],
+ "vynechat stranu z knihy": [
+  "leave the page out of the book",
+  "Seite aus dem Buch auslassen"
+ ],
+ "vyřezávám…": [
+  "cutting…",
+  "schneide aus…"
+ ],
+ "vyřešeno": [
+  "resolved",
+  "erledigt"
+ ],
+ "zatím prázdná": [
+  "still empty",
+  "noch leer"
+ ],
+ "zařízení {id}": [
+  "device {id}",
+  "Gerät {id}"
+ ],
+ "{n} stran": [
+  "{n} pages",
+  "{n} Seiten"
+ ],
+ "{n} strana": [
+  "{n} page",
+  "{n} Seite"
+ ],
+ "{n} strany": [
+  "{n} pages",
+  "{n} Seiten"
+ ],
+ "· rozměr upravíš tažením rámečku na skenu": [
+  " · drag the frame on the scan to adjust the size",
+  " · Größe durch Ziehen des Rahmens auf dem Scan anpassen"
+ ],
+ "úprava": [
+  "edit",
+  "Änderung"
+ ],
+ "Černobílý": [
+  "Black and white",
+  "Schwarzweiß"
+ ],
+ "Černé": [
+  "Black",
+  "Schwarz"
+ ],
+ "Čeština": [
+  "Čeština",
+  "Čeština"
+ ],
+ "Čtení textu": [
+  "Reading the text",
+  "Texterkennung"
+ ],
+ "Čtení textu se nepodařilo spustit.": [
+  "Reading the text could not be started.",
+  "Das Lesen des Textes konnte nicht gestartet werden."
+ ],
+ "Čtu a opravuji": [
+  "Reading and correcting",
+  "Lesen und korrigieren"
+ ],
+ "Čtu text knihy: hotovo {done} z {total} stran. Do té doby nelze transkripci upravovat.": [
+  "Reading the book: {done} of {total} pages done. Until then the transcription cannot be edited.",
+  "Das Buch wird gelesen: {done} von {total} Seiten fertig. Bis dahin kann die Transkription nicht bearbeitet werden."
+ ],
+ "Čtu text: hotovo {done} z {total} stran. Okno můžete zavřít, čtení poběží dál.": [
+  "Reading text: {done} of {total} pages done. You can close the window, reading continues.",
+  "Text wird gelesen: {done} von {total} Seiten fertig. Sie können das Fenster schließen, das Lesen läuft weiter."
+ ],
+ "Čtyři rohy přetáhněte na rohy obrázku – šikmo vyfocený nebo zkreslený obrázek se srovná do obdélníku": [
+  "Drag the four corners onto the corners of the picture – a skewed or distorted picture is straightened into a rectangle",
+  "Ziehen Sie die vier Ecken auf die Ecken des Bildes – ein schräg fotografiertes oder verzerrtes Bild wird zu einem Rechteck begradigt"
+ ],
+ "Čísla": [
+  "Numbers",
+  "Nummern"
+ ],
+ "Čísla stránek v zápatí": [
+  "Page numbers in the footer",
+  "Seitenzahlen in der Fußzeile"
+ ],
+ "Číslo strany": [
+  "Page number",
+  "Seitenzahl"
+ ],
+ "Číslování": [
+  "Numbering",
+  "Nummerierung"
+ ],
+ "čeká na dočtení textu": [
+  "waiting for the text to be read",
+  "wartet auf das Lesen des Textes"
+ ],
+ "český překlad": [
+  "Czech translation",
+  "tschechische Übersetzung"
+ ],
+ "čeština": [
+  "Czech",
+  "Tschechisch"
+ ],
+ "čeština i němčina": [
+  "Czech and German",
+  "Tschechisch und Deutsch"
+ ],
+ "čte se text…": [
+  "reading text…",
+  "Text wird gelesen…"
+ ],
+ "Šířka obrázku": [
+  "Picture width",
+  "Bildbreite"
+ ],
+ "šířka": [
+  "width",
+  "Breite"
+ ],
+ "Žádný návrh. Opravte slovo přímo v textu.": [
+  "No suggestion. Correct the word directly in the text.",
+  "Kein Vorschlag. Korrigieren Sie das Wort direkt im Text."
+ ],
+ "– bez obrázku –": [
+  "– no image –",
+  "– kein Bild –"
+ ],
+ "– vybrat z obrázků knih –": [
+  "– choose from the book images –",
+  "– aus den Buchbildern wählen –"
+ ],
+ "← Zpět": [
+  "← Back",
+  "← Zurück"
+ ],
+ "↺ původní text": [
+  "↺ original text",
+  "↺ Originaltext"
+ ],
+ "↻ Znovu": [
+  "↻ Again",
+  "↻ Erneut"
+ ],
+ "▶ Projít aplikaci krok za krokem": [
+  "▶ Walk through the app step by step",
+  "▶ Die App Schritt für Schritt durchgehen"
+ ],
+ "◀ Předchozí": [
+  "◀ Previous",
+  "◀ Zurück"
+ ],
+ "● píšete…": [
+  "● typing…",
+  "● Sie schreiben…"
+ ],
+ "☀ Světlý režim": [
+  "☀ Light mode",
+  "☀ Heller Modus"
+ ],
+ "☾ Tmavý režim": [
+  "☾ Dark mode",
+  "☾ Dunkler Modus"
+ ],
+ "⚠ neuloženo – zkouším znovu": [
+  "⚠ not saved – retrying",
+  "⚠ nicht gespeichert – neuer Versuch"
+ ],
+ "⚠ rukopis je otevřený i jinde": [
+  "⚠ the manuscript is open elsewhere too",
+  "⚠ das Manuskript ist auch anderswo geöffnet"
+ ],
+ "✉ Nahlásit chybu nebo navrhnout novou funkci": [
+  "✉ Report a bug or suggest a new feature",
+  "✉ Fehler melden oder neue Funktion vorschlagen"
+ ],
+ "✓ Korektura": [
+  "✓ Proofreading",
+  "✓ Korrektur"
+ ],
+ "✓ Použít": [
+  "✓ Apply",
+  "✓ Übernehmen"
+ ],
+ "✓ Srovnávám perspektivu – zpět na obdélník": [
+  "✓ Straightening perspective – back to rectangle",
+  "✓ Perspektive wird begradigt – zurück zum Rechteck"
+ ],
+ "✓ Vyřešeno": [
+  "✓ Resolved",
+  "✓ Erledigt"
+ ],
+ "✓ uloženo": [
+  "✓ saved",
+  "✓ gespeichert"
+ ],
+ "❝ Jako citace do rukopisu": [
+  "❝ As quotation into the manuscript",
+  "❝ Als Zitat ins Manuskript"
+ ],
+ "➜ Do rukopisu": [
+  "➜ To manuscript",
+  "➜ Ins Manuskript"
+ ],
+ "➜ Obrázek do rukopisu": [
+  "➜ Image to manuscript",
+  "➜ Bild ins Manuskript"
+ ],
+ "➜ Vložit odpověď do rukopisu": [
+  "➜ Insert answer into manuscript",
+  "➜ Antwort ins Manuskript einfügen"
+ ],
+ "📄 Načíst původní stranu skenu": [
+  "📄 Load the original scan page",
+  "📄 Originale Scanseite laden"
+ ]
 }
