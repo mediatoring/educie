@@ -459,6 +459,8 @@ class Handler(SimpleHTTPRequestHandler):
             if parts[:2] == ["api", "manuscript"]:
                 if len(parts) == 2:
                     return self.send_json(self.ms().load())
+                if parts[2] == "comments":
+                    return self.send_json(self.ms().comments())
                 if parts[2] == "image-origin":
                     return self.send_json(image_origin(parse_qs(urlparse(self.path).query).get("src", [""])[0]))
                 if parts[2] == "history" and len(parts) == 3:
@@ -626,6 +628,8 @@ class Handler(SimpleHTTPRequestHandler):
                 body = self.read_json()
                 name = LIB.add(body["data"], body.get("caption", ""), body.get("source", ""), body.get("name", ""))
                 return self.send_json({"ok": True, "file": name})
+            if parts[:3] == ["api", "manuscript", "comments"]:
+                return self.send_json(self.ms().comment(parts[3] if len(parts) == 4 else None, self.read_json(), self.who().get("user")))
             if parts[:3] == ["api", "manuscript", "snapshot"]:
                 return self.send_json({"ok": True, "name": self.ms().snapshot(self.read_json().get("label", "verze"))})
             if parts[:3] == ["api", "manuscript", "restore"]:

@@ -181,6 +181,45 @@ class Manuscript:
         shutil.copy2(src_file, self._path("images", name))
         return f"books/{self.name}/images/" + name
 
+    # ---------- comments (kept beside the text; the text only carries <span class="cmt" data-c="id">) ----------
+    def comments(self):
+        try:
+            with open(self._path("comments.json"), encoding="utf-8") as f:
+                return json.load(f)
+        except (OSError, ValueError):
+            return []
+
+    def _save_comments(self, items):
+        self._write("comments.json", json.dumps(items, ensure_ascii=False, indent=1))
+
+    def comment(self, cid, data, who):
+        """Creates (cid=None) or changes a comment. data: {id, quote, text} or {action, text}."""
+        items = self.comments()
+        now = time.strftime("%d. %m. %Y %H:%M")
+        author = str(data.get("author") or who or "")[:60]
+        if cid is None:
+            new_id = re.sub(r"[^a-z0-9]", "", str(data.get("id", "")))[:12] or uuid.uuid4().hex[:8]
+            items.append({"id": new_id, "quote": str(data.get("quote", ""))[:400], "text": str(data.get("text", ""))[:4000],
+                          "author": author, "time": now, "resolved": False, "replies": []})
+            self._save_comments(items)
+            return items
+        for c in items:
+            if c["id"] != cid:
+                continue
+            act = data.get("action")
+            if act == "reply" and str(data.get("text", "")).strip():
+                c["replies"].append({"text": str(data["text"])[:4000], "author": author, "time": now})
+            elif act == "edit":
+                c["text"] = str(data.get("text", ""))[:4000]
+            elif act in ("resolve", "reopen"):
+                c["resolved"] = act == "resolve"
+                c["resolved_by"] = author if act == "resolve" else ""
+            elif act == "delete":
+                items.remove(c)
+            break
+        self._save_comments(items)
+        return items
+
     # ---------- clipboard tray ----------
     def clips(self):
         try:

@@ -11,7 +11,7 @@ Co umí:
 - **editor obálky** – rozvržení, fotografie posouvaná a zvětšovaná přímo na obálce, posun a velikost textu, barvy, přechod, logo Educie Press bílé nebo černé podle pozadí; obálka zvlášť pro e-knihu a pro tisk A4 a zůstává upravitelná,
 - **záznam přístupů a změn** – přihlášení, IP adresa a otisk zařízení; u každé verze rukopisu i transkripce je vidět, kdo ji vytvořil,
 - **korektura** v transkripci i v rukopisu (český a německý slovník, typické chyby OCR, slovník knihy a centrální slovník),
-- **rukopis** s automatickým obsahem, novou stránkou, vkládáním citací, celých transkripcí a obrázků (z aplikace, z počítače, z kamery),
+- **rukopis** s poznámkami pod čarou (v PDF dole na stránce, v EPUB jako odkazované poznámky), komentáři s odpověďmi a stavem vyřešeno (do exportu se nedostanou), automatickým obsahem, novou stránkou, vkládáním citací, celých transkripcí a obrázků (z aplikace, z počítače, z kamery),
 - **Dotaz** – odpovědi jazykového modelu jen z textů knih s čísly zdrojů; model na serveru, vlastní klíč OpenAI / Anthropic nebo LM Studio / Ollama,
 - **export** do PDF (stránkování, obálka, titulní strana, tiráž, obsah s čísly stran) a do e-knihy EPUB,
 - rozhraní v češtině, angličtině a němčině, světlý a tmavý režim, průvodce aplikací a formulář podpory.

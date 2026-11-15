@@ -24,6 +24,50 @@ def plain(t):
 
 
 # ---------- shared parts ----------
+def unwrap_spans(body, cls):
+    """Removes <span class="cls" ...> tags but keeps their content (nested spans are respected)."""
+    out, pos, stack = [], 0, []
+    for m in re.finditer(r"<span\b[^>]*>|</span>", body):
+        out.append(body[pos:m.start()])
+        pos = m.end()
+        tag = m.group(0)
+        if tag.startswith("</"):
+            if stack and stack.pop():
+                continue
+            out.append(tag)
+        else:
+            drop = bool(re.search(r'class="%s"' % cls, tag))
+            stack.append(drop)
+            if not drop:
+                out.append(tag)
+    out.append(body[pos:])
+    return "".join(out)
+
+
+def clean_marks(body):
+    """Editor-only marks: comments are dropped (their text stays), footnotes keep only their text."""
+    body = unwrap_spans(body, "cmt")
+    body = re.sub(r'\s(?:contenteditable|data-c|title)="[^"]*"', "", body)
+    return body
+
+
+FOOTNOTE = re.compile(r'<span class="fn"[^>]*>(.*?)</span>', re.S)
+
+
+def epub_footnotes(chapter, start):
+    """Footnotes of one chapter as EPUB 3 notes: numbered link in the text, notes at the chapter end."""
+    notes = []
+
+    def ref(m):
+        n = start + len(notes) + 1
+        notes.append(f'<aside epub:type="footnote" id="fn{n}" class="footnote"><p><a href="#fnr{n}">{n}.</a> {m.group(1).strip()}</p></aside>')
+        return f'<a epub:type="noteref" id="fnr{n}" href="#fn{n}" class="noteref"><sup>{n}</sup></a>'
+    chapter = FOOTNOTE.sub(ref, chapter)
+    if notes:
+        chapter += '<section class="footnotes"><hr/>' + "".join(notes) + "</section>"
+    return chapter, len(notes)
+
+
 def number_headings(body):
     """Give every chapter heading an id; return (body, [(level, id, text)])."""
     heads = []
@@ -117,6 +161,10 @@ body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.6; color: 
 .tp-publisher { margin-top: 70mm; font-size: 11pt; letter-spacing: .04em; }
 .colophon { page: front; break-after: page; font-size: 9.5pt; line-height: 1.5; padding-top: 150mm; }
 .colophon p { margin: 0 0 2.5mm; }
+.fn { float: footnote; font-size: 9pt; line-height: 1.4; text-align: left; font-style: normal; font-weight: normal; text-indent: 0; }
+.fn::footnote-call { content: counter(footnote); vertical-align: super; font-size: 65%%; line-height: 0; }
+.fn::footnote-marker { content: counter(footnote) ". "; }
+@page { @footnote { border-top: .5pt solid #888; padding-top: 2mm; margin-top: 5mm; } }
 h1:not(.tp-title) { font-size: 21pt; text-align: center; font-weight: normal; margin: 0 0 12mm; padding-top: 18mm; break-before: page; break-after: avoid; }
 h2 { font-size: 15pt; font-weight: normal; margin: 9mm 0 3mm; break-after: avoid; }
 h3 { font-size: 12.5pt; margin: 7mm 0 2mm; break-after: avoid; }
@@ -145,7 +193,7 @@ figcaption .src { display: block; font-size: 8pt; color: #777; }
 
 
 def print_page(st, body, cover_src):
-    body, heads = number_headings(body)
+    body, heads = number_headings(clean_marks(body))
     body = prepare_body(body, heads)
     footer = "counter(page)" if st.get("footer_numbers", True) else "none"
     header = st.get("header") or st.get("title") or ""
@@ -180,6 +228,10 @@ figure { margin: 1em 0; text-align: center; }
 img { max-width: 100%; }
 figcaption { font-size: .85em; color: #444; }
 figcaption .src { display: block; font-size: .8em; color: #777; }
+.noteref { text-decoration: none; }
+.footnotes { margin-top: 2em; font-size: .85em; }
+.footnotes hr { width: 30%; margin: 0 0 .6em; border: 0; border-top: 1px solid #999; }
+.footnote p { margin: 0 0 .4em; text-align: left; }
 .title-page { text-align: center; margin-top: 20%; }
 .tp-title { font-size: 2em; font-weight: normal; }
 .tp-subtitle { font-style: italic; }
@@ -211,7 +263,7 @@ def epub(st, body, read_image):
     """read_image(src) -> (bytes, mime) or None. Returns the .epub file as bytes."""
     lang = LANG_NAMES.get(st.get("language"), "cs")
     title = st.get("title") or "Kniha"
-    body, heads = number_headings(body)
+    body, heads = number_headings(clean_marks(body))
     images = {}
 
     def take_image(m):
@@ -243,7 +295,10 @@ def epub(st, body, read_image):
         chunks.append(cur)
     files = []  # (name, title, xhtml body)
     where = {}
+    fn_count = 0
     for i, ch in enumerate(chunks, 1):
+        ch, n = epub_footnotes(ch, fn_count)
+        fn_count += n
         name = f"text{i:03d}.xhtml"
         for hid in re.findall(r'<h[123][^>]* id="(kap-\d+)"', ch):
             where[hid] = name

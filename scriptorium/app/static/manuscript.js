@@ -37,7 +37,9 @@ function sanitize(root) {
           if (keep) child.setAttribute("style", keep); else child.removeAttribute("style");
         } else if (n === "src" && child.tagName === "IMG") {
           // keep only our own images; data: images are uploaded separately
-        } else if (n === "class" && /^(cite|src|var-toc|var-break)$/.test(a.value)) {
+        } else if (n === "class" && /^(cite|src|var-toc|var-break|fn|cmt)$/.test(a.value)) {
+          // keep our classes (citation, automatic parts, footnote, comment)
+        } else if (n === "data-c" && child.tagName === "SPAN" && /^[a-z0-9]{4,12}$/.test(a.value)) {
           // keep citation class
         } else if (n === "data-origin" && child.tagName === "IMG" && /^[\w\-. ]+\/[\w\-. ]+$/.test(a.value)) {
           // which scan page the image was cut from (book/file), for cropping again from the original
@@ -166,6 +168,7 @@ function insertFragment(html, message) {
 
 // render the automatic table of contents and page breaks inside the editor
 function renderVars() {
+  renderMarks();
   const heads = [...editor.querySelectorAll("h1, h2, h3")].filter((h) => h.textContent.trim());
   editor.querySelectorAll("div.var-toc").forEach((box) => {
     box.contentEditable = "false";
@@ -176,6 +179,203 @@ function renderVars() {
     box.contentEditable = "false";
     box.innerHTML = '<span class="var-label">Nová stránka – další text začne na nové straně</span>';
   });
+}
+
+// ---------- footnotes and comments ----------
+// Footnote: <span class="fn">text</span> where the number belongs; the editor shows only the number.
+// Comment: <span class="cmt" data-c="id">commented text</span>; the comment itself lives in comments.json.
+const marks = { comments: [], tab: "outline" };
+function renderMarks() {
+  const fns = [...editor.querySelectorAll("span.fn")];
+  fns.forEach((s, i) => { s.contentEditable = "false"; s.dataset.n = i + 1; s.title = `Poznámka ${i + 1}: ${s.textContent}`; });
+  const byId = new Map(marks.comments.map((c) => [c.id, c]));
+  editor.querySelectorAll("span.cmt").forEach((s) => {
+    const c = byId.get(s.dataset.c);
+    s.classList.toggle("resolved", !c || c.resolved);
+    s.title = c && !c.resolved ? `Komentář: ${c.text}` : "";
+  });
+  renderNotesList(fns);
+  renderCommentsList();
+}
+
+function renderNotesList(fns) {
+  $("#fnCount").textContent = fns.length || "";
+  const box = $("#notesList");
+  box.innerHTML = fns.length ? "" : '<div class="empty">Zatím žádné poznámky pod čarou. Klikněte do textu a v nástrojích zvolte <b>Poznámka</b>.</div>';
+  fns.forEach((s, i) => {
+    const d = document.createElement("div");
+    d.className = "side-card note-card";
+    d.innerHTML = `<b>${i + 1}.</b> ${escT(s.textContent)}`;
+    d.addEventListener("click", () => { s.scrollIntoView({ behavior: "smooth", block: "center" }); flash(s); editFootnote(s); });
+    box.append(d);
+  });
+}
+
+function renderCommentsList() {
+  const open = marks.comments.filter((c) => !c.resolved);
+  $("#cmtCount").textContent = open.length || "";
+  const box = $("#cmtList");
+  box.innerHTML = marks.comments.length ? "" : '<div class="empty">Zatím žádné komentáře. Označte v rukopisu text a v nástrojích zvolte <b>Komentář</b>.</div>';
+  const list = [...open, ...marks.comments.filter((c) => c.resolved)];
+  for (const c of list) {
+    const span = editor.querySelector(`span.cmt[data-c="${c.id}"]`);
+    const d = document.createElement("div");
+    d.className = "side-card cmt-card" + (c.resolved ? " done" : "");
+    d.dataset.c = c.id;
+    d.innerHTML = `<div class="cmt-quote">${span ? "„" + escT(c.quote) + "“" : "<i>Označený text byl z rukopisu smazán.</i>"}</div>
+      <div class="cmt-text">${escT(c.text)}</div>
+      <div class="cmt-meta">${escT(c.author || "")} · ${escT(c.time)}${c.resolved ? " · vyřešeno" : ""}</div>
+      ${(c.replies || []).map((r) => `<div class="cmt-reply"><div>${escT(r.text)}</div><div class="cmt-meta">${escT(r.author || "")} · ${escT(r.time)}</div></div>`).join("")}
+      <div class="cmt-acts">
+        ${c.resolved ? '<button data-a="reopen">Znovu otevřít</button>' : '<button data-a="reply">Odpovědět</button><button data-a="resolve">✓ Vyřešeno</button>'}
+        <button data-a="delete" class="danger">Smazat</button>
+      </div>`;
+    d.addEventListener("click", async (e) => {
+      const a = e.target.dataset.a;
+      if (!a) { if (span) { span.scrollIntoView({ behavior: "smooth", block: "center" }); flash(span); } return; }
+      if (a === "reply") {
+        noteDialog({ title: "Odpověď na komentář", quote: c.text, author: true, ok: (text, author) => commentAction(c.id, { action: "reply", text, author }) });
+        return;
+      }
+      if (a === "delete") {
+        if (!confirm("Smazat komentář? Text v rukopisu zůstane, jen se přestane zvýrazňovat.")) return;
+        if (span) { span.replaceWith(...span.childNodes); markDirty(); }
+      }
+      await commentAction(c.id, { action: a, author: myName() });
+    });
+    box.append(d);
+  }
+}
+
+function myName() { try { return localStorage.getItem("scriptorium.name") || ""; } catch (e) { return ""; } }
+
+async function commentAction(id, body) {
+  marks.comments = await fetch(`api/manuscript/comments/${id}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((r) => r.json());
+  renderMarks();
+}
+
+async function loadComments() {
+  marks.comments = await fetch("api/manuscript/comments").then((r) => r.json()).catch(() => []);
+  renderMarks();
+}
+
+function flash(node) {
+  node.classList.add("mark-flash");
+  setTimeout(() => node.classList.remove("mark-flash"), 1600);
+}
+
+function showSide(tab) {
+  marks.tab = tab;
+  document.querySelectorAll("#sideTabs button").forEach((b) => b.classList.toggle("on", b.dataset.tab === tab));
+  document.querySelectorAll("#msOutline .side-pane").forEach((p) => { p.hidden = p.dataset.pane !== tab; });
+  $("#msOutline").classList.toggle("wide", tab === "comments");
+  if ($("#msOutline").classList.contains("closed") || $("#msOutline").classList.contains("auto-closed")) $("#outlineToggle").click();
+}
+
+// one dialog for footnotes, comments and replies
+function noteDialog({ title, label = "Text", quote = "", text = "", author = false, remove = null, ok }) {
+  $("#noteTitle").textContent = title;
+  $("#noteLabel").textContent = label;
+  $("#noteQuote").hidden = !quote;
+  $("#noteQuote").textContent = quote ? "„" + quote + "“" : "";
+  $("#noteText").value = text;
+  $("#noteAuthorL").hidden = !author;
+  $("#noteAuthor").value = myName();
+  $("#noteDelete").hidden = !remove;
+  $("#noteDlg").hidden = false;
+  setTimeout(() => $("#noteText").focus(), 50);
+  const close = () => { $("#noteDlg").hidden = true; $("#noteOk").onclick = $("#noteDelete").onclick = $("#noteCancel").onclick = null; };
+  $("#noteCancel").onclick = close;
+  $("#noteDelete").onclick = () => { close(); remove(); };
+  $("#noteOk").onclick = () => {
+    const t = $("#noteText").value.trim();
+    if (!t) { $("#noteText").focus(); return; }
+    if (author) { try { localStorage.setItem("scriptorium.name", $("#noteAuthor").value.trim()); } catch (e) { /* ignore */ } }
+    close();
+    ok(t, $("#noteAuthor").value.trim());
+  };
+}
+
+function insertFootnote() {
+  const range = savedRange && editor.contains(savedRange.startContainer) ? savedRange.cloneRange() : null;
+  if (!range) { toast("Klikněte do textu rukopisu tam, kam patří číslo poznámky, a pak na Poznámka."); return; }
+  noteDialog({
+    title: "Poznámka pod čarou",
+    label: "Text poznámky – v tisku a PDF bude dole na stránce, v e-knize na konci kapitoly",
+    ok: (text) => {
+      range.collapse(false);
+      const s = document.createElement("span");
+      s.className = "fn";
+      s.textContent = text;
+      range.insertNode(s);
+      const after = document.createRange();
+      after.setStartAfter(s);
+      after.collapse(true);
+      const sel = window.getSelection();
+      sel.removeAllRanges(); sel.addRange(after);
+      savedRange = after.cloneRange();
+      markDirty();
+      renderMarks();
+      toast("Poznámka pod čarou vložena.");
+    },
+  });
+}
+
+function editFootnote(s) {
+  noteDialog({
+    title: `Poznámka pod čarou ${s.dataset.n || ""}`,
+    label: "Text poznámky",
+    text: s.textContent,
+    remove: () => { s.remove(); markDirty(); renderMarks(); toast("Poznámka odstraněna."); },
+    ok: (text) => { s.textContent = text; markDirty(); renderMarks(); },
+  });
+}
+
+function addComment() {
+  const range = savedRange && editor.contains(savedRange.startContainer) ? savedRange.cloneRange() : null;
+  if (!range || range.collapsed || !range.toString().trim()) { toast("Nejdřív v rukopisu označte text, ke kterému chcete napsat komentář."); return; }
+  // a comment marks text inside one paragraph
+  const blockOf = (n) => (n.nodeType === 1 ? n : n.parentElement).closest("p, h1, h2, h3, li, blockquote, figcaption");
+  const b0 = blockOf(range.startContainer);
+  if (b0 && !b0.contains(range.endContainer)) range.setEnd(b0, b0.childNodes.length);
+  const quote = range.toString().trim().replace(/\s+/g, " ").slice(0, 300);
+  noteDialog({
+    title: "Komentář",
+    label: "Komentář – do tisku ani e-knihy se nedostane",
+    quote, author: true,
+    ok: async (text, author) => {
+      const id = Array.from(crypto.getRandomValues(new Uint8Array(4)), (n) => n.toString(16).padStart(2, "0")).join("");
+      const span = document.createElement("span");
+      span.className = "cmt";
+      span.dataset.c = id;
+      span.append(range.extractContents());
+      range.insertNode(span);
+      markDirty();
+      marks.comments = await fetch("api/manuscript/comments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, quote, text, author }) }).then((r) => r.json());
+      save();
+      renderMarks();
+      showSide("comments");
+    },
+  });
+}
+
+function initMarks() {
+  $("#fnBtn").addEventListener("mousedown", (e) => e.preventDefault());
+  $("#cmtBtn").addEventListener("mousedown", (e) => e.preventDefault());
+  $("#fnBtn").addEventListener("click", () => { rememberSelection(); insertFootnote(); });
+  $("#cmtBtn").addEventListener("click", () => { rememberSelection(); addComment(); });
+  document.querySelectorAll("#sideTabs button").forEach((b) => b.addEventListener("click", () => showSide(b.dataset.tab)));
+  editor.addEventListener("click", (e) => {
+    const fn = e.target.closest && e.target.closest("span.fn");
+    if (fn) { e.preventDefault(); editFootnote(fn); return; }
+    const cm = e.target.closest && e.target.closest("span.cmt:not(.resolved)");
+    if (cm) {
+      showSide("comments");
+      const card = document.querySelector(`#cmtList .cmt-card[data-c="${cm.dataset.c}"]`);
+      if (card) { card.scrollIntoView({ behavior: "smooth", block: "nearest" }); flash(card); }
+    }
+  });
+  loadComments();
 }
 
 // ---------- camera ----------
@@ -1073,6 +1273,7 @@ function init() {
   window.addEventListener("resize", showInsertMark);
 
   initCrop();
+  initMarks();
   load().then(loadClips);
 }
 
