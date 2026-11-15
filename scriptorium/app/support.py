@@ -1,11 +1,16 @@
 """Bug reports and feature requests sent from the app.
 
-Every report is saved to <data>/_support/ (never served to the browser). When
+Every report is saved to <data>/_support/ (never served to the browser). With
+SUPPORT_EMAIL_TO and SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS/SMTP_FROM set it is also
+e-mailed (e.g. into a CRM inbox). When
 SUPPORT_GITHUB_REPO ("owner/repo") and SUPPORT_GITHUB_TOKEN (fine-grained token
 with Issues: read and write on that one repo) are set, a GitHub issue is created too.
 """
 import base64
 import http.client
+import smtplib
+import ssl
+from email.message import EmailMessage
 import json
 import os
 import re
@@ -59,7 +64,40 @@ class Support:
         with open(base + ".json", "w", encoding="utf-8") as f:
             json.dump(report, f, ensure_ascii=False, indent=1)
         issue = self.github_issue(report)
-        return {"ok": True, "issue": issue}
+        mailed = self.email(report, base + ".png" if report.get("screenshot") else None)
+        return {"ok": True, "issue": issue, "mailed": mailed}
+
+    def email(self, r, shot_path):
+        """Send the report by e-mail (e.g. into a CRM inbox) when SMTP is configured."""
+        to = os.environ.get("SUPPORT_EMAIL_TO", "")
+        host = os.environ.get("SMTP_HOST", "")
+        if not (to and host):
+            return False
+        label_name, _ = KINDS[r["kind"]]
+        msg = EmailMessage()
+        msg["Subject"] = f"[Scriptorium – {label_name}] {r['title']}"
+        msg["From"] = os.environ.get("SMTP_FROM") or os.environ.get("SMTP_USER", "")
+        msg["To"] = to
+        ctx = "\n".join(f"{k}: {v}" for k, v in r["context"].items())
+        msg.set_content(f"{label_name} z aplikace Educie Scriptorium\n\n{r['text']}\n\n---\n"
+                        f"uživatel: {r['user'] or '-'}\nverze: {r['version']}\nčas: {r['time']}\n{ctx}\n")
+        if shot_path and os.path.isfile(shot_path):
+            with open(shot_path, "rb") as f:
+                msg.add_attachment(f.read(), maintype="image", subtype="png", filename="obrazovka.png")
+        port = int(os.environ.get("SMTP_PORT", "587"))
+        try:
+            if port == 465:
+                srv = smtplib.SMTP_SSL(host, port, timeout=20, context=ssl.create_default_context())
+            else:
+                srv = smtplib.SMTP(host, port, timeout=20)
+                srv.starttls(context=ssl.create_default_context())
+            if os.environ.get("SMTP_USER"):
+                srv.login(os.environ["SMTP_USER"], os.environ.get("SMTP_PASS", ""))
+            srv.send_message(msg)
+            srv.quit()
+            return True
+        except (OSError, smtplib.SMTPException):
+            return False
 
     def github_issue(self, r):
         repo = os.environ.get("SUPPORT_GITHUB_REPO", "")

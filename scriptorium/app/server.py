@@ -297,6 +297,10 @@ class Handler(SimpleHTTPRequestHandler):
                     return self.send_json({"html": MS.history_item(parts[3])})
                 if parts[2] == "export":
                     doc = MS.load()
+                    if parse_qs(urlparse(self.path).query).get("download"):
+                        html_doc = inline_images(manuscript_export(doc["title"], doc["html"]))
+                        name = re.sub(r"[^\w\-]+", "-", fold(doc["title"] or "rukopis")).strip("-")[:60] or "rukopis"
+                        return self.send_html(html_doc, download=name + ".html")
                     return self.send_html(manuscript_export(doc["title"], doc["html"]))
             if parts[:2] == ["api", "clips"]:
                 return self.send_json(MS.clips())
@@ -464,13 +468,35 @@ class Handler(SimpleHTTPRequestHandler):
             except OSError:
                 pass
 
-    def send_html(self, text):
+    def send_html(self, text, download=None):
         body = text.encode("utf-8")
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
+        if download:
+            self.send_header("Content-Disposition", f'attachment; filename="{download}"')
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+
+def inline_images(doc):
+    """Embed images from the data folder so a downloaded file works on its own."""
+    def repl(m):
+        rel = unquote(m.group(2)).lstrip("/")
+        if rel.startswith("books/"):
+            rel = rel[len("books/"):]
+        full = os.path.normpath(os.path.join(ROOT, rel))
+        if not full.startswith(ROOT + os.sep) or not os.path.isfile(full):
+            return m.group(0)
+        ext = os.path.splitext(full)[1].lower().lstrip(".")
+        mime = {"jpg": "jpeg", "jpeg": "jpeg", "png": "png", "gif": "gif", "webp": "webp"}.get(ext)
+        if not mime:
+            return m.group(0)
+        with open(full, "rb") as f:
+            data = base64.b64encode(f.read()).decode()
+        return f'{m.group(1)}data:image/{mime};base64,{data}"'
+    doc = re.sub(r'<base href="[^"]*">', "", doc)
+    return re.sub(r'(<img[^>]*?src=")((?:\.\./\.\./)?/?books/[^"]+)"', repl, doc)
 
 
 def fold(text):

@@ -79,7 +79,7 @@
         <option value="both">Export dvojjazyčně</option>
         <option value="orig">Export v originále</option>
       </select>
-      <button id="exportBtn">Export knihy</button>
+      <button id="exportBtn" title="Uloží přepis této zdrojové knihy (ne váš rukopis) jako webovou stránku">Export přepisu této knihy</button>
     </details>
     <span id="saveState" class="save-state">—</span>
   </aside>
@@ -148,7 +148,8 @@
       <button id="msDrawerBtn" title="Obsah rukopisu a schránka"><svg class="ico"><use href="#i-list"/></svg> Obsah a schránka <span id="clipCount" class="badge" hidden></span></button>
       <button id="snapshotBtn" title="Uložit pojmenovanou verzi"><svg class="ico"><use href="#i-save"/></svg> Verze</button>
       <button id="historyBtn" title="Starší verze rukopisu"><svg class="ico"><use href="#i-history"/></svg> Historie</button>
-      <button id="printBtn" title="Tisk nebo PDF"><svg class="ico"><use href="#i-print"/></svg> Tisk</button>
+      <button id="printBtn" title="Otevře rukopis připravený k tisku – v okně tisku lze zvolit Uložit jako PDF"><svg class="ico"><use href="#i-print"/></svg> Tisk / PDF</button>
+      <button id="msExportBtn" title="Stáhne celý rukopis i s obrázky jako jeden soubor"><svg class="ico"><use href="#i-save"/></svg> Export rukopisu</button>
     </div>
     <div class="toolbar" id="toolbar">
       <button class="tb" data-cmd="undo" title="Zpět"><svg class="ico"><use href="#i-undo"/></svg><span>Zpět</span></button>

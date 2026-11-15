@@ -152,7 +152,7 @@ async function save() {
 
 // ---------- table of contents ----------
 function refreshToc() {
-  const heads = [...editor.querySelectorAll("h1, h2, h3")];
+  const heads = [...editor.querySelectorAll("h1, h2, h3")].filter((h) => h.textContent.trim());
   for (const toc of [$("#toc"), $("#outline")]) {
     toc.innerHTML = "";
     if (!heads.length) { toc.innerHTML = '<div class="empty">Zatím žádné kapitoly. Nadpis kapitoly nastavíte v nabídce typu odstavce.</div>'; continue; }
@@ -172,7 +172,7 @@ function refreshToc() {
 // highlight the chapter currently on screen in the outline
 function markCurrentHeading() {
   const desk = $("#msDesk");
-  const heads = [...editor.querySelectorAll("h1, h2, h3")];
+  const heads = [...editor.querySelectorAll("h1, h2, h3")].filter((h) => h.textContent.trim());
   const top = desk.getBoundingClientRect().top + 80;
   let cur = -1;
   heads.forEach((h, i) => { if (h.getBoundingClientRect().top <= top) cur = i; });
@@ -665,6 +665,13 @@ function init() {
   });
 
   $("#printBtn").addEventListener("click", async () => { await save(); window.open("api/manuscript/export", "_blank"); });
+  $("#msExportBtn").addEventListener("click", async () => {
+    await save();
+    const a = document.createElement("a");
+    a.href = "api/manuscript/export?download=1";
+    document.body.append(a); a.click(); a.remove();
+    window.showToast("Rukopis se stahuje jako soubor HTML (otevře se v prohlížeči i ve Wordu).", 6000);
+  });
   $("#snapshotBtn").addEventListener("click", async () => {
     const label = prompt("Pojmenujte verzi (např. „hotová kapitola 2“):", "");
     if (label === null) return;

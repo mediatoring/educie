@@ -20,6 +20,7 @@ const STEPS = [
   { sel: "#snapshotBtn", title: "Verze", text: "Uloží pojmenovanou verzi rukopisu, třeba „před úpravou kapitoly 3“. Kdykoli se k ní můžete vrátit." },
   { sel: "#historyBtn", title: "Historie", text: "Všechny dřívější verze rukopisu. Aplikace je ukládá sama, nic se neztratí." },
   { sel: "#printBtn", title: "Tisk a PDF", text: "Otevře rukopis připravený k tisku. V okně tisku zvolte <b>Uložit jako PDF</b>, pokud chcete soubor." },
+  { sel: "#msExportBtn", title: "Export rukopisu", text: "Stáhne celý váš rukopis i s obrázky jako jeden soubor. Otevře se v prohlížeči i ve Wordu. Tlačítko <b>Export přepisu</b> vlevo dole naopak ukládá přepis zdrojové knihy." },
   { sel: "#colAsk", title: "Dotaz", text: "Zeptejte se na cokoli z knih a rukopisu. Odpověď má u každého tvrzení číslo zdroje. Na číslo klikněte a otevře se místo v knize. <b>Nový dotaz</b> vše smaže." },
   { sel: "#colImg", title: "Obrázky", text: "Všechny obrázky z knih, z rukopisu i z knihovny. Klikněte na obrázek pro zvětšení, úpravu popisku a zdroje nebo vložení do rukopisu." },
   { sel: "#settingsBtn", title: "Nastavení", text: "Tady se nastavuje jazykový model pro Dotaz: model na serveru, vlastní klíč OpenAI či Anthropic, nebo model v počítači (LM Studio, Ollama)." },
