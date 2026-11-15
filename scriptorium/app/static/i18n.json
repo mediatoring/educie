@@ -2222,5 +2222,13 @@
 "Uložit slovo do centrálního slovníku aplikace – nebude se označovat v žádné knize": [
 "Save the word to the app's central dictionary – it will not be marked in any book",
 "Wort im zentralen Wörterbuch der App speichern – es wird in keinem Buch mehr markiert"
+],
+"Označí podezřelá slova (neznámá slovníku nebo typické chyby čtení) a tlačítkem <b>Další</b> mezi nimi skáče. Správná jména uložíte do slovníku knihy, nebo do centrálního slovníku pro všechny knihy. Stejné tlačítko je i u transkripce.": [
+"Marks suspicious words (unknown to the dictionary or typical reading errors) and jumps between them with <b>Next</b>. Save correct names to the book's dictionary, or to the central dictionary for all books. The same button is also in the transcription.",
+"Markiert verdächtige Wörter (dem Wörterbuch unbekannt oder typische Lesefehler) und springt mit <b>Weiter</b> zwischen ihnen. Richtige Namen speichern Sie im Wörterbuch des Buches oder im zentralen Wörterbuch für alle Bücher. Dieselbe Schaltfläche gibt es auch bei der Transkription."
+],
+"U transkripce i u rukopisu je tlačítko <b>Korektura</b>. Podezřelá slova se podbarví žlutě a dole se objeví panel. Tlačítkem <b>Další</b> skáčete po slovech, <b>Navrhnout opravu</b> nabídne správná slova a <b>Do slovníku knihy</b> nebo <b>Do centrálního slovníku</b> uloží jméno nebo starý tvar, aby se už neoznačoval jen v této knize, nebo ve všech knihách. Omylem upravený odstavec vrátíte tlačítkem <b>↺ původní text</b>.": [
+"Both the transcription and the manuscript have a <b>Proofreading</b> button. Suspicious words are highlighted in yellow and a panel appears at the bottom. Use <b>Next</b> to jump between words, <b>Suggest a correction</b> offers correct words, and <b>To book dictionary</b> or <b>To central dictionary</b> saves a name or old spelling so it is no longer marked in this book, or in any book. Restore a paragraph edited by mistake with <b>↺ original text</b>.",
+"Transkription und Manuskript haben die Schaltfläche <b>Korrektur</b>. Verdächtige Wörter werden gelb markiert, unten erscheint ein Bereich. Mit <b>Weiter</b> springen Sie von Wort zu Wort, <b>Korrektur vorschlagen</b> bietet richtige Wörter an, und <b>Ins Buchwörterbuch</b> oder <b>Ins zentrale Wörterbuch</b> speichert einen Namen oder eine alte Schreibweise, damit sie in diesem Buch oder in keinem Buch mehr markiert wird. Einen versehentlich geänderten Absatz stellen Sie mit <b>↺ Originaltext</b> wieder her."
 ]
 }

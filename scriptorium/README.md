@@ -2,7 +2,17 @@
 
 Webový editor pro práci se starými tisky. Sken stránky je vlevo, přepsaný text vpravo, vedle něj vlastní rukopis. Obrázky se dají vyříznout a narovnat, odstavce i citace přenést do rukopisu jedním kliknutím a nad všemi texty se lze ptát jazykového modelu, který odpovídá s odkazy na zdroje.
 
-Aplikace je jeden Python proces bez databáze a bez závislostí mimo standardní knihovnu. OCR nástroje ve `app/tools/` potřebují Tesseract, OpenCV a Pillow.
+Co umí:
+
+- rozcestník **Moje knihy** – více rozepsaných knih, každá s vlastním textem, historií verzí a nastavením (titulní strana, tiráž, záhlaví a zápatí, obálka),
+- **originál a transkripce** vedle sebe, výřezy a narovnání obrázků, úpravy jasu, kontrastu a sytosti, vrácení původního textu odstavce a historie transkripce,
+- **korektura** v transkripci i v rukopisu (český a německý slovník, typické chyby OCR, slovník knihy a centrální slovník),
+- **rukopis** s automatickým obsahem, novou stránkou, vkládáním citací, celých transkripcí a obrázků (z aplikace, z počítače, z kamery),
+- **Dotaz** – odpovědi jazykového modelu jen z textů knih s čísly zdrojů; model na serveru, vlastní klíč OpenAI / Anthropic nebo LM Studio / Ollama,
+- **export** do PDF (stránkování, obálka, titulní strana, tiráž, obsah s čísly stran) a do e-knihy EPUB,
+- rozhraní v češtině, angličtině a němčině, světlý a tmavý režim, průvodce aplikací a formulář podpory.
+
+Aplikace je jeden Python proces bez databáze a bez závislostí mimo standardní knihovnu (kontrolu pravopisu zajišťuje přibalená knihovna spylls a slovníky LibreOffice ve složce `app/dict/`). OCR nástroje ve `app/tools/` potřebují Tesseract, OpenCV a Pillow.
 
 ## Spuštění na počítači
 
