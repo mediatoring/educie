@@ -200,9 +200,10 @@ function renderPage() {
   $("#pageNo").value = page.page_no ?? "";
   $("#pageSkip").checked = !!page.skip;
   const img = $("#scanImg");
-  if (img.dataset.src !== page.preview) {
-    img.dataset.src = page.preview;
-    img.src = bookUrl(page.preview);
+  const url = bookUrl(page.preview);  // includes the book id – the same page name exists in every book
+  if (img.dataset.src !== url) {
+    img.dataset.src = url;
+    img.src = url;
   }
   applyZoom();
   renderOverlay();
