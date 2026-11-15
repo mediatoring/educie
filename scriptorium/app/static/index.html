@@ -190,6 +190,7 @@
   <section id="colText" class="col col-text editor-wrap">
     <div class="col-head">
       <h2><svg class="ico"><use href="#i-prepis"/></svg> Transkripce</h2>
+      <button id="proofTextBtn" class="proof-btn" title="Korektura: projde podezřelá slova v celé knize a skáče mezi nimi">✓ Korektura</button>
       <select id="viewSelect" class="tr-only" title="Co zobrazit">
         <option value="both">Originál + překlad</option>
         <option value="tr">Jen překlad</option>
@@ -231,6 +232,7 @@
       <button id="snapshotBtn" title="Uložit pojmenovanou verzi"><svg class="ico"><use href="#i-save"/></svg> Verze</button>
       <button id="historyBtn" title="Starší verze rukopisu"><svg class="ico"><use href="#i-history"/></svg> Historie</button>
       <button id="printBtn" title="Otevře rukopis připravený k tisku – v okně tisku lze zvolit Uložit jako PDF"><svg class="ico"><use href="#i-print"/></svg> Tisk / PDF</button>
+      <button id="proofMsBtn" class="proof-btn" title="Korektura: projde podezřelá slova v rukopisu a skáče mezi nimi">✓ Korektura</button>
       <button id="bookSettingsBtn" title="Název, autor, tiráž, záhlaví a zápatí této knihy"><svg class="ico"><use href="#i-gear"/></svg> Nastavení knihy</button>
       <button id="msExportBtn" title="Stáhne celý rukopis i s obrázky jako jeden soubor"><svg class="ico"><use href="#i-save"/></svg> Export rukopisu</button>
     </div>
@@ -458,10 +460,23 @@
   </div>
 </div>
 
+<div id="proofBar" class="proof-bar idle" hidden>
+  <div class="proof-head"><b id="proofTitle">Korektura</b><span id="proofInfo"></span></div>
+  <div id="proofSugg" class="proof-sugg"></div>
+  <div class="proof-nav">
+    <button id="proofPrev" title="Předchozí podezřelé slovo">◀ Předchozí</button>
+    <button id="proofNext" class="primary" title="Další podezřelé slovo">Další ▶</button>
+    <button id="proofSkip" title="Toto místo je v pořádku, už ho neukazovat">Je to správně</button>
+    <button id="proofAdd" title="Přidat slovo do slovníku – už se nebude označovat nikde">+ Do slovníku</button>
+    <button id="proofAgain" title="Znovu zkontrolovat celý text">↻ Znovu</button>
+    <button id="proofClose" title="Ukončit korekturu">Konec</button>
+  </div>
+</div>
+
 <div id="insMenu" class="pop-menu" hidden>
   <button id="insToc"><svg class="ico"><use href="#i-list"/></svg> Obsah knihy (vytvoří se sám z kapitol)</button>
   <button id="insTr"><svg class="ico"><use href="#i-prepis"/></svg> Transkripce knih…</button>
-  <button id="insBreak"><svg class="ico"><use href="#i-print"/></svg> Zlom strany (další text začne na nové straně)</button>
+  <button id="insBreak"><svg class="ico"><use href="#i-print"/></svg> Nová stránka (další text začne na nové straně v PDF i e-knize)</button>
 </div>
 
 <div id="trDlg" class="dlg" hidden>
@@ -562,5 +577,6 @@
 <script src="settings.js"></script>
 <script src="help.js"></script>
 <script src="home.js"></script>
+<script src="proof.js"></script>
 </body>
 </html>

@@ -23,6 +23,7 @@ from library import Library, figure_caption, gallery
 from manuscript import Conflict, Manuscript, Manuscripts
 from settings import Settings
 from support import Support
+from proof import Proofreader
 
 PORT = int(os.environ.get("PUBLISHER_PORT", "2209"))
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -36,6 +37,7 @@ AUTH = Auth(ROOT)
 LIB = Library(ROOT)
 SETTINGS = Settings(ROOT)
 SUPPORT = Support(ROOT, APP_DIR)
+PROOF = Proofreader(ROOT)
 PUBLIC_PATHS = {"/login.html", "/login.css", "/api/login", "/healthz", "/favicon.ico"}
 
 
@@ -298,6 +300,9 @@ class Handler(SimpleHTTPRequestHandler):
                     return self.send_json(json.load(f))
             if parts == ["api", "manuscripts"]:
                 return self.send_json(MSS.list())
+            if parts == ["api", "proof", "suggest"]:
+                q = parse_qs(urlparse(self.path).query)
+                return self.send_json(PROOF.suggest(q.get("w", [""])[0], q.get("lang", ["cs"])[0]))
             if parts == ["api", "manuscript", "settings"]:
                 return self.send_json(self.ms().settings())
             if parts[:2] == ["api", "manuscript"]:
@@ -379,6 +384,10 @@ class Handler(SimpleHTTPRequestHandler):
         parts = self.route()
         if parts == ["api", "chat"]:
             return self.stream_chat(self.read_json().get("question", ""))
+        if parts == ["api", "proof", "check"]:
+            return self.send_json(PROOF.check(self.read_json().get("items", [])))
+        if parts == ["api", "proof", "word"]:
+            return self.send_json({"ok": PROOF.add_word(self.read_json().get("word", ""))})
         if parts == ["api", "manuscripts"]:
             body = self.read_json()
             return self.send_json(MSS.create(body.get("title", ""), body.get("author", "")))

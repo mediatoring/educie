@@ -35,7 +35,7 @@ const TOPICS = [
   ["Jak vyříznout obrázek ze skenu", "Zapněte <b>Originál</b> a <b>Rukopis</b> (tlačítko <b>Obrázky do rukopisu</b>). Na skenu obrázek ohraničte nebo upravte rámeček. Pak klikněte na <b>Do rukopisu</b>. V okně můžete obrázek ještě oříznout, narovnat a doplnit popisek."],
   ["Jak vložit obrázek z počítače", "V rukopisu klikněte na tlačítko <b>Obrázek</b>, nebo obrázek zkopírujte (Cmd+C) a v rukopisu vložte (Cmd+V)."],
   ["Jak udělat nadpis kapitoly", "Klikněte do řádku v rukopisu a v nabídce vlevo nahoře (kde je <b>Běžný text</b>) zvolte <b>Kapitola</b>. Kapitoly se samy objeví v obsahu."],
-  ["Jak vložit obsah knihy", "Klikněte v rukopisu tam, kde má obsah být (obvykle za titulní stranu), a v nástrojích zvolte <b>Vložit → Obsah knihy</b>. Obsah se sám doplňuje podle kapitol a podkapitol, nic se v něm nepřepisuje ručně. Stejně tak vložíte <b>Zlom strany</b>, aby další kapitola v tisku a v PDF začala na nové straně."],
+  ["Jak vložit obsah knihy", "Klikněte v rukopisu tam, kde má obsah být (obvykle za titulní stranu), a v nástrojích zvolte <b>Vložit → Obsah knihy</b>. Obsah se sám doplňuje podle kapitol a podkapitol, nic se v něm nepřepisuje ručně. Stejně tak vložíte <b>Novou stránku</b>, aby další kapitola v tisku a v PDF začala na nové straně."],
   ["Jak najít slovo ve všech knihách", "Napište ho do pole <b>Hledat všude…</b> nahoře. Výsledky z rukopisu jsou první, pak z knih."],
   ["Jak vrátit starší verzi rukopisu", "Klikněte na <b>Historie</b>, vyberte čas a stiskněte <b>Obnovit</b>. Současná verze se předtím sama uloží, takže se nic neztratí."],
   ["Jak vytisknout nebo uložit PDF", "V rukopisu klikněte na <b>Tisk</b>. Otevře se tisková podoba. V okně tisku zvolte tiskárnu, nebo <b>Uložit jako PDF</b>."],

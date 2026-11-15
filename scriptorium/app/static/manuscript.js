@@ -98,7 +98,7 @@ async function transcriptHtml(bookId, opts) {
   const short = (p.title || bookId).replace(/\s*\(.*\)\s*$/, "");
   let out = `<h1>${escT(short)}</h1>`;
   if (opts.sources) out += `<p class="cite">(Zdroj: ${escT(p.title || bookId)})</p>`;
-  for (const page of p.pages) {
+  for (const [pi, page] of p.pages.entries()) {
     for (const b of page.blocks) {
       if (b.type === "image") {
         if (!opts.images || !b.src) continue;
@@ -112,8 +112,12 @@ async function transcriptHtml(bookId, opts) {
       let body = b.html || escT(b.text || "");
       if (p.lang && b.tr) body = opts.lang === "orig" ? b.html : opts.lang === "both" ? `${b.html}</p><p><i>${b.tr}</i>` : b.tr;
       if (!body.replace(/<[^>]+>/g, "").trim()) continue;
-      const st = b.style;
-      if (st === "h1" || st === "h2") out += `<h2>${body}</h2>`;
+      let st = b.style;
+      const plainText = body.replace(/<[^>]+>/g, "").trim();
+      // the title page and lines like "JINDŘICH TEISINGER," are not chapter headings
+      if ((st === "h1" || st === "h2" || st === "h3") && (pi === 0 || /[,:;]$/.test(plainText) || /^\S*\d{4}\.?$/.test(plainText))) st = pi === 0 ? "center" : null;
+      if (st === "center") out += `<p style="text-align:center">${body}</p>`;
+      else if (st === "h1" || st === "h2") out += `<h2>${body}</h2>`;
       else if (st === "h3") out += `<h3>${body}</h3>`;
       else if (st === "note") out += `<p><small>${body}</small></p>`;
       else if (st === "quote") out += `<blockquote><p>${body}</p></blockquote>`;
@@ -168,7 +172,7 @@ function renderVars() {
   });
   editor.querySelectorAll("div.var-break").forEach((box) => {
     box.contentEditable = "false";
-    box.innerHTML = '<span class="var-label">Zlom strany – další text začne na nové straně</span>';
+    box.innerHTML = '<span class="var-label">Nová stránka – další text začne na nové straně</span>';
   });
 }
 
@@ -316,6 +320,47 @@ function restoreSelection() {
   if (sel.rangeCount && editor.contains(sel.anchorNode)) return;
   sel.removeAllRanges();
   sel.addRange(savedRange);
+}
+
+// change every paragraph touched by the selection (works for one or many paragraphs)
+function setBlockType(tag) {
+  editor.focus();
+  restoreSelection();
+  const sel = window.getSelection();
+  if (!sel.rangeCount) return;
+  const range = sel.getRangeAt(0);
+  const top = (n) => { while (n && n.parentNode !== editor) n = n.parentNode; return n; };
+  const first = top(range.startContainer), last = top(range.endContainer);
+  if (!first) return;
+  const blocks = [];
+  for (let n = first; n; n = n.nextElementSibling) {
+    blocks.push(n);
+    if (n === last || !last) break;
+  }
+  const textTags = ["P", "H1", "H2", "H3", "BLOCKQUOTE", "DIV"];
+  const changed = [];
+  for (const b of blocks) {
+    if (!textTags.includes(b.tagName) || b.classList.contains("var-toc") || b.classList.contains("var-break") || b.querySelector("img")) continue;
+    if (b.tagName === tag.toUpperCase()) { changed.push(b); continue; }
+    const nb = document.createElement(tag);
+    if (b.tagName === "BLOCKQUOTE" && b.children.length) nb.innerHTML = [...b.children].map((c) => c.innerHTML).join("<br>");
+    else nb.innerHTML = b.innerHTML;
+    if (tag === "blockquote") nb.innerHTML = `<p>${nb.innerHTML}</p>`;
+    const align = b.style.textAlign;
+    if (align) nb.style.textAlign = align;
+    b.replaceWith(nb);
+    changed.push(nb);
+  }
+  if (changed.length) {
+    const r = document.createRange();
+    r.setStartBefore(changed[0]);
+    r.setEndAfter(changed[changed.length - 1]);
+    sel.removeAllRanges();
+    sel.addRange(r);
+    savedRange = r.cloneRange();
+  }
+  markDirty();
+  updateToolbar();
 }
 
 function updateToolbar() {
@@ -667,7 +712,7 @@ function init() {
     b.addEventListener("mousedown", (e) => e.preventDefault());
     b.addEventListener("click", () => exec(b.dataset.cmd));
   });
-  $("#blockStyle").addEventListener("change", (e) => { exec("formatBlock", e.target.value); refreshToc(); });
+  $("#blockStyle").addEventListener("change", (e) => { setBlockType(e.target.value); refreshToc(); });
   $("#fontName").addEventListener("change", (e) => { if (e.target.value) exec("fontName", e.target.value); e.target.value = ""; });
   $("#fontSize").addEventListener("change", (e) => { if (e.target.value) exec("fontSize", e.target.value); e.target.value = ""; });
   for (const sel of ["#blockStyle", "#fontName", "#fontSize"]) $(sel).addEventListener("mousedown", rememberSelection);
@@ -702,7 +747,7 @@ function init() {
   $("#trOk").addEventListener("click", insertTranscripts);
   $("#insBreak").addEventListener("click", () => {
     $("#insMenu").hidden = true;
-    insertMarker("var-break", "Zlom strany vložen.");
+    insertMarker("var-break", "Nová stránka vložena.");
   });
   $("#imgFromFile").addEventListener("click", () => { $("#imgMenu").hidden = true; $("#imageFile").click(); });
   $("#imgFromGallery").addEventListener("click", () => {

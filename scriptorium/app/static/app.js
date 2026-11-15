@@ -860,6 +860,14 @@ function findPageOf(block) {
 }
 
 // ---------- helpers used by the gallery ----------
+window.Book = {
+  get project() { return state.project; },
+  get pageIndex() { return state.pageIndex; },
+  get view() { return state.view || "both"; },
+  get id() { return state.bookId; },
+  goToPage: (i) => goToPage(i),
+  selectBlock: (id) => selectBlock(id),
+};
 window.ensureColumn = (c) => { if (!state.cols.includes(c)) setCols([...state.cols, c]); };
 
 window.openBookBlock = async (book, page, block) => {
