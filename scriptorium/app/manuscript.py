@@ -1,6 +1,7 @@
-"""Manuscript storage: the father's own book, clipboard tray and version history.
+"""Manuscript storage: the author's own books, clipboard tray and version history.
 
-Layout on disk (next to the books):
+Every book being written has its own folder next to the source books. The first one is
+"_rukopis", further ones "_rukopis-<id>":
     _rukopis/document.html      current text
     _rukopis/meta.json          version counter, last snapshot time
     _rukopis/history/*.html     snapshots (automatic every few minutes + named ones)
@@ -24,9 +25,15 @@ class Conflict(Exception):
     pass
 
 
+BOOK_FIELDS = ("title", "subtitle", "author", "editor", "publisher", "series", "place", "year", "edition",
+               "isbn_pdf", "isbn_epub", "copyright", "license", "thanks", "note", "language",
+               "header", "footer_numbers", "cover", "sources", "illustrations")
+
+
 class Manuscript:
-    def __init__(self, root):
-        self.dir = os.path.join(root, "_rukopis")
+    def __init__(self, root, name="_rukopis"):
+        self.name = name
+        self.dir = os.path.join(root, name)
         self.root = root
         for sub in ("", "history", "images"):
             os.makedirs(os.path.join(self.dir, sub), exist_ok=True)
@@ -56,7 +63,49 @@ class Manuscript:
         except OSError:
             html = "<h1>Kapitola 1</h1><p>Sem pište text…</p>"
         meta = self._meta()
-        return {"html": html, "version": meta["version"], "title": meta.get("title", "Můj rukopis")}
+        return {"html": html, "version": meta["version"], "title": meta.get("title", "Můj rukopis"), "id": self.name}
+
+    # ---------- book settings (title page, colophon, header/footer, cover) ----------
+    def settings(self):
+        meta = self._meta()
+        out = dict(meta.get("book", {}))
+        out["title"] = meta.get("title", "Můj rukopis")
+        out.setdefault("language", "cs")
+        out.setdefault("footer_numbers", True)
+        return out
+
+    def save_settings(self, data):
+        meta = self._meta()
+        book = meta.get("book", {})
+        for k in BOOK_FIELDS:
+            if k in data:
+                v = data[k]
+                if k == "footer_numbers":
+                    book[k] = bool(v)
+                elif k == "sources":
+                    book[k] = [str(x) for x in v][:50] if isinstance(v, list) else []
+                else:
+                    book[k] = str(v).strip()[:4000]
+        if book.get("title"):
+            meta["title"] = book.pop("title")
+        book.pop("title", None)
+        meta["book"] = book
+        self._write("meta.json", json.dumps(meta, ensure_ascii=False))
+        return self.settings()
+
+    def info(self):
+        meta = self._meta()
+        doc = self._path("document.html")
+        words = 0
+        updated = None
+        if os.path.exists(doc):
+            with open(doc, encoding="utf-8") as f:
+                words = len(re.sub(r"<[^>]+>", " ", f.read()).split())
+            updated = time.strftime("%d. %m. %Y %H:%M", time.localtime(os.path.getmtime(doc)))
+        book = meta.get("book", {})
+        return {"id": self.name, "title": meta.get("title", "Můj rukopis"), "author": book.get("author", ""),
+                "subtitle": book.get("subtitle", ""), "cover": book.get("cover", ""), "words": words,
+                "updated": updated, "created": meta.get("created", 0)}
 
     def save(self, html, base_version, title=None, force=False):
         meta = self._meta()
@@ -121,7 +170,7 @@ class Manuscript:
         name = time.strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6] + ext
         with open(self._path("images", name), "wb") as f:
             f.write(base64.b64decode(data))
-        return "books/_rukopis/images/" + name
+        return f"books/{self.name}/images/" + name
 
     def copy_book_image(self, book_path, src):
         src_file = os.path.normpath(os.path.join(book_path, src.split("?")[0]))
@@ -129,7 +178,7 @@ class Manuscript:
             raise ValueError("bad image path")
         name = os.path.basename(book_path) + "_" + uuid.uuid4().hex[:6] + "_" + os.path.basename(src_file)
         shutil.copy2(src_file, self._path("images", name))
-        return "books/_rukopis/images/" + name
+        return f"books/{self.name}/images/" + name
 
     # ---------- clipboard tray ----------
     def clips(self):
@@ -150,3 +199,33 @@ class Manuscript:
     def remove_clip(self, clip_id):
         clips = [c for c in self.clips() if c["id"] != clip_id]
         self._write("clips.json", json.dumps(clips, ensure_ascii=False, indent=1))
+
+
+class Manuscripts:
+    """All books being written. Folder names are their ids."""
+    NAME = re.compile(r"^_rukopis(-[a-z0-9]{6})?$")
+
+    def __init__(self, root):
+        self.root = root
+        Manuscript(root, "_rukopis")  # the first book always exists
+
+    def ids(self):
+        return [n for n in os.listdir(self.root) if self.NAME.match(n) and os.path.isdir(os.path.join(self.root, n))]
+
+    def get(self, name):
+        if not name or not self.NAME.match(name) or not os.path.isdir(os.path.join(self.root, name)):
+            name = "_rukopis"
+        return Manuscript(self.root, name)
+
+    def list(self):
+        items = [Manuscript(self.root, n).info() for n in self.ids()]
+        return sorted(items, key=lambda i: (i["id"] != "_rukopis", i["created"]))
+
+    def create(self, title, author=""):
+        name = "_rukopis-" + uuid.uuid4().hex[:6]
+        ms = Manuscript(self.root, name)
+        meta = {"version": 0, "last_snapshot": 0, "title": (title or "Nová kniha").strip()[:200],
+                "created": time.time(), "book": {"author": author.strip()[:200]}}
+        ms._write("meta.json", json.dumps(meta, ensure_ascii=False))
+        ms._write("document.html", "<h1>Kapitola 1</h1><p>Sem pište text…</p>")
+        return ms.info()

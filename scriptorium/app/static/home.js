@@ -1,0 +1,155 @@
+// Home screen: books being written (each with its own settings), source books and basic help
+"use strict";
+
+(() => {
+const $ = (s) => document.querySelector(s);
+const esc = (t) => String(t ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function currentId() {
+  const m = document.cookie.match(/(?:^|;\s*)ms=([^;]+)/);
+  return m ? decodeURIComponent(m[1]) : "_rukopis";
+}
+
+function setCurrent(id) {
+  document.cookie = `ms=${encodeURIComponent(id)}; path=/; max-age=31536000; SameSite=Lax`;
+}
+
+// switching books always reloads, so the editor can never save into the wrong book
+function openBook(id, extra = "") {
+  if (window.MS && MS.save) { try { MS.save(); } catch (e) { /* ignore */ } }
+  setCurrent(id);
+  location.href = location.pathname + "?open=1" + extra;
+}
+
+function wordsLabel(n) {
+  if (!n) return "zatím prázdná";
+  return n.toLocaleString("cs-CZ") + (n === 1 ? " slovo" : n < 5 ? " slova" : " slov");
+}
+
+async function render() {
+  const [books, sources] = await Promise.all([
+    fetch("api/manuscripts").then((r) => r.json()),
+    fetch("api/books").then((r) => r.json()),
+  ]);
+  const cur = currentId();
+  const curBook = books.find((b) => b.id === cur) || books[0];
+  if (curBook) $("#homeBookTitle").textContent = curBook.title;
+  const box = $("#homeBooks");
+  box.innerHTML = "";
+  for (const b of books) {
+    const card = document.createElement("div");
+    card.className = "home-card" + (b.id === cur ? " current" : "");
+    card.innerHTML = `
+      <div class="home-cover">${b.cover ? `<img src="${esc(b.cover)}" alt="">` : `<span>${esc(b.title.slice(0, 1))}</span>`}</div>
+      <div class="home-meta">
+        <h3>${esc(b.title)}</h3>
+        ${b.subtitle ? `<div class="home-subt">${esc(b.subtitle)}</div>` : ""}
+        <div class="home-info">${esc(b.author || "autor nevyplněn")} · ${wordsLabel(b.words)}${b.updated ? " · upraveno " + esc(b.updated) : ""}</div>
+        <div class="home-btns">
+          <button class="big primary" data-act="open">${b.id === cur ? "Pokračovat v psaní" : "Otevřít"}</button>
+          <button class="big" data-act="settings">Nastavení a tiráž</button>
+        </div>
+      </div>`;
+    card.querySelector('[data-act="open"]').addEventListener("click", () => {
+      if (b.id === cur && location.search.includes("open=1")) hide();
+      else openBook(b.id, "&cols=text,ms");
+    });
+    card.querySelector('[data-act="settings"]').addEventListener("click", () => {
+      if (b.id === cur && location.search.includes("open=1")) { hide(); openSettings(); }
+      else openBook(b.id, "&settings=1");
+    });
+    box.append(card);
+  }
+  const add = document.createElement("div");
+  add.className = "home-card home-new";
+  add.innerHTML = `
+    <h3>Nová kniha</h3>
+    <label>Název<input id="newTitle" placeholder="např. Mince Českých Budějovic"></label>
+    <label>Autor<input id="newAuthor" placeholder="jméno autora"></label>
+    <button class="big primary" id="newCreate">Založit knihu</button>`;
+  box.append(add);
+  $("#newCreate").addEventListener("click", async () => {
+    const title = $("#newTitle").value.trim();
+    if (!title) { $("#newTitle").focus(); return; }
+    const b = await fetch("api/manuscripts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title, author: $("#newAuthor").value }) }).then((r) => r.json());
+    openBook(b.id, "&cols=text,ms&settings=1");
+  });
+
+  const src = $("#homeSources");
+  src.innerHTML = sources.map((s) => `<button class="home-source" data-id="${esc(s.id)}"><b>${esc(s.title)}</b><small>${s.pages} stran</small></button>`).join("");
+  src.querySelectorAll(".home-source").forEach((btn) => btn.addEventListener("click", () => {
+    try { localStorage.setItem("publisher.book", btn.dataset.id); } catch (e) { /* ignore */ }
+    if (location.search.includes("open=1")) { hide(); location.hash = btn.dataset.id; location.reload(); }
+    else location.href = location.pathname + "?open=1&cols=scan,text#" + encodeURIComponent(btn.dataset.id);
+  }));
+}
+
+function show() {
+  $("#homeClose").hidden = !location.search.includes("open=1");
+  $("#home").hidden = false;
+  document.body.classList.add("home-open");
+  render();
+}
+
+function hide() {
+  $("#home").hidden = true;
+  document.body.classList.remove("home-open");
+}
+
+// ---------- book settings ----------
+async function openSettings() {
+  const [st, sources] = await Promise.all([
+    fetch("api/manuscript/settings").then((r) => r.json()),
+    fetch("api/books").then((r) => r.json()),
+  ]);
+  document.querySelectorAll("#bookDlg [data-f]").forEach((el) => {
+    const v = st[el.dataset.f];
+    if (el.type === "checkbox") el.checked = v !== false;
+    else el.value = v ?? "";
+  });
+  const chosen = new Set(st.sources || []);
+  $("#bookSources").innerHTML = sources.map((s) => `<label class="set-check"><input type="checkbox" value="${esc(s.id)}" ${chosen.has(s.id) ? "checked" : ""}> ${esc(s.title)}</label>`).join("")
+    + '<small>Vybrané knihy se nabídnou jako první při vkládání transkripcí a použijí se pro seznam pramenů.</small>';
+  $("#bookResult").textContent = "";
+  $("#bookDlgTitle").textContent = "Nastavení knihy – " + (st.title || "");
+  $("#bookDlg").hidden = false;
+}
+
+async function saveSettings() {
+  const data = {};
+  document.querySelectorAll("#bookDlg [data-f]").forEach((el) => { data[el.dataset.f] = el.type === "checkbox" ? el.checked : el.value; });
+  data.sources = [...document.querySelectorAll("#bookSources input:checked")].map((i) => i.value);
+  if (!data.title.trim()) { $("#bookResult").textContent = "Název knihy nesmí být prázdný."; $("#bookResult").classList.add("error"); return; }
+  const st = await fetch("api/manuscript/settings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }).then((r) => r.json());
+  // keep the title field of the editor in step
+  const t = $("#msTitle");
+  if (t && t.value !== st.title) { t.value = st.title; t.dispatchEvent(new Event("input")); }
+  $("#homeBookTitle").textContent = st.title;
+  $("#bookResult").classList.remove("error");
+  $("#bookResult").textContent = "Uloženo.";
+  if (window.showToast) window.showToast("Nastavení knihy uloženo.");
+}
+
+$("#homeBtn").addEventListener("click", () => ($("#home").hidden ? show() : hide()));
+$("#homeClose").addEventListener("click", hide);
+$("#homeHelp").addEventListener("click", () => { hide(); $("#helpBtn").click(); });
+$("#homeSettings").addEventListener("click", () => { if (window.openSettings) window.openSettings(); });
+$("#bookSettingsBtn").addEventListener("click", openSettings);
+$("#bookCancel").addEventListener("click", () => { $("#bookDlg").hidden = true; });
+$("#bookSave").addEventListener("click", saveSettings);
+$("#msTitle").addEventListener("input", (e) => { $("#homeBookTitle").textContent = e.target.value || "Moje knihy"; });
+
+window.Home = { show, hide, openSettings, current: currentId };
+
+// start on the home screen unless a book or view was asked for in the address
+const params = new URLSearchParams(location.search);
+if (params.has("open") || params.has("cols") || location.hash.length > 1) {
+  fetch("api/manuscripts").then((r) => r.json()).then((books) => {
+    const b = books.find((x) => x.id === currentId()) || books[0];
+    if (b) $("#homeBookTitle").textContent = b.title;
+  });
+  if (params.has("settings")) setTimeout(openSettings, 600);
+} else {
+  show();
+}
+})();

@@ -70,7 +70,7 @@ def figure_caption(caption, source):
     return cap + (f'<span class="src">Zdroj: {src}</span>' if src else "")
 
 
-def gallery(root, books, library):
+def gallery(root, books, library, ms_name="_rukopis"):
     """All images: library, book image blocks, manuscript figures."""
     out = []
     for it in library.items():
@@ -89,7 +89,7 @@ def gallery(root, books, library):
                             "book": b["id"], "bookSrc": blk["src"], "page": pi, "block": blk["id"],
                             "caption": blk.get("caption", ""), "source": blk.get("source") or default_src,
                             "where": f"{title} · {'s. ' + str(page['page_no']) if page.get('page_no') else 'str. ' + str(pi + 1)}"})
-    doc_path = os.path.join(root, "_rukopis", "document.html")
+    doc_path = os.path.join(root, ms_name, "document.html")
     if os.path.exists(doc_path):
         with open(doc_path, encoding="utf-8") as f:
             doc = f.read()

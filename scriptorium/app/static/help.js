@@ -6,6 +6,7 @@ const $ = (s) => document.querySelector(s);
 
 // Tour steps: element (CSS selector), title, text. Steps whose element is hidden are skipped.
 const STEPS = [
+  { sel: "#homeBtn", title: "Moje knihy", text: "Návrat na úvodní stránku. Tam vyberete knihu, kterou píšete, založíte novou, vyplníte její nastavení a tiráž, nebo otevřete zdrojovou knihu." },
   { sel: ".cols-toggle", title: "Sloupce", text: "Tlačítky zapínáte a vypínáte sloupce: <b>Originál</b> (sken), <b>Transkripce</b> (text ze skenu), <b>Rukopis</b> (vaše kniha), <b>Dotaz</b> (otázky na knihy) a <b>Obrázky</b>. Zapnuté tlačítko je modré." },
   { sel: ".presets", title: "Rychlé rozložení", text: "Tři nejčastější rozložení na jedno kliknutí. Například <b>Píšu s citacemi</b> dá vedle sebe transkripci a rukopis." },
   { sel: ".search-wrap", title: "Hledání", text: "Napište slovo a aplikace ho najde ve všech knihách i v rukopisu. Při psaní nabízí návrhy. Kliknutím na výsledek se na místo přesunete." },

@@ -20,7 +20,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 from auth import Auth
 import rag
 from library import Library, figure_caption, gallery
-from manuscript import Conflict, Manuscript
+from manuscript import Conflict, Manuscript, Manuscripts
 from settings import Settings
 from support import Support
 
@@ -31,7 +31,7 @@ HOST = os.environ.get("PUBLISHER_HOST", "127.0.0.1")
 STATIC_DIR = os.path.join(APP_DIR, "static")
 HISTORY_KEEP = 30
 SAFE_NAME = re.compile(r"^[\w\-. ]+$")
-MS = Manuscript(ROOT)
+MSS = Manuscripts(ROOT)
 AUTH = Auth(ROOT)
 LIB = Library(ROOT)
 SETTINGS = Settings(ROOT)
@@ -228,7 +228,7 @@ class Handler(SimpleHTTPRequestHandler):
                 return os.path.join(STATIC_DIR, "404")  # hidden files: secrets, history
             top = rel.strip("/").split("/")[0]
             # only book folders, the manuscript and the image library are served (never settings or deploy files)
-            if top not in ("_rukopis", "images") and not os.path.isfile(os.path.join(ROOT, top, "project.json")):
+            if top != "images" and not Manuscripts.NAME.match(top) and not os.path.isfile(os.path.join(ROOT, top, "project.json")):
                 return os.path.join(STATIC_DIR, "404")
             full = os.path.normpath(os.path.join(ROOT, rel))
             if not full.startswith(ROOT + os.sep):
@@ -248,6 +248,14 @@ class Handler(SimpleHTTPRequestHandler):
     def route(self):
         parts = [unquote(p) for p in urlparse(self.path).path.split("/") if p]
         return parts
+
+    def ms(self):
+        """The book being written that this browser has open (cookie set by the home screen)."""
+        for part in (self.headers.get("Cookie") or "").split(";"):
+            k, _, v = part.strip().partition("=")
+            if k == "ms":
+                return MSS.get(unquote(v))
+        return MSS.get("_rukopis")
 
     def client_ip(self):
         fwd = self.headers.get("X-Forwarded-For")
@@ -288,27 +296,31 @@ class Handler(SimpleHTTPRequestHandler):
             if parts[:2] == ["api", "books"] and len(parts) == 3:
                 with open(os.path.join(book_dir(parts[2]), "project.json"), encoding="utf-8") as f:
                     return self.send_json(json.load(f))
+            if parts == ["api", "manuscripts"]:
+                return self.send_json(MSS.list())
+            if parts == ["api", "manuscript", "settings"]:
+                return self.send_json(self.ms().settings())
             if parts[:2] == ["api", "manuscript"]:
                 if len(parts) == 2:
-                    return self.send_json(MS.load())
+                    return self.send_json(self.ms().load())
                 if parts[2] == "history" and len(parts) == 3:
-                    return self.send_json(MS.history())
+                    return self.send_json(self.ms().history())
                 if parts[2] == "history" and len(parts) == 4:
-                    return self.send_json({"html": MS.history_item(parts[3])})
+                    return self.send_json({"html": self.ms().history_item(parts[3])})
                 if parts[2] == "export":
-                    doc = MS.load()
+                    doc = self.ms().load()
                     if parse_qs(urlparse(self.path).query).get("download"):
                         html_doc = inline_images(manuscript_export(doc["title"], doc["html"]))
                         name = re.sub(r"[^\w\-]+", "-", fold(doc["title"] or "rukopis")).strip("-")[:60] or "rukopis"
                         return self.send_html(html_doc, download=name + ".html")
                     return self.send_html(manuscript_export(doc["title"], doc["html"]))
             if parts[:2] == ["api", "clips"]:
-                return self.send_json(MS.clips())
+                return self.send_json(self.ms().clips())
             if parts == ["api", "gallery"]:
-                return self.send_json(gallery(ROOT, list_books(), LIB))
+                return self.send_json(gallery(ROOT, list_books(), LIB, self.ms().name))
             if parts[:2] == ["api", "search"]:
                 q = parse_qs(urlparse(self.path).query).get("q", [""])[0]
-                return self.send_json(do_search(q))
+                return self.send_json(do_search(q, ms=self.ms()))
             if parts[:2] == ["api", "export"] and len(parts) == 3:
                 path = book_dir(parts[2])
                 out = os.path.join(path, "export.html")
@@ -340,10 +352,12 @@ class Handler(SimpleHTTPRequestHandler):
                 body = self.read_json()
                 LIB.update(os.path.basename(parts[2]), body.get("caption", ""), body.get("source", ""))
                 return self.send_json({"ok": True})
+            if parts == ["api", "manuscript", "settings"]:
+                return self.send_json(self.ms().save_settings(self.read_json()))
             if parts[:2] == ["api", "manuscript"] and len(parts) == 2:
                 body = self.read_json()
                 try:
-                    version = MS.save(body["html"], body.get("version"), body.get("title"))
+                    version = self.ms().save(body["html"], body.get("version"), body.get("title"))
                 except Conflict as c:
                     return self.send_json({"error": "conflict", "version": c.args[0]}, 409)
                 return self.send_json({"ok": True, "version": version, "saved": time.strftime("%H:%M:%S")})
@@ -365,6 +379,9 @@ class Handler(SimpleHTTPRequestHandler):
         parts = self.route()
         if parts == ["api", "chat"]:
             return self.stream_chat(self.read_json().get("question", ""))
+        if parts == ["api", "manuscripts"]:
+            body = self.read_json()
+            return self.send_json(MSS.create(body.get("title", ""), body.get("author", "")))
         if parts == ["api", "support"]:
             return self.send_json(SUPPORT.submit(self.read_json(), AUTH.user if AUTH.enabled else ""))
         if parts == ["api", "settings", "test"]:
@@ -387,24 +404,24 @@ class Handler(SimpleHTTPRequestHandler):
             return
         try:
             if parts[:3] == ["api", "manuscript", "images"]:
-                return self.send_json({"ok": True, "src": MS.save_image(self.read_json()["data"])})
+                return self.send_json({"ok": True, "src": self.ms().save_image(self.read_json()["data"])})
             if parts[:3] == ["api", "manuscript", "copy-image"]:
                 body = self.read_json()
                 base = LIB.dir if body.get("library") else book_dir(body["book"])
-                return self.send_json({"ok": True, "src": MS.copy_book_image(base, body["src"])})
+                return self.send_json({"ok": True, "src": self.ms().copy_book_image(base, body["src"])})
             if parts == ["api", "library"]:
                 body = self.read_json()
                 name = LIB.add(body["data"], body.get("caption", ""), body.get("source", ""), body.get("name", ""))
                 return self.send_json({"ok": True, "file": name})
             if parts[:3] == ["api", "manuscript", "snapshot"]:
-                return self.send_json({"ok": True, "name": MS.snapshot(self.read_json().get("label", "verze"))})
+                return self.send_json({"ok": True, "name": self.ms().snapshot(self.read_json().get("label", "verze"))})
             if parts[:3] == ["api", "manuscript", "restore"]:
-                version = MS.restore(self.read_json()["name"])
+                version = self.ms().restore(self.read_json()["name"])
                 return self.send_json({"ok": True, "version": version})
             if parts[:2] == ["api", "clips"] and len(parts) == 2:
-                return self.send_json(MS.add_clip(make_clip(self.read_json())))
+                return self.send_json(self.ms().add_clip(make_clip(self.read_json(), self.ms())))
             if parts[:2] == ["api", "clips"] and len(parts) == 4 and parts[3] == "delete":
-                MS.remove_clip(parts[2])
+                self.ms().remove_clip(parts[2])
                 return self.send_json({"ok": True})
             # save an image cropped in the browser: {"name": "...jpg", "data": "data:image/jpeg;base64,..."}
             if parts[:2] == ["api", "images"] and len(parts) == 3:
@@ -457,7 +474,7 @@ class Handler(SimpleHTTPRequestHandler):
             if not question.strip():
                 send({"type": "error", "text": "Napište otázku."})
                 return
-            for ev in rag.answer(question, search_index()["entries"], fold, SETTINGS.llm(), books_overview()):
+            for ev in rag.answer(question, search_index(self.ms())["entries"], fold, SETTINGS.llm(), books_overview()):
                 send(ev)
             send({"type": "done"})
         except (BrokenPipeError, ConnectionResetError):
@@ -512,10 +529,11 @@ def plain(html_text):
 _index_cache = {"sig": None, "entries": [], "words": {}}
 
 
-def search_index():
+def search_index(ms=None):
     """Entries for every text block of every book plus manuscript paragraphs; rebuilt when files change."""
+    ms = ms or MSS.get("_rukopis")
     files = [os.path.join(ROOT, b["id"], "project.json") for b in list_books()]
-    files.append(os.path.join(MS.dir, "document.html"))
+    files.append(os.path.join(ms.dir, "document.html"))
     sig = tuple((f, os.path.getmtime(f)) for f in files if os.path.exists(f))
     if sig == _index_cache["sig"]:
         return _index_cache
@@ -534,12 +552,12 @@ def search_index():
                         entries.append({"where": "book", "book": b["id"], "title": project.get("title", b["id"]),
                                         "page": pi, "page_no": page.get("page_no"), "block": blk["id"],
                                         "field": field, "text": t, "folded": fold(t)})
-    doc = MS.load()["html"]
+    doc = ms.load()["html"]
     ms_entries = []
     for i, para in enumerate(re.split(r"</(?:p|h1|h2|h3|li|blockquote|figcaption)>", doc)):
         t = plain(para).strip()
         if t:
-            ms_entries.append({"where": "manuscript", "title": "Můj rukopis", "para": i, "field": "ms",
+            ms_entries.append({"where": "manuscript", "title": ms.load()["title"], "para": i, "field": "ms",
                             "text": t, "folded": fold(t)})
     entries = ms_entries + entries
     words = {}
@@ -551,8 +569,8 @@ def search_index():
     return _index_cache
 
 
-def do_search(q, limit=80):
-    idx = search_index()
+def do_search(q, limit=80, ms=None):
+    idx = search_index(ms)
     fq = fold(q.strip())
     if len(fq) < 2:
         return {"hits": [], "suggest": []}
@@ -574,12 +592,12 @@ def do_search(q, limit=80):
     return {"hits": hits, "suggest": suggest}
 
 
-def make_clip(data):
+def make_clip(data, ms):
     """Build a tray item from a paragraph, quote or image sent from a source book."""
     kind = data.get("kind", "text")
     source = html.escape(data.get("source", ""))
     if kind == "image":
-        src = MS.copy_book_image(book_dir(data["book"]), data["src"])
+        src = ms.copy_book_image(book_dir(data["book"]), data["src"])
         cap = figure_caption(data.get("caption", ""), data.get("image_source") or data.get("source", ""))
         body = f'<figure><img src="{src}" style="width:{int(data.get("width", 100))}%"><figcaption>{cap}</figcaption></figure>'
     elif kind == "quote":
