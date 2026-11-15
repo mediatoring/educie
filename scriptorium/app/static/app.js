@@ -639,10 +639,10 @@ function svgIcon(name) {
 }
 
 function blockActions(b) {
+  // one button: text always goes to the manuscript as a quotation with its source
   return el("div", { class: "block-actions" },
-    el("button", { class: "act", title: "Vložit do rukopisu na označené místo", onclick: () => sendToManuscript(b, "text") },
-      b.type === "image" ? "➜ Obrázek do rukopisu" : "➜ Do rukopisu"),
-    b.type === "text" ? el("button", { class: "act", title: "Vložit jako citaci s uvedením zdroje", onclick: () => sendToManuscript(b, "quote") }, svgIcon("quote"), " Jako citace") : null);
+    el("button", { class: "act", title: b.type === "image" ? "Vložit obrázek do rukopisu na označené místo" : "Vložit do rukopisu jako citaci s uvedením zdroje", onclick: () => sendToManuscript(b, b.type === "image" ? "text" : "quote") },
+      b.type === "image" ? "➜ Obrázek do rukopisu" : "➜ Do rukopisu"));
 }
 
 function cleanHtml(html) {

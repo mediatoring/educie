@@ -26,6 +26,12 @@ function msBlocks() {
   return [...$("#msEditor").children].filter((n) => !n.classList.contains("var-toc") && !n.classList.contains("var-break"));
 }
 
+// each book has its own dictionary: the open source book, or the book being written
+function scope() {
+  if (mode === "text") return "src-" + window.Book.id;
+  return "ms-" + ((window.Home && Home.current()) || "_rukopis");
+}
+
 function collect() {
   if (mode === "text") {
     const p = window.Book.project;
@@ -45,7 +51,7 @@ function collect() {
 async function run() {
   const src = collect();
   setInfo("Hledám podezřelá slova…");
-  const res = await fetch("api/proof/check", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: src.map(({ key, text, lang }) => ({ key, text, lang })) }) }).then((r) => r.json());
+  const res = await fetch("api/proof/check", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ scope: scope(), items: src.map(({ key, text, lang }) => ({ key, text, lang })) }) }).then((r) => r.json());
   const skip = skipped();
   items = [];
   for (const s of src) {
@@ -181,11 +187,13 @@ function replace(word) {
   dropCurrent();
 }
 
-async function addWord() {
+async function addWord(central) {
   const it = items[pos];
   if (!it) return;
-  await fetch("api/proof/word", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ word: it.word }) });
-  if (window.showToast) window.showToast(`„${it.word}“ je ve slovníku a už se nebude označovat.`);
+  await fetch("api/proof/word", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ word: it.word, scope: central ? null : scope() }) });
+  if (window.showToast) window.showToast(central
+    ? `„${it.word}“ je v centrálním slovníku a nebude se označovat v žádné knize.`
+    : `„${it.word}“ je ve slovníku této knihy a v ní se už nebude označovat.`);
   dropCurrent(true);
 }
 
@@ -222,7 +230,8 @@ $("#proofMsBtn").addEventListener("click", () => (mode === "ms" ? stop() : start
 $("#proofPrev").addEventListener("click", () => next(-1));
 $("#proofNext").addEventListener("click", () => next(1));
 $("#proofSkip").addEventListener("click", skip);
-$("#proofAdd").addEventListener("click", addWord);
+$("#proofAdd").addEventListener("click", () => addWord(false));
+$("#proofAddAll").addEventListener("click", () => addWord(true));
 $("#proofAgain").addEventListener("click", run);
 $("#proofClose").addEventListener("click", stop);
 $("#proofSugg").addEventListener("click", (e) => { if (e.target.closest(".sugg-load")) suggestions(); });

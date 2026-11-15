@@ -794,9 +794,14 @@ function init() {
 
   $("#msDesk").addEventListener("scroll", () => { clearTimeout(msState.spyTimer); msState.spyTimer = setTimeout(markCurrentHeading, 80); });
   const outlineKey = "publisher.outline";
-  const setOutline = (open) => { $("#msOutline").classList.toggle("closed", !open); try { localStorage.setItem(outlineKey, open ? "1" : "0"); } catch (e) { /* ignore */ } };
+  const setOutline = (open) => { $("#msOutline").classList.toggle("closed", !open); if (open) $("#msOutline").classList.remove("auto-closed"); try { localStorage.setItem(outlineKey, open ? "1" : "0"); } catch (e) { /* ignore */ } };
   setOutline((localStorage.getItem(outlineKey) || "1") === "1");
-  $("#outlineToggle").addEventListener("click", () => setOutline($("#msOutline").classList.contains("closed")));
+  $("#outlineToggle").addEventListener("click", () => setOutline($("#msOutline").classList.contains("closed") || $("#msOutline").classList.contains("auto-closed")));
+  // in a narrow column the outline folds away so the page keeps a readable width
+  new ResizeObserver(() => {
+    const w = $("#colMs").clientWidth;
+    $("#msOutline").classList.toggle("auto-closed", w > 0 && w < 760);
+  }).observe($("#colMs"));
   editor.addEventListener("input", () => { markDirty(); clearTimeout(msState.tocTimer); msState.tocTimer = setTimeout(refreshToc, 800); });
   editor.addEventListener("keyup", () => { rememberSelection(); updateToolbar(); });
   editor.addEventListener("mouseup", () => { rememberSelection(); updateToolbar(); });

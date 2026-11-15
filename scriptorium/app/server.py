@@ -436,9 +436,11 @@ class Handler(SimpleHTTPRequestHandler):
         if parts[:2] == ["api", "books"] and len(parts) == 4 and parts[3] == "restore":
             return self.send_json(restore_book(book_dir(parts[2]), self.read_json()["name"]))
         if parts == ["api", "proof", "check"]:
-            return self.send_json(PROOF.check(self.read_json().get("items", [])))
+            body = self.read_json()
+            return self.send_json(PROOF.check(body.get("items", []), body.get("scope")))
         if parts == ["api", "proof", "word"]:
-            return self.send_json({"ok": PROOF.add_word(self.read_json().get("word", ""))})
+            body = self.read_json()
+            return self.send_json({"ok": PROOF.add_word(body.get("word", ""), body.get("scope"))})
         if parts == ["api", "manuscripts"]:
             body = self.read_json()
             return self.send_json(MSS.create(body.get("title", ""), body.get("author", "")))

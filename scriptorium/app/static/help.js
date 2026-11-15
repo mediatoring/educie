@@ -13,7 +13,7 @@ const STEPS = [
   { sel: "#uiBigger", title: "Velikost písma", text: "<b>A+</b> a <b>A−</b> zvětší nebo zmenší písmo i tlačítka v celé aplikaci. Nastavení si aplikace pamatuje." },
   { sel: "#bookNav", title: "Výběr knihy a stránky", text: "Nahoře vyberete knihu, šipkami listujete stránkami. Náhledy stránek jsou pod tím, kliknutím stránku otevřete." },
   { sel: "#colScan", title: "Originál", text: "Naskenovaná stránka. Kolečkem nebo tlačítky ji zvětšíte. Rámeček kolem obrázku můžete tahem upravit a obrázek tím přesněji vyříznout." },
-  { sel: "#colText", title: "Transkripce", text: "Text přečtený ze skenu. Opravujte ho přímo v textu. Pod každým odstavcem je tlačítko <b>Do rukopisu</b> (přenese text) a <b>Jako citace</b> (vloží ho jako citaci se zdrojem)." },
+  { sel: "#colText", title: "Transkripce", text: "Text přečtený ze skenu. Opravujte ho přímo v textu. Pod každým odstavcem je tlačítko <b>Do rukopisu</b>, které text vloží do rukopisu jako citaci s uvedením zdroje." },
   { sel: "#fmtBar", title: "Formát transkripce", text: "Klikněte do odstavce a tady zvolíte, zda je to nadpis, citace nebo poznámka, a nastavíte tučné písmo či zarovnání." },
   { sel: "#msTitle", title: "Název knihy", text: "Název vaší knihy. Použije se na titulní straně a v e-knize." },
   { sel: "#colMs", title: "Rukopis", text: "Vaše vlastní kniha. Píše se jako ve Wordu, ukládá se sama každých pár vteřin. Nahoře vpravo vidíte, kdy se naposledy uložila." },
@@ -21,7 +21,7 @@ const STEPS = [
   { sel: "#msDrawerBtn", title: "Obsah a schránka", text: "Otevře obsah rukopisu (kapitoly, kliknutím na ně skočíte) a schránku s texty a obrázky, které jste si odložili." },
   { sel: "#snapshotBtn", title: "Verze", text: "Uloží pojmenovanou verzi rukopisu, třeba „před úpravou kapitoly 3“. Kdykoli se k ní můžete vrátit." },
   { sel: "#historyBtn", title: "Historie", text: "Všechny dřívější verze rukopisu. Aplikace je ukládá sama, nic se neztratí." },
-  { sel: "#proofMsBtn", title: "Korektura", text: "Označí podezřelá slova (neznámá slovníku nebo typické chyby čtení) a tlačítkem <b>Další</b> mezi nimi skáče. Správná jména přidáte <b>Do slovníku</b>. Stejné tlačítko je i u transkripce." },
+  { sel: "#proofMsBtn", title: "Korektura", text: "Označí podezřelá slova (neznámá slovníku nebo typické chyby čtení) a tlačítkem <b>Další</b> mezi nimi skáče. Správná jména uložíte do slovníku knihy, nebo do centrálního slovníku pro všechny knihy. Stejné tlačítko je i u transkripce." },
   { sel: "#bookSettingsBtn", title: "Nastavení knihy", text: "Název, autor, tiráž (nakladatel, rok, ISBN…), záhlaví a čísla stránek a <b>obálka</b>. Z těchto údajů se skládá titulní strana a tiráž v PDF i v e-knize." },
   { sel: "#printBtn", title: "Tisk a PDF", text: "Připraví knihu po stránkách: obálka, titulní strana, tiráž, obsah s čísly stránek, záhlaví a zápatí. Pak klikněte na <b>Tisk / uložit jako PDF</b> a v okně tisku zvolte <b>Uložit jako PDF</b>." },
   { sel: "#msEpubBtn", title: "E-kniha", text: "Stáhne knihu jako e-knihu EPUB s obálkou, tiráží a obsahem. Otevře se ve čtečkách a v Kindlu (přes „Send to Kindle“)." },
@@ -33,8 +33,8 @@ const STEPS = [
 ];
 
 const TOPICS = [
-  ["Jak přenést odstavec z knihy do rukopisu", "Zapněte sloupce <b>Transkripce</b> a <b>Rukopis</b> (tlačítko <b>Píšu s citacemi</b>). V rukopisu klikněte tam, kam má text přijít. Pak pod odstavcem v transkripci klikněte na <b>Do rukopisu</b>. Když se to nepovede, tlačítko <b>Vrátit</b> v dolní liště krok vrátí."],
-  ["Jak vložit citaci se zdrojem", "Pod odstavcem v transkripci klikněte na <b>Jako citace</b>. Do rukopisu se vloží odsazená citace a pod ní název knihy se stránkou."],
+  ["Jak přenést odstavec z knihy do rukopisu", "Zapněte sloupce <b>Transkripce</b> a <b>Rukopis</b> (tlačítko <b>Píšu s citacemi</b>). V rukopisu klikněte tam, kam má text přijít. Pak pod odstavcem v transkripci klikněte na <b>Do rukopisu</b>, text se vloží jako citace se zdrojem. Když se to nepovede, tlačítko <b>Vrátit</b> v dolní liště krok vrátí."],
+  ["Jak vložit citaci se zdrojem", "Pod odstavcem v transkripci klikněte na <b>Do rukopisu</b>. Do rukopisu se vloží odsazená citace a pod ní název knihy se stránkou. Pokud ji chcete mít jako běžný text, změňte v rukopisu typ odstavce na <b>Běžný text</b>."],
   ["Jak vyříznout obrázek ze skenu", "Zapněte <b>Originál</b> a <b>Rukopis</b> (tlačítko <b>Obrázky do rukopisu</b>). Na skenu obrázek ohraničte nebo upravte rámeček. Pak klikněte na <b>Do rukopisu</b>. V okně můžete obrázek ještě oříznout, narovnat a doplnit popisek."],
   ["Jak vložit obrázek z počítače", "V rukopisu klikněte na tlačítko <b>Obrázek</b>, nebo obrázek zkopírujte (Cmd+C) a v rukopisu vložte (Cmd+V)."],
   ["Jak udělat nadpis kapitoly", "Klikněte do řádku v rukopisu a v nabídce vlevo nahoře (kde je <b>Běžný text</b>) zvolte <b>Kapitola</b>. Kapitoly se samy objeví v obsahu."],
@@ -43,7 +43,7 @@ const TOPICS = [
   ["Jak vrátit starší verzi rukopisu", "Klikněte na <b>Historie</b>, vyberte čas a stiskněte <b>Obnovit</b>. Současná verze se předtím sama uloží, takže se nic neztratí."],
   ["Jak vytisknout nebo uložit PDF", "Nejdřív vyplňte <b>Nastavení knihy</b> (autor, tiráž, obálka). Pak v rukopisu klikněte na <b>Tisk / PDF</b>. Aplikace knihu rozdělí na stránky, počkejte, až tlačítko nahoře zmodrá, a klikněte na něj. V okně tisku zvolte tiskárnu, nebo <b>Uložit jako PDF</b>."],
   ["Jak vytvořit obálku", "V <b>Nastavení knihy</b> klikněte na <b>Vytvořit obálku…</b>. Vyberte vzhled, obrázek (z knih, z rukopisu nebo z počítače), barvy a písmo. Název a autor se doplní sami. Tlačítkem <b>Použít obálku</b> ji uložíte a nakonec nastavení uložte."],
-  ["Jak opravit chyby po čtení skenu", "U transkripce i u rukopisu je tlačítko <b>Korektura</b>. Podezřelá slova se podbarví žlutě a dole se objeví panel. Tlačítkem <b>Další</b> skáčete po slovech, <b>Navrhnout opravu</b> nabídne správná slova a <b>Do slovníku</b> přidá jméno nebo starý tvar, aby se už neoznačoval. Omylem upravený odstavec vrátíte tlačítkem <b>↺ původní text</b>."],
+  ["Jak opravit chyby po čtení skenu", "U transkripce i u rukopisu je tlačítko <b>Korektura</b>. Podezřelá slova se podbarví žlutě a dole se objeví panel. Tlačítkem <b>Další</b> skáčete po slovech, <b>Navrhnout opravu</b> nabídne správná slova a <b>Do slovníku knihy</b> nebo <b>Do centrálního slovníku</b> uloží jméno nebo starý tvar, aby se už neoznačoval jen v této knize, nebo ve všech knihách. Omylem upravený odstavec vrátíte tlačítkem <b>↺ původní text</b>."],
   ["Jak se zeptat na něco z knih", "Zapněte sloupec <b>Dotaz</b>, napište otázku a stiskněte <b>Zeptat se</b>. Odpověď trvá obvykle do minuty. Čísla v odpovědi jsou odkazy na zdroje."],
   ["Když je písmo malé", "Tlačítkem <b>A+</b> vpravo nahoře zvětšíte celou aplikaci. V rukopisu je ještě vlastní <b>A+</b> jen pro text."],
 ];
@@ -60,8 +60,9 @@ function visible(el) {
 function place(el, title, html, stepLabel) {
   const layer = $("#tourLayer"), spot = $("#tourSpot"), bub = $("#tourBubble");
   layer.hidden = false;
-  $("#tourTitle").textContent = title;
-  $("#tourText").innerHTML = html;
+  const tr = window.T || ((x) => x);
+  $("#tourTitle").textContent = tr(title);
+  $("#tourText").innerHTML = html.split("<p class='tour-tip'>").map((part, i) => (i ? "<p class='tour-tip'>" + tr("<p class='tour-tip'>" + part).replace("<p class='tour-tip'>", "") : tr(part))).join("");
   $("#tourStep").textContent = stepLabel || "";
   if (el) el.scrollIntoView({ block: "nearest", inline: "nearest" });
   const r = el ? el.getBoundingClientRect() : { left: innerWidth / 2, top: innerHeight / 3, width: 0, height: 0 };
@@ -151,7 +152,8 @@ function openHelp() {
   if (!box.childElementCount) {
     for (const [q, a] of TOPICS) {
       const d = document.createElement("details");
-      d.innerHTML = `<summary>${q}</summary><p>${a}</p>`;
+      const tr = window.T || ((x) => x);
+      d.innerHTML = `<summary>${tr(q)}</summary><p>${tr(a)}</p>`;
       box.append(d);
     }
   }

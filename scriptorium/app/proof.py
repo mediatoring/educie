@@ -21,7 +21,9 @@ MID_CAPS = re.compile(r"^[a-záčďéěíňóřšťúůýž]+[A-ZÁČĎÉĚÍŇ�
 
 class Proofreader:
     def __init__(self, root):
-        self.user_path = os.path.join(root, "_dict", "user.txt")
+        self.dict_dir = os.path.join(root, "_dict")
+        self.user_path = os.path.join(self.dict_dir, "user.txt")
+        self.scoped = {}
         self.dicts = {}
         self.lock = threading.Lock()
         self.cache = {}
@@ -43,24 +45,39 @@ class Proofreader:
                 self.dicts[lang] = Dictionary.from_files(os.path.join(DICT_DIR, DICT_FILES[lang]))
             return self.dicts[lang]
 
-    def _load_user(self):
+    def _load_user(self, path=None):
         try:
-            with open(self.user_path, encoding="utf-8") as f:
+            with open(path or self.user_path, encoding="utf-8") as f:
                 return {w.strip().lower() for w in f if w.strip()}
         except OSError:
             return set()
 
-    def add_word(self, word):
+    def _scope_path(self, scope):
+        safe = re.sub(r"[^\w\-]", "", scope or "")[:60]
+        return os.path.join(self.dict_dir, "book-" + safe + ".txt") if safe else None
+
+    def scope_words(self, scope):
+        """Words of one book's own dictionary (source book or book being written)."""
+        path = self._scope_path(scope)
+        if not path:
+            return set()
+        if scope not in self.scoped:
+            self.scoped[scope] = self._load_user(path)
+        return self.scoped[scope]
+
+    def add_word(self, word, scope=None):
+        """Add to the central dictionary of this app, or to one book's dictionary when scope is given."""
         word = word.strip()
         if not word or len(word) > 80:
             return False
-        os.makedirs(os.path.dirname(self.user_path), exist_ok=True)
-        with open(self.user_path, "a", encoding="utf-8") as f:
+        path = self._scope_path(scope) if scope else self.user_path
+        os.makedirs(self.dict_dir, exist_ok=True)
+        with open(path, "a", encoding="utf-8") as f:
             f.write(word + "\n")
-        self.user.add(word.lower())
+        (self.scope_words(scope) if scope else self.user).add(word.lower())
         return True
 
-    def reason(self, word, lang):
+    def reason(self, word, lang, scope=None):
         """None when the word looks fine, otherwise a short Czech explanation."""
         if OCR_DIGIT.search(word) and not word.isdigit() and not re.fullmatch(r"\d+(\.|-?ti|-?tý|-?té|-?ho|-?mu)?", word):
             return "číslice uvnitř slova – častá chyba OCR"
@@ -72,7 +89,7 @@ class Proofreader:
         if MID_CAPS.match(word):
             return "velké písmeno uprostřed slova"
         low = word.lower()
-        if low in self.user:
+        if low in self.user or (scope and low in self.scope_words(scope)):
             return None
         key = (lang, word)
         if key in self.cache:
@@ -88,7 +105,7 @@ class Proofreader:
         self.cache[key] = result
         return result
 
-    def check(self, items):
+    def check(self, items, scope=None):
         """items: [{key, text, lang}] -> {key: [{word, reason}]} (each distinct word once)."""
         out = {}
         for it in items[:5000]:
@@ -98,7 +115,7 @@ class Proofreader:
                 if not w or w in seen:
                     continue
                 seen.add(w)
-                r = self.reason(w, it.get("lang") or "cs")
+                r = self.reason(w, it.get("lang") or "cs", scope)
                 if r:
                     found.append({"word": w, "reason": r})
             if found:

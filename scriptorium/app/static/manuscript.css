@@ -107,3 +107,7 @@
 .page div.var-toc li.l2 { margin-left: 1.2em; } .page div.var-toc li.l3 { margin-left: 2.4em; font-size: .92em; }
 .page .var-label { display: block; font: 600 13px system-ui, sans-serif; color: #0b4fbf; }
 .page div.var-break { text-align: center; padding: 4px; }
+.ms-outline.auto-closed { width: auto; }
+.ms-outline.auto-closed .outline-list { display: none; }
+.ms-outline.auto-closed .outline-toggle { writing-mode: vertical-rl; padding: 10px 6px; }
+.page[data-title]:not([data-title=""])::before { font-size: clamp(1.3em, 4vw, 2.1em); overflow-wrap: normal; word-break: normal; hyphens: manual; }

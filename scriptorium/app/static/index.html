@@ -75,6 +75,8 @@
       </div>
       <div class="home-actions">
         <button id="homeClose" class="big primary" hidden>Zpět k práci</button>
+        <select class="lang-select big-select" title="Jazyk rozhraní"></select>
+        <button class="theme-toggle big" title="Přepnout světlý a tmavý vzhled">☾ Tmavý režim</button>
         <button id="homeHelp" class="big">Nápověda a průvodce</button>
         <button id="homeSettings" class="big">Nastavení AI</button>
       </div>
@@ -527,7 +529,8 @@
     <button id="proofPrev" title="Předchozí podezřelé slovo">◀ Předchozí</button>
     <button id="proofNext" class="primary" title="Další podezřelé slovo">Další ▶</button>
     <button id="proofSkip" title="Toto místo je v pořádku, už ho neukazovat">Je to správně</button>
-    <button id="proofAdd" title="Přidat slovo do slovníku – už se nebude označovat nikde">+ Do slovníku</button>
+    <button id="proofAdd" title="Uložit slovo do slovníku této knihy – v ní se už nebude označovat">+ Do slovníku knihy</button>
+    <button id="proofAddAll" title="Uložit slovo do centrálního slovníku aplikace – nebude se označovat v žádné knize">+ Do centrálního slovníku</button>
     <button id="proofAgain" title="Znovu zkontrolovat celý text">↻ Znovu</button>
     <button id="proofClose" title="Ukončit korekturu">Konec</button>
   </div>
@@ -620,6 +623,7 @@
       <button id="helpTour" class="big primary help-tour-btn">▶ Projít aplikaci krok za krokem</button>
       <p class="help-hint">Nebo zapněte <b>režim vysvětlivek</b>: pak stačí kliknout na libovolné tlačítko a aplikace napíše, k čemu slouží.</p>
       <button id="helpPoint" class="big">Režim vysvětlivek</button>
+      <div class="help-prefs"><label>Jazyk rozhraní <select class="lang-select"></select></label> <button class="theme-toggle big">☾ Tmavý režim</button></div>
       <button id="helpSupport" class="big">✉ Nahlásit chybu nebo navrhnout novou funkci</button>
       <h3>Jak na to</h3>
       <div id="helpTopics" class="help-topics"></div>
@@ -630,6 +634,7 @@
 <footer class="credits">Ikony: Flaticon (flaticon.com)</footer>
 
 <div id="toast" class="toast"><span id="toastText"></span><button id="toastUndo" hidden><svg class="ico"><use href="#i-undo"/></svg> Vrátit</button></div>
+<script src="i18n.js"></script>
 <script src="app.js"></script>
 <script src="manuscript.js"></script>
 <script src="gallery.js"></script>
