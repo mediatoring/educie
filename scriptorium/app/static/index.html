@@ -79,6 +79,7 @@
         <button class="theme-toggle big" title="Přepnout světlý a tmavý vzhled">☾ Tmavý režim</button>
         <button id="homeHelp" class="big">Nápověda a průvodce</button>
         <button id="homeSettings" class="big">Nastavení AI</button>
+        <button id="homeAudit" class="big">Přístupy a změny</button>
       </div>
     </div>
     <div class="home-grid">
@@ -130,7 +131,7 @@
         <div class="cover-row">
           <img id="coverPreview" class="cover-preview" alt="" hidden>
           <div class="cover-actions">
-            <input type="hidden" data-f="cover" id="coverField">
+            <input type="hidden" data-f="cover" id="coverField"><input type="hidden" data-f="cover_print" id="coverPrintField"><input type="hidden" data-f="cover_design" id="coverDesignField">
             <button id="coverMake" class="big">Vytvořit obálku…</button>
             <button id="coverUpload" class="big">Nahrát hotovou obálku</button>
             <button id="coverRemove" class="big">Bez obálky</button>
@@ -403,7 +404,12 @@
       <button data-rot="-90">⟲ 90°</button>
       <button data-rot="90">⟳ 90°</button>
       <button id="cropReset">Vše zpět</button>
-      <span class="hint">Táhněte za bílé čtverečky v rozích, nebo uprostřed rámečku pro posun.</span>
+      <label class="rot-fine">Jemně <input id="rotFine" type="range" min="-15" max="15" step="0.1" value="0"></label>
+    </div>
+    <div class="crop-tools origin-tools">
+      <button id="cropOrigin" hidden title="Načte celou naskenovanou stranu, ze které byl obrázek vyříznut, aby šel oříznout znovu a lépe">📄 Načíst původní stranu skenu</button>
+      <button id="cropPersp" title="Čtyři rohy přetáhněte na rohy obrázku – šikmo vyfocený nebo zkreslený obrázek se srovná do obdélníku">Srovnat perspektivu (4 rohy)</button>
+      <span id="cropOriginInfo" class="hint">Táhněte za bílé čtverečky v rozích, nebo uprostřed rámečku pro posun.</span>
     </div>
     <div class="crop-tools adjust-tools">
       <label>Jas <input id="adjBright" type="range" min="50" max="160" value="100"></label>
@@ -416,6 +422,7 @@
     <div class="crop-stage" id="cropStage">
       <div class="crop-wrap" id="cropWrap">
         <canvas id="cropCanvas"></canvas>
+        <svg id="perspSvg" class="persp-svg" hidden><polygon points=""/><circle r="14"/><circle r="14"/><circle r="14"/><circle r="14"/></svg>
         <div id="cropRect" class="crop-rect">
           <i class="h nw"></i><i class="h n"></i><i class="h ne"></i><i class="h e"></i>
           <i class="h se"></i><i class="h s"></i><i class="h sw"></i><i class="h w"></i>
@@ -496,27 +503,72 @@
   </div>
 </div>
 
+<div id="auditDlg" class="dlg" hidden>
+  <div class="dlg-box set-box audit-box">
+    <div class="dlg-head"><h2>Přístupy a změny</h2><button id="auditClose" class="big">Zavřít</button></div>
+    <div class="set-body">
+      <p class="set-intro">Záznam přihlášení a úprav: kdo (přihlašovací jméno), odkud (IP adresa) a na jakém zařízení (prohlížeč, systém a otisk počítače). Opakované automatické ukládání téže knihy se zapisuje nejvýš jednou za minutu.</p>
+      <p id="auditMe" class="audit-me"></p>
+      <div id="auditList" class="audit-list"></div>
+    </div>
+  </div>
+</div>
+
 <div id="coverDlg" class="dlg" hidden>
   <div class="dlg-box cover-box">
-    <div class="dlg-head"><h2>Vytvořit obálku</h2><div><button id="coverCancel" class="big">Zrušit</button> <button id="coverSave" class="big primary">Použít obálku</button></div></div>
+    <div class="dlg-head"><h2>Obálka knihy</h2><div><button id="coverCancel" class="big">Zrušit</button> <button id="coverSave" class="big primary">Použít obálku</button></div></div>
     <div class="cover-body">
-      <canvas id="coverCanvas" width="800" height="1280"></canvas>
+      <div class="cover-stage">
+        <canvas id="coverCanvas" width="800" height="1280"></canvas>
+        <div class="cover-size"><button id="cvSizeEbook" class="on">E-kniha</button><button id="cvSizePrint">Tisk A4</button></div>
+        <p id="cvPanHint" class="cover-hint">Fotografii posunete tažením myší (prstem) po obálce, kolečkem ji zvětšíte nebo zmenšíte.</p>
+      </div>
       <div class="cover-form set-body">
-        <label>Vzhled<select id="cvLayout">
-          <option value="top">Obrázek nahoře, text dole</option>
-          <option value="full">Obrázek přes celou obálku, text přes něj</option>
-          <option value="frame">Jednobarevná s obrázkem v rámečku</option>
-          <option value="text">Jen text (bez obrázku)</option>
-        </select></label>
-        <label>Obrázek<select id="cvImage"><option value="">– bez obrázku –</option></select></label>
-        <button id="cvImageFile" class="big">Obrázek z počítače…</button>
-        <input type="file" id="cvFile" accept="image/*" hidden>
-        <label>Název<input id="cvTitle"></label>
-        <label>Podtitul<input id="cvSubtitle"></label>
-        <label>Autor<input id="cvAuthor"></label>
-        <label>Nakladatel / edice dole<input id="cvPublisher"></label>
-        <div class="row2"><label>Barva pozadí<input id="cvBg" type="color" value="#24364f"></label><label>Barva textu<input id="cvFg" type="color" value="#f4ecd8"></label></div>
-        <label>Písmo<select id="cvFont"><option value="Georgia, serif">Georgia (patkové)</option><option value="'Times New Roman', serif">Times (klasické)</option><option value="Palatino, 'Book Antiqua', serif">Palatino</option><option value="Helvetica, Arial, sans-serif">Helvetica (bezpatkové)</option></select></label>
+        <fieldset><legend>Rozvržení</legend>
+          <div class="cv-layouts" id="cvLayouts">
+            <button data-layout="full" title="Fotografie přes celou obálku, text přes ni">Fotka přes celou obálku</button>
+            <button data-layout="top" title="Fotografie nahoře, pod ní barevný pruh s textem">Fotka nahoře</button>
+            <button data-layout="frame" title="Barevné pozadí, fotografie v rámečku">Fotka v rámečku</button>
+            <button data-layout="text" title="Jen barevné pozadí a text">Jen text</button>
+          </div>
+        </fieldset>
+        <fieldset id="cvPhotoSet"><legend>Fotografie</legend>
+          <div class="cv-row">
+            <select id="cvImage"><option value="">– vybrat z obrázků knih –</option></select>
+          </div>
+          <div class="cv-row">
+            <button id="cvImageFile" class="big"><svg class="ico"><use href="#i-computer"/></svg> Z počítače…</button>
+            <button id="cvImageCam" class="big"><svg class="ico"><use href="#i-phone"/></svg> Vyfotit…</button>
+            <button id="cvImageNone" class="big">Odebrat</button>
+          </div>
+          <input type="file" id="cvFile" accept="image/*" hidden>
+          <input type="file" id="cvCam" accept="image/*" capture="environment" hidden>
+          <label>Velikost fotografie <span id="cvZoomVal">100 %</span><input id="cvZoom" type="range" min="100" max="400" step="5" value="100"></label>
+          <div class="cv-row"><button id="cvCenter" class="big">Vycentrovat</button></div>
+          <label>Ztmavení fotografie <span id="cvShadeVal">0 %</span><input id="cvShade" type="range" min="0" max="80" step="5" value="0"></label>
+          <label id="cvTextPosL">Text na fotografii<select id="cvTextPos"><option value="bottom">dole</option><option value="center">uprostřed</option><option value="top">nahoře</option></select></label>
+        </fieldset>
+        <fieldset><legend>Pozadí</legend>
+          <div class="row2"><label>Barva pozadí<input id="cvBg" type="color" value="#24364f"></label>
+          <label>Přechod do barvy<input id="cvBg2" type="color" value="#24364f"></label></div>
+          <label class="set-check"><input type="checkbox" id="cvGrad"> Použít barevný přechod (shora dolů)</label>
+        </fieldset>
+        <fieldset><legend>Text</legend>
+          <label>Název<input id="cvTitle"></label>
+          <label>Podtitul<input id="cvSubtitle"></label>
+          <label>Autor<input id="cvAuthor"></label>
+          <label>Edice nebo nakladatel dole<input id="cvPublisher"></label>
+          <div class="row2"><label>Barva názvu<input id="cvFg" type="color" value="#f4ecd8"></label>
+          <label>Barva ostatního textu<input id="cvFg2" type="color" value="#f4ecd8"></label></div>
+          <label>Písmo<select id="cvFont"><option value="Georgia, serif">Georgia (patkové)</option><option value="'Times New Roman', serif">Times (klasické)</option><option value="Palatino, 'Book Antiqua', serif">Palatino</option><option value="Didot, 'Bodoni 72', 'Bodoni MT', serif">Didot (slavnostní)</option><option value="Helvetica, Arial, sans-serif">Helvetica (bezpatkové)</option></select></label>
+          <label>Velikost názvu <span id="cvSizeVal">100 %</span><input id="cvSize" type="range" min="60" max="140" step="5" value="100"></label>
+          <label>Velikost autora a podtitulu <span id="cvSize2Val">100 %</span><input id="cvSize2" type="range" min="60" max="140" step="5" value="100"></label>
+          <div class="cv-row"><button id="cvTextReset" class="big">Vrátit text na výchozí místo a velikost</button></div>
+          <label class="set-check"><input type="checkbox" id="cvAuthorTop" checked> Autor nad názvem (jinak pod ním)</label>
+        </fieldset>
+        <fieldset><legend>Logo Educie Press dole</legend>
+          <select id="cvLogo"><option value="auto">Automaticky bílé nebo černé podle pozadí</option><option value="white">Bílé</option><option value="black">Černé</option><option value="none">Bez loga</option></select>
+        </fieldset>
       </div>
     </div>
   </div>
@@ -634,6 +686,7 @@
 <footer class="credits">Ikony: Flaticon (flaticon.com)</footer>
 
 <div id="toast" class="toast"><span id="toastText"></span><button id="toastUndo" hidden><svg class="ico"><use href="#i-undo"/></svg> Vrátit</button></div>
+<script src="fp.js"></script>
 <script src="i18n.js"></script>
 <script src="app.js"></script>
 <script src="manuscript.js"></script>

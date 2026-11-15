@@ -105,8 +105,8 @@ PRINT_CSS = """
 @page front { @top-center { content: none; } @bottom-center { content: none; } }
 body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.6; color: #111; font-size: 11.5pt; }
 .booktitle { string-set: booktitle content(text); display: none; }
-.cover { page: cover; break-after: page; width: 210mm; height: 297mm; overflow: hidden; }
-.cover img { width: 100%%; height: 100%%; object-fit: cover; display: block; }
+.cover { page: cover; break-after: page; width: 210mm; height: 296mm; overflow: hidden; margin: 0; }
+.cover img { width: 100%%; height: 100%%; object-fit: contain; display: block; }
 .title-page { page: front; break-after: page; text-align: center; padding-top: 50mm; }
 .tp-author { font-size: 15pt; letter-spacing: .05em; margin-bottom: 14mm; }
 .title-page .tp-title { font-size: 28pt; font-weight: normal; line-height: 1.25; margin: 0 0 8mm; padding: 0; break-before: avoid; text-align: center; }
@@ -158,7 +158,7 @@ def print_page(st, body, cover_src):
     lang = LANG_NAMES.get(st.get("language"), "cs")
     return f"""<!DOCTYPE html>
 <html lang="{lang}"><head><meta charset="utf-8"><base href="../../"><title>{esc(st.get('title'))}</title>
-<style>{PRINT_CSS % {"footer": footer}}</style>
+<style>{PRINT_CSS % {"footer": footer}}{"@page:first { margin: 0; }" if cover_src else ""}</style>
 <script>window.PagedConfig = {{ auto: true, after: () => {{ const b = document.getElementById("printBtn"); b.disabled = false; b.className = ""; b.textContent = "Tisk / uložit jako PDF"; }} }};</script>
 <script src="vendor/paged.polyfill.min.js"></script>
 </head><body>

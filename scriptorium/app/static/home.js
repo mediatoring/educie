@@ -40,7 +40,7 @@ async function render() {
     const card = document.createElement("div");
     card.className = "home-card" + (b.id === cur ? " current" : "");
     card.innerHTML = `
-      <div class="home-cover">${b.cover ? `<img src="${esc(b.cover)}" alt="">` : `<span>${esc(b.title.slice(0, 1))}</span>`}</div>
+      <div class="home-cover-slot"></div>
       <div class="home-meta">
         <h3>${esc(b.title)}</h3>
         ${b.subtitle ? `<div class="home-subt">${esc(b.subtitle)}</div>` : ""}
@@ -48,8 +48,11 @@ async function render() {
         <div class="home-btns">
           <button class="big primary" data-act="open">${b.id === cur ? "Pokračovat v psaní" : "Otevřít"}</button>
           <button class="big" data-act="settings">Nastavení a tiráž</button>
+          <button class="big" data-act="cover">Obálka</button>
         </div>
       </div>`;
+    const slot = card.querySelector(".home-cover-slot");
+    slot.replaceWith(window.Cover ? Cover.thumbnail(b) : Object.assign(document.createElement("div"), { className: "home-cover", textContent: b.title.slice(0, 1) }));
     card.querySelector('[data-act="open"]').addEventListener("click", () => {
       if (b.id === cur && location.search.includes("open=1")) hide();
       else openBook(b.id, "&cols=text,ms");
@@ -58,6 +61,13 @@ async function render() {
       if (b.id === cur && location.search.includes("open=1")) { hide(); openSettings(); }
       else openBook(b.id, "&settings=1");
     });
+    const openCover = () => {
+      if (b.id === cur && location.search.includes("open=1")) { hide(); openSettings().then(() => Cover.open()); }
+      else openBook(b.id, "&settings=1&cover=1");
+    };
+    card.querySelector('[data-act="cover"]').addEventListener("click", openCover);
+    card.querySelector(".home-cover").addEventListener("click", openCover);
+    card.querySelector(".home-cover").title = "Upravit obálku";
     box.append(card);
   }
   const add = document.createElement("div");
@@ -120,7 +130,14 @@ async function saveSettings() {
   document.querySelectorAll("#bookDlg [data-f]").forEach((el) => { data[el.dataset.f] = el.type === "checkbox" ? el.checked : el.value; });
   data.sources = [...document.querySelectorAll("#bookSources input:checked")].map((i) => i.value);
   if (!data.title.trim()) { $("#bookResult").textContent = "Název knihy nesmí být prázdný."; $("#bookResult").classList.add("error"); return; }
-  const st = await fetch("api/manuscript/settings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }).then((r) => r.json());
+  let st = await fetch("api/manuscript/settings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }).then((r) => r.json());
+  // a designed cover follows changes of the title, subtitle, author or edition
+  if (window.Cover) {
+    try {
+      st = await Cover.refresh(st);
+      for (const f of ["cover", "cover_print", "cover_design"]) { const el = document.querySelector(`#bookDlg [data-f="${f}"]`); if (el) el.value = st[f] || ""; }
+    } catch (e) { /* the old cover stays */ }
+  }
   // keep the title field of the editor in step
   const t = $("#msTitle");
   if (t && t.value !== st.title) { t.value = st.title; t.dispatchEvent(new Event("input")); }
@@ -135,20 +152,49 @@ $("#homeClose").addEventListener("click", hide);
 $("#homeHelp").addEventListener("click", () => { hide(); $("#helpBtn").click(); });
 $("#homeSettings").addEventListener("click", () => { if (window.openSettings) window.openSettings(); });
 $("#bookSettingsBtn").addEventListener("click", openSettings);
+
+// ---------- access and change log ----------
+const EVENTS = { login: "přihlášení", "login-failed": "neúspěšné přihlášení", logout: "odhlášení", edit: "úprava" };
+async function openAudit() {
+  const [data, books, sources] = await Promise.all([
+    fetch("api/audit").then((r) => r.json()),
+    fetch("api/manuscripts").then((r) => r.json()),
+    fetch("api/books").then((r) => r.json()),
+  ]);
+  const names = {};
+  books.forEach((b) => { names["ms:" + b.id] = "rukopis „" + b.title + "“"; });
+  sources.forEach((b) => { names["book:" + b.id] = "transkripce „" + b.title + "“"; });
+  const who = (x) => [x.user, x.ip, x.dev, x.fp ? "zařízení " + x.fp.slice(0, 6) : ""].filter(Boolean).join(" · ");
+  $("#auditMe").textContent = "Toto zařízení: " + who(data.me);
+  $("#auditList").innerHTML = data.items.length ? data.items.map((x) => {
+    const d = new Date(x.t * 1000);
+    const when = d.toLocaleDateString("cs-CZ") + " " + d.toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
+    const what = x.ev === "edit" ? (names[x.key] || x.key || "") : (x.ev === "login-failed" ? x.detail || "" : "");
+    return `<div class="audit-row ev-${esc(x.ev)}"><b>${esc(when)}</b> <span>${esc(EVENTS[x.ev] || x.ev)}${what ? " – " + esc(what) : ""}</span><small>${esc(who(x))}</small></div>`;
+  }).join("") : "Zatím žádné záznamy.";
+  $("#auditDlg").hidden = false;
+}
+$("#homeAudit").addEventListener("click", openAudit);
+$("#auditClose").addEventListener("click", () => { $("#auditDlg").hidden = true; });
 $("#bookCancel").addEventListener("click", () => { $("#bookDlg").hidden = true; });
 $("#bookSave").addEventListener("click", saveSettings);
 $("#msTitle").addEventListener("input", (e) => { $("#homeBookTitle").textContent = e.target.value || "Moje knihy"; });
 
 window.Home = { show, hide, openSettings, current: currentId };
 
-// start on the home screen unless a book or view was asked for in the address
+// start on the home screen unless a book or view was asked for in the address;
+// after switching the interface language the page comes back to what was on screen
 const params = new URLSearchParams(location.search);
-if (params.has("open") || params.has("cols") || location.hash.length > 1) {
+let reopenHome = false;
+try { reopenHome = sessionStorage.getItem("scriptorium.home") === "1"; sessionStorage.removeItem("scriptorium.home"); } catch (e) { /* ignore */ }
+if (reopenHome) {
+  show();
+} else if (params.has("open") || params.has("cols")) {
   fetch("api/manuscripts").then((r) => r.json()).then((books) => {
     const b = books.find((x) => x.id === currentId()) || books[0];
     if (b) $("#homeBookTitle").textContent = b.title;
   });
-  if (params.has("settings")) setTimeout(openSettings, 600);
+  if (params.has("settings")) setTimeout(() => openSettings().then(() => { if (params.has("cover") && window.Cover) Cover.open(); }), 600);
 } else {
   show();
 }

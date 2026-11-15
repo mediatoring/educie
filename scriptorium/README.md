@@ -5,7 +5,9 @@ Webový editor pro práci se starými tisky. Sken stránky je vlevo, přepsaný 
 Co umí:
 
 - rozcestník **Moje knihy** – více rozepsaných knih, každá s vlastním textem, historií verzí a nastavením (titulní strana, tiráž, záhlaví a zápatí, obálka),
-- **originál a transkripce** vedle sebe, výřezy a narovnání obrázků, úpravy jasu, kontrastu a sytosti, vrácení původního textu odstavce a historie transkripce,
+- **originál a transkripce** vedle sebe, výřezy a narovnání obrázků, nový ořez z původní strany skenu, srovnání perspektivy za čtyři rohy, úpravy jasu, kontrastu a sytosti, vrácení původního textu odstavce a historie transkripce,
+- **editor obálky** – rozvržení, fotografie posouvaná a zvětšovaná přímo na obálce, posun a velikost textu, barvy, přechod, logo Educie Press bílé nebo černé podle pozadí; obálka zvlášť pro e-knihu a pro tisk A4 a zůstává upravitelná,
+- **záznam přístupů a změn** – přihlášení, IP adresa a otisk zařízení; u každé verze rukopisu i transkripce je vidět, kdo ji vytvořil,
 - **korektura** v transkripci i v rukopisu (český a německý slovník, typické chyby OCR, slovník knihy a centrální slovník),
 - **rukopis** s automatickým obsahem, novou stránkou, vkládáním citací, celých transkripcí a obrázků (z aplikace, z počítače, z kamery),
 - **Dotaz** – odpovědi jazykového modelu jen z textů knih s čísly zdrojů; model na serveru, vlastní klíč OpenAI / Anthropic nebo LM Studio / Ollama,

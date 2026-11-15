@@ -27,7 +27,7 @@ class Conflict(Exception):
 
 BOOK_FIELDS = ("title", "subtitle", "author", "editor", "publisher", "series", "place", "year", "edition",
                "isbn_pdf", "isbn_epub", "copyright", "license", "thanks", "note", "language",
-               "header", "footer_numbers", "cover", "sources", "illustrations")
+               "header", "footer_numbers", "cover", "cover_print", "cover_design", "sources", "illustrations")
 
 
 class Manuscript:
@@ -104,7 +104,8 @@ class Manuscript:
             updated = time.strftime("%d. %m. %Y %H:%M", time.localtime(os.path.getmtime(doc)))
         book = meta.get("book", {})
         return {"id": self.name, "title": meta.get("title", "Můj rukopis"), "author": book.get("author", ""),
-                "subtitle": book.get("subtitle", ""), "cover": book.get("cover", ""), "words": words,
+                "subtitle": book.get("subtitle", ""), "cover": book.get("cover", ""), "cover_design": book.get("cover_design", ""),
+                "series": book.get("series", ""), "publisher": book.get("publisher", ""), "words": words,
                 "updated": updated, "created": meta.get("created", 0)}
 
     def save(self, html, base_version, title=None, force=False):

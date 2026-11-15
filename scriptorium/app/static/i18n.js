@@ -50,7 +50,11 @@ function controls() {
   document.querySelectorAll(".lang-select").forEach((sel) => {
     sel.innerHTML = Object.entries(LANGS).map(([k, v]) => `<option value="${k}"${k === lang ? " selected" : ""}>${v}</option>`).join("");
     sel.addEventListener("change", () => {
-      try { localStorage.setItem("publisher.lang", sel.value); } catch (e) { /* ignore */ }
+      try {
+        localStorage.setItem("publisher.lang", sel.value);
+        const home = document.getElementById("home");
+        if (home && !home.hidden) sessionStorage.setItem("scriptorium.home", "1");
+      } catch (e) { /* ignore */ }
       location.reload();
     });
   });

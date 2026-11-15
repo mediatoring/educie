@@ -18,6 +18,7 @@ from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from urllib.parse import parse_qs, unquote, urlparse
 
 from auth import Auth
+from audit import Audit, device_label
 import rag
 import book_export
 from library import Library, figure_caption, gallery
@@ -40,7 +41,8 @@ LIB = Library(ROOT)
 SETTINGS = Settings(ROOT)
 SUPPORT = Support(ROOT, APP_DIR)
 PROOF = Proofreader(ROOT)
-PUBLIC_PATHS = {"/login.html", "/login.css", "/api/login", "/healthz", "/favicon.ico"}
+AUDIT = Audit(ROOT)
+PUBLIC_PATHS = {"/login.html", "/login.css", "/fp.js", "/api/login", "/healthz", "/favicon.ico"}
 
 
 def book_dir(name):
@@ -99,7 +101,47 @@ def book_history(path):
             except (OSError, ValueError):
                 words = 0
             out.append({"name": name, "time": f"{stamp[6:8]}. {stamp[4:6]}. {stamp[:4]} {stamp[9:11]}:{stamp[11:13]}", "words": words})
-    return out
+    return with_editors("book:" + os.path.basename(path), out)
+
+
+def with_editors(key, items):
+    """Adds to each history item who made that version (login, IP, device), from the audit log."""
+    times = []
+    for it in items:
+        m = re.search(r"(\d{8})-(\d{6})", it["name"])
+        times.append(time.mktime(time.strptime(m.group(1) + m.group(2), "%Y%m%d%H%M%S")) if m else 0)
+    for it, who in zip(items, AUDIT.editors(key, times)):
+        it["who"] = who
+    return items
+
+
+def image_origin(src):
+    """Finds the scan page an image of the manuscript was cut from.
+
+    `src` is either "<book>/<file>" (data-origin of the image) or the manuscript image path,
+    whose file name is "<book>_<6 hex>_<file>" when it was copied from a source book."""
+    name = os.path.basename(src.split("?")[0])
+    if "/" in src and not src.startswith("books/"):
+        book, file = src.split("/", 1)
+    else:
+        m = re.match(r"^(.+?)_[0-9a-f]{6}_(.+)$", name)
+        if not m:
+            return {"found": False}
+        book, file = m.group(1), m.group(2)
+    try:
+        path = book_dir(book)
+    except (ValueError, FileNotFoundError):
+        return {"found": False}
+    with open(os.path.join(path, "project.json"), encoding="utf-8") as f:
+        project = json.load(f)
+    file = os.path.basename(file)
+    for pi, page in enumerate(project.get("pages", [])):
+        for b in page.get("blocks", []):
+            if b.get("type") == "image" and os.path.basename(b.get("src", "")) == file and page.get("scan"):
+                return {"found": True, "book": book, "file": file, "page": pi, "page_no": page.get("page_no"),
+                        "scan": f"books/{book}/{page['scan']}", "size": page.get("size"),
+                        "crop": b.get("crop"), "rotate": b.get("rotate", 0), "quarter": b.get("quarter", 0), "title": project.get("title", book)}
+    return {"found": False}
 
 
 def restore_book(path, name):
@@ -293,6 +335,31 @@ class Handler(SimpleHTTPRequestHandler):
                 return MSS.get(unquote(v))
         return MSS.get("_rukopis")
 
+    def who(self):
+        fp = ""
+        for part in (self.headers.get("Cookie") or "").split(";"):
+            k, _, v = part.strip().partition("=")
+            if k == "fp":
+                fp = re.sub(r"[^0-9a-f\-]", "", v)[:24]
+        logged = AUTH.enabled and AUTH.is_logged_in(self.headers.get("Cookie"))
+        return {"user": AUTH.user if logged else ("" if AUTH.enabled else "místně"), "ip": self.client_ip(),
+                "fp": fp, "dev": device_label(self.headers.get("User-Agent"))}
+
+    def audit_edit(self, parts):
+        """Logs a write request: which book or manuscript changed, by whom."""
+        if parts[:1] != ["api"] or parts[1:2] in (["chat"], ["proof"], ["login"], ["support"]):
+            return
+        if parts[1:2] == ["manuscript"] or parts[1:2] == ["manuscripts"]:
+            key = "ms:" + self.ms().name
+        elif parts[1:2] == ["books"] and len(parts) >= 3:
+            key = "book:" + os.path.basename(parts[2])
+        else:
+            key = "/".join(parts[1:3])
+        try:
+            AUDIT.log("edit", self.who(), key=key, path=urlparse(self.path).path)
+        except OSError:
+            pass
+
     def client_ip(self):
         fwd = self.headers.get("X-Forwarded-For")
         return fwd.split(",")[0].strip() if fwd else self.client_address[0]
@@ -319,6 +386,7 @@ class Handler(SimpleHTTPRequestHandler):
         if parts == ["api", "me"]:
             return self.send_json({"auth": AUTH.enabled, "user": AUTH.user if AUTH.enabled else None, "version": SUPPORT.version()})
         if parts == ["logout"]:
+            AUDIT.log("logout", self.who())
             self.send_response(302)
             self.send_header("Set-Cookie", AUTH.clear_cookie())
             self.send_header("Location", "login.html" if AUTH.enabled else "./")
@@ -327,6 +395,8 @@ class Handler(SimpleHTTPRequestHandler):
         try:
             if parts == ["api", "settings"]:
                 return self.send_json(SETTINGS.public())
+            if parts == ["api", "audit"]:
+                return self.send_json({"me": self.who(), "items": AUDIT.recent()})
             if parts[:2] == ["api", "books"] and len(parts) == 2:
                 return self.send_json(list_books())
             if parts[:2] == ["api", "books"] and len(parts) == 4 and parts[3] == "history":
@@ -344,8 +414,10 @@ class Handler(SimpleHTTPRequestHandler):
             if parts[:2] == ["api", "manuscript"]:
                 if len(parts) == 2:
                     return self.send_json(self.ms().load())
+                if parts[2] == "image-origin":
+                    return self.send_json(image_origin(parse_qs(urlparse(self.path).query).get("src", [""])[0]))
                 if parts[2] == "history" and len(parts) == 3:
-                    return self.send_json(self.ms().history())
+                    return self.send_json(with_editors("ms:" + self.ms().name, self.ms().history()))
                 if parts[2] == "history" and len(parts) == 4:
                     return self.send_json({"html": self.ms().history_item(parts[3])})
                 if parts[2] == "export":
@@ -355,7 +427,7 @@ class Handler(SimpleHTTPRequestHandler):
                         name = re.sub(r"[^\w\-]+", "-", fold(doc["title"] or "rukopis")).strip("-")[:60] or "rukopis"
                         return self.send_html(html_doc, download=name + ".html")
                     st = self.ms().settings()
-                    return self.send_html(book_export.print_page(st, doc["html"], st.get("cover")))
+                    return self.send_html(book_export.print_page(st, doc["html"], st.get("cover_print") or st.get("cover")))
                 if parts[2] == "epub":
                     doc = self.ms().load()
                     st = self.ms().settings()
@@ -399,6 +471,7 @@ class Handler(SimpleHTTPRequestHandler):
         if not self.guard():
             return
         parts = self.route()
+        self.audit_edit(parts)
         try:
             if parts == ["api", "settings"]:
                 return self.send_json(SETTINGS.save(self.read_json()))
@@ -431,6 +504,7 @@ class Handler(SimpleHTTPRequestHandler):
         if not self.guard():
             return
         parts = self.route()
+        self.audit_edit(parts)
         if parts == ["api", "chat"]:
             return self.stream_chat(self.read_json().get("question", ""))
         if parts[:2] == ["api", "books"] and len(parts) == 4 and parts[3] == "restore":
@@ -453,6 +527,11 @@ class Handler(SimpleHTTPRequestHandler):
             if not AUTH.enabled:
                 return self.send_json({"ok": True})
             ok, msg = AUTH.login(self.client_ip(), body.get("user"), body.get("pin"))
+            who = {**self.who(), "user": str(body.get("user") or "")[:60]}
+            if isinstance(body.get("device"), dict):
+                who["detail"] = json.dumps(body["device"], ensure_ascii=False)[:600]
+            AUDIT.log("login" if ok else "login-failed", {k: v for k, v in who.items() if k != "detail"},
+                      detail=who.get("detail", "") or ("" if ok else msg))
             if not ok:
                 time.sleep(1)  # slow down guessing
                 return self.send_json({"ok": False, "error": msg}, 403)

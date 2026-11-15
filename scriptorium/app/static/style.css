@@ -378,11 +378,38 @@ body.proofing .proof-btn { background: #dafbe1; }
 .cover-preview { width: 110px; border-radius: 4px; box-shadow: 0 1px 6px rgba(0,0,0,.25); }
 .cover-actions { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
 .cover-actions button { min-height: 40px; border-radius: 8px; }
-.dlg-box.cover-box { width: min(1100px, 96vw); height: auto; max-height: 94vh; }
-.cover-body { display: flex; gap: 16px; padding: 14px; overflow-y: auto; }
-#coverCanvas { width: 400px; height: 640px; flex: none; box-shadow: 0 2px 10px rgba(0,0,0,.3); border-radius: 4px; }
-.cover-form { flex: 1; padding: 0 !important; }
-.cover-form button { min-height: 40px; border-radius: 8px; align-self: flex-start; }
+/* dialogs open above the home screen too */
+body .dlg { z-index: 32; }
+body #capDlg { z-index: 35; }
+
+/* cover editor */
+.dlg-box.cover-box { width: min(1180px, 97vw); height: 94vh; }
+.cover-body { display: flex; gap: 20px; padding: 14px; min-height: 0; flex: 1; }
+.cover-stage { flex: none; display: flex; flex-direction: column; align-items: center; gap: 10px; width: min(440px, 42vw); overflow-y: auto; }
+#coverCanvas { width: 100%; box-shadow: 0 2px 12px rgba(0,0,0,.35); border-radius: 4px; touch-action: none; user-select: none; }
+.cover-size { display: flex; gap: 0; }
+.cover-size button { border-radius: 0; }
+.cover-size button:first-child { border-radius: 8px 0 0 8px; }
+.cover-size button:last-child { border-radius: 0 8px 8px 0; }
+.cover-size button.on, .cv-layouts button.on { background: #1f6feb; color: #fff; border-color: #1f6feb; }
+.cover-hint { margin: 0; font-size: 15px; color: #57606a; text-align: center; }
+.cover-form { flex: 1; padding: 0 4px 0 0 !important; overflow-y: auto; min-height: 0; }
+.cover-form fieldset { border: 1px solid #d0d7de; border-radius: 10px; padding: 8px 14px 12px; margin: 0 0 12px; display: flex; flex-direction: column; gap: 8px; }
+.cover-form fieldset[hidden] { display: none; }
+.cover-form legend { font-weight: 700; padding: 0 6px; }
+.cover-form label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; }
+.cover-form label.set-check { flex-direction: row; align-items: center; font-weight: 400; }
+.cover-form label[hidden] { display: none; }
+.cover-form input[type=color] { width: 100%; height: 44px; padding: 2px; border-radius: 8px; border: 1px solid #c8ccd1; background: #fff; cursor: pointer; }
+.cover-form input[type=range] { width: 100%; }
+.cover-form select, .cover-form input:not([type]) { font-size: 16px; min-height: 42px; border-radius: 8px; border: 1px solid #c8ccd1; padding: 0 10px; }
+.cv-layouts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cv-layouts button { min-height: 52px; }
+.cv-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.cv-row select { flex: 1; }
+.cover-form button { border-radius: 8px; }
+.home-cover canvas { width: 100%; height: 100%; display: block; }
+@media (max-width: 760px) { .cover-body { flex-direction: column; overflow-y: auto; } .cover-stage { width: 100%; } .cover-form { overflow: visible; } }
 
 /* dark appearance: invert the interface, keep scans, photos and covers in true colours */
 html[data-theme="dark"] { filter: invert(0.92) hue-rotate(180deg); background: #fff; }
@@ -391,3 +418,14 @@ html[data-theme="dark"] #coverCanvas, html[data-theme="dark"] .home-cover, html[
 html[data-theme="dark"] #cropCanvas { filter: invert(1) hue-rotate(180deg); }
 .help-prefs { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .help-prefs select, .big-select { font-size: 16px; min-height: 44px; border-radius: 10px; padding: 0 10px; border: 1px solid #c8ccd1; background: #fff; }
+
+/* who made a version; access log */
+.hist-who { display: block; font-size: 13px; color: #57606a; margin-top: 2px; }
+.dlg-box.audit-box { width: min(820px, 96vw); max-height: 90vh; display: flex; flex-direction: column; }
+.audit-box .set-body { overflow-y: auto; }
+.audit-me { font-size: 15px; color: #424a53; margin: 0 0 8px; }
+.audit-list { display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.audit-row { display: grid; grid-template-columns: 150px 1fr; gap: 2px 10px; padding: 6px 8px; border-radius: 6px; background: #f6f8fa; }
+.audit-row small { grid-column: 2; color: #57606a; }
+.audit-row.ev-login-failed { background: #fff1f0; }
+.audit-row.ev-login { background: #eef6ff; }

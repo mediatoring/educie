@@ -73,7 +73,7 @@ async function loadBooks() {
     $("#blocks").innerHTML = '<div class="empty">Ve složce publisher není žádná kniha s project.json.</div>';
     return;
   }
-  const wanted = location.hash.slice(1) || localStorage.getItem("publisher.book");
+  const wanted = decodeURIComponent(location.hash.slice(1)) || localStorage.getItem("publisher.book");
   const first = books.find((b) => b.id === wanted) ? wanted : books[0].id;
   sel.value = first;
   await openBook(first);
@@ -83,7 +83,8 @@ async function openBook(id) {
   if (state.dirty) await save();
   state.bookId = id;
   localStorage.setItem("publisher.book", id);
-  location.hash = id;
+  // the address shows the source book only inside the work view; the bare address stays the home screen
+  if (new URLSearchParams(location.search).has("open")) history.replaceState(null, "", location.pathname + location.search + "#" + encodeURIComponent(id));
   state.project = await (await fetch(`api/books/${encodeURIComponent(id)}`)).json();
   state.scanCache = {};
   const savedPage = parseInt(localStorage.getItem(`publisher.page.${id}`) || "0", 10);
@@ -890,13 +891,18 @@ function findPageOf(block) {
 }
 
 // ---------- helpers used by the gallery ----------
+function whoText(w) {
+  if (!w) return "";
+  return [w.user, w.ip, w.dev, w.fp ? "zařízení " + w.fp.slice(0, 6) : ""].filter(Boolean).join(" · ");
+}
+window.whoText = whoText;
 async function openBookHistory() {
   if (state.dirty) await save();
   const list = await fetch(`api/books/${encodeURIComponent(state.bookId)}/history`).then((r) => r.json());
   const box = $("#bookHistList");
   box.innerHTML = list.length ? "" : "Zatím žádné starší verze.";
   for (const h of list) {
-    const row = el("div", { class: "hist-row" }, el("span", {}, `${h.time} · ${h.words} slov`),
+    const row = el("div", { class: "hist-row" }, el("span", {}, `${h.time} · ${h.words} slov`, el("small", { class: "hist-who" }, whoText(h.who))),
       el("button", { onclick: async () => {
         state.project = await fetch(`api/books/${encodeURIComponent(state.bookId)}/restore`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: h.name }) }).then((r) => r.json());
         $("#bookHistDlg").hidden = true;

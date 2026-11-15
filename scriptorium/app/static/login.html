@@ -2,7 +2,8 @@
 <html lang="cs">
 <head>
 <meta charset="utf-8">
-<title>Přihlášení – Publisher</title>
+<title>Přihlášení – Educie Scriptorium</title>
+<script src="fp.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 * { box-sizing: border-box; }
@@ -22,7 +23,7 @@ button:disabled { opacity: .6; }
 </head>
 <body>
 <form id="f" autocomplete="on">
-  <h1>Publisher</h1>
+  <h1>Educie Scriptorium</h1>
   <p class="sub">Zdrojové knihy a rukopis</p>
   <label for="user">Jméno</label>
   <input id="user" name="username" autocomplete="username" autocapitalize="none" required>
@@ -41,7 +42,7 @@ f.addEventListener("submit", async (e) => {
   btn.disabled = true; err.textContent = "";
   const user = document.getElementById("user").value, pin = document.getElementById("pin").value;
   try {
-    const res = await fetch("api/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ user, pin }) });
+    const res = await fetch("api/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ user, pin, device: { ua: navigator.userAgent, lang: navigator.language, screen: screen.width + "x" + screen.height, tz: Intl.DateTimeFormat().resolvedOptions().timeZone, platform: navigator.platform, fp: window.DEVICE_FP || "" } }) });
     const data = await res.json();
     if (res.ok && data.ok) { localStorage.setItem("publisher.user", user); location.href = "./"; return; }
     err.textContent = data.error || "Přihlášení se nepovedlo.";

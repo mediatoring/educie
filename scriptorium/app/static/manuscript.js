@@ -39,6 +39,8 @@ function sanitize(root) {
           // keep only our own images; data: images are uploaded separately
         } else if (n === "class" && /^(cite|src|var-toc|var-break)$/.test(a.value)) {
           // keep citation class
+        } else if (n === "data-origin" && child.tagName === "IMG" && /^[\w\-. ]+\/[\w\-. ]+$/.test(a.value)) {
+          // which scan page the image was cut from (book/file), for cropping again from the original
         } else if ((n === "face" || n === "size") && child.tagName === "FONT") {
           // legacy font tags from execCommand
         } else {
@@ -542,7 +544,8 @@ async function openHistory() {
     const when = `${t.slice(6, 8)}. ${t.slice(4, 6)}. ${t.slice(0, 4)}  ${t.slice(9, 11)}:${t.slice(11, 13)}`;
     const div = document.createElement("div");
     div.className = "hist-item";
-    div.innerHTML = `<div class="t">${when}</div><div class="l">${escapeHtml(it.label || "")} · ${it.words} slov</div>`;
+    div.innerHTML = `<div class="t">${when}</div><div class="l">${escapeHtml(it.label || "")} · ${it.words} slov</div>`
+      + (it.who && window.whoText ? `<div class="hist-who">${escapeHtml(whoText(it.who))}</div>` : "");
     div.addEventListener("click", async () => {
       list.querySelectorAll(".hist-item").forEach((n) => n.classList.remove("on"));
       div.classList.add("on");
@@ -569,7 +572,7 @@ async function restoreVersion() {
 }
 
 // ---------- crop & straighten ----------
-const crop = { img: null, target: null, angle: 0, rotated: null, rect: null, scale: 1, sepia: 0 };
+const crop = { img: null, target: null, angle: 0, rotated: null, rect: null, scale: 1, sepia: 0, origin: null, quad: null, persp: false };
 
 function cropFilter() {
   const f = `brightness(${$("#adjBright").value}%) contrast(${$("#adjContrast").value}%) saturate(${$("#adjSat").value}%)` + (crop.sepia ? ` sepia(${crop.sepia}%)` : "");
@@ -608,11 +611,130 @@ function drawCropPreview(keepRect) {
   ctx.strokeStyle = "rgba(31,111,235,.35)"; ctx.lineWidth = 1;
   for (let x = 40; x < cv.width; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, cv.height); ctx.stroke(); }
   for (let y = 40; y < cv.height; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(cv.width, y); ctx.stroke(); }
+  if (keepRect === "scale" && crop.rect && crop.prevScale) {
+    const f = crop.scale / crop.prevScale;
+    crop.rect = { x: crop.rect.x * f, y: crop.rect.y * f, w: crop.rect.w * f, h: crop.rect.h * f };
+  }
   if (!keepRect || !crop.rect) crop.rect = { x: 0, y: 0, w: cv.width, h: cv.height };
   crop.rect.w = Math.min(crop.rect.w, cv.width); crop.rect.h = Math.min(crop.rect.h, cv.height);
-  crop.rect.x = Math.min(crop.rect.x, cv.width - crop.rect.w); crop.rect.y = Math.min(crop.rect.y, cv.height - crop.rect.h);
+  crop.rect.x = Math.max(0, Math.min(crop.rect.x, cv.width - crop.rect.w)); crop.rect.y = Math.max(0, Math.min(crop.rect.y, cv.height - crop.rect.h));
+  crop.prevScale = crop.scale;
   placeCropRect();
+  if (crop.persp) resetQuad();
   $("#rotValue").textContent = crop.angle.toFixed(1).replace(".", ",") + "°";
+  const fine = crop.angle - Math.round(crop.angle / 90) * 90;
+  $("#rotFine").value = fine.toFixed(1);
+}
+
+// ---------- perspective: four corners dragged onto the corners of the picture ----------
+function resetQuad() {
+  const r = crop.rect;
+  crop.quad = [[r.x, r.y], [r.x + r.w, r.y], [r.x + r.w, r.y + r.h], [r.x, r.y + r.h]];
+  drawQuad();
+}
+
+function drawQuad() {
+  const svg = $("#perspSvg"), cv = $("#cropCanvas");
+  svg.setAttribute("viewBox", `0 0 ${cv.width} ${cv.height}`);
+  svg.querySelector("polygon").setAttribute("points", crop.quad.map((p) => p.join(",")).join(" "));
+  svg.querySelectorAll("circle").forEach((c, i) => { c.setAttribute("cx", crop.quad[i][0]); c.setAttribute("cy", crop.quad[i][1]); });
+}
+
+function setPersp(on) {
+  crop.persp = on;
+  $("#perspSvg").toggleAttribute("hidden", !on);
+  $("#cropRect").hidden = on;
+  $("#cropPersp").classList.toggle("on", on);
+  $("#cropPersp").textContent = on ? "✓ Srovnávám perspektivu – zpět na obdélník" : "Srovnat perspektivu (4 rohy)";
+  if (on) resetQuad();
+}
+
+// projective mapping of the unit square onto a quadrilateral (Heckbert): (0,0)->p0, (1,0)->p1, (1,1)->p2, (0,1)->p3
+function squareToQuad(q) {
+  const [[x0, y0], [x1, y1], [x2, y2], [x3, y3]] = q;
+  const sx = x0 - x1 + x2 - x3, sy = y0 - y1 + y2 - y3;
+  let g = 0, h = 0;
+  if (Math.abs(sx) > 1e-9 || Math.abs(sy) > 1e-9) {
+    const dx1 = x1 - x2, dx2 = x3 - x2, dy1 = y1 - y2, dy2 = y3 - y2;
+    const den = dx1 * dy2 - dx2 * dy1;
+    g = (sx * dy2 - dx2 * sy) / den;
+    h = (dx1 * sy - sx * dy1) / den;
+  }
+  const a = x1 - x0 + g * x1, b = x3 - x0 + h * x3, d = y1 - y0 + g * y1, e = y3 - y0 + h * y3;
+  return (u, v) => { const w = g * u + h * v + 1; return [(a * u + b * v + x0) / w, (d * u + e * v + y0) / w]; };
+}
+
+// cuts the quadrilateral out of the source canvas and straightens it into a rectangle
+function warpQuad(src, quad) {
+  const dist = (p, q) => Math.hypot(p[0] - q[0], p[1] - q[1]);
+  let ow = Math.round((dist(quad[0], quad[1]) + dist(quad[3], quad[2])) / 2);
+  let oh = Math.round((dist(quad[0], quad[3]) + dist(quad[1], quad[2])) / 2);
+  const lim = Math.min(1, 4000 / Math.max(ow, oh));
+  ow = Math.max(1, Math.round(ow * lim)); oh = Math.max(1, Math.round(oh * lim));
+  const sw = src.width, sh = src.height;
+  const sdata = src.getContext("2d").getImageData(0, 0, sw, sh).data;
+  const out = document.createElement("canvas");
+  out.width = ow; out.height = oh;
+  const octx = out.getContext("2d");
+  const img = octx.createImageData(ow, oh);
+  const d = img.data;
+  const map = squareToQuad(quad);
+  for (let y = 0; y < oh; y++) {
+    for (let x = 0; x < ow; x++) {
+      let [sx, sy] = map((x + 0.5) / ow, (y + 0.5) / oh);
+      sx -= 0.5; sy -= 0.5;
+      const o = (y * ow + x) * 4;
+      const x0 = Math.floor(sx), y0 = Math.floor(sy);
+      if (x0 < 0 || y0 < 0 || x0 >= sw - 1 || y0 >= sh - 1) { d[o] = d[o + 1] = d[o + 2] = 255; d[o + 3] = 255; continue; }
+      const fx = sx - x0, fy = sy - y0;
+      const i00 = (y0 * sw + x0) * 4, i10 = i00 + 4, i01 = i00 + sw * 4, i11 = i01 + 4;
+      for (let c = 0; c < 3; c++) {
+        const top = sdata[i00 + c] * (1 - fx) + sdata[i10 + c] * fx;
+        const bot = sdata[i01 + c] * (1 - fx) + sdata[i11 + c] * fx;
+        d[o + c] = top * (1 - fy) + bot * fy;
+      }
+      d[o + 3] = 255;
+    }
+  }
+  octx.putImageData(img, 0, 0);
+  return out;
+}
+
+// ---------- the original scan page ----------
+async function findOrigin(img) {
+  const key = img.dataset.origin || img.getAttribute("src").split("?")[0];
+  try {
+    const info = await fetch("api/manuscript/image-origin?src=" + encodeURIComponent(key)).then((r) => r.json());
+    return info.found ? info : null;
+  } catch (e) { return null; }
+}
+
+function loadOriginal() {
+  const o = crop.origin;
+  if (!o) return;
+  const im = new Image();
+  im.onload = () => {
+    crop.img = im;
+    crop.angle = (o.rotate || 0) + 90 * (o.quarter || 0);
+    crop.loadedOriginal = true;
+    crop.rect = null;
+    drawCropPreview(false);
+    // put the frame where the image was cut out (crop is in scan pixels before rotation, rotated about its centre)
+    if (o.crop) {
+      const [x, y, w, h] = o.crop;
+      const rad = crop.angle * Math.PI / 180;
+      const cx = x + w / 2 - im.naturalWidth / 2, cy = y + h / 2 - im.naturalHeight / 2;
+      const rx = cx * Math.cos(rad) - cy * Math.sin(rad) + crop.rotated.width / 2;
+      const ry = cx * Math.sin(rad) + cy * Math.cos(rad) + crop.rotated.height / 2;
+      const odd = (o.quarter || 0) % 2;
+      const rw = odd ? h : w, rh = odd ? w : h, s = crop.scale;
+      crop.rect = { x: (rx - rw / 2) * s, y: (ry - rh / 2) * s, w: rw * s, h: rh * s };
+      drawCropPreview(true);
+    }
+    $("#cropOriginInfo").textContent = `Původní strana: ${o.title}${o.page_no ? ", s. " + o.page_no : ", " + (o.page + 1) + ". strana skenu"}. Rámeček můžete rozšířit.`;
+    $("#cropOrigin").disabled = true;
+  };
+  im.src = o.scan;
 }
 
 function placeCropRect() {
@@ -620,11 +742,22 @@ function placeCropRect() {
   Object.assign(n.style, { left: r.x + "px", top: r.y + "px", width: r.w + "px", height: r.h + "px" });
 }
 
-function openCrop(img) {
+async function openCrop(img) {
   crop.target = img;
   crop.angle = 0;
   crop.rect = null;
+  crop.loadedOriginal = false;
+  setPersp(false);
   resetAdjust();
+  $("#cropOrigin").hidden = true;
+  $("#cropOrigin").disabled = false;
+  $("#cropOriginInfo").textContent = "";
+  crop.origin = null;
+  findOrigin(img).then((o) => {
+    crop.origin = o;
+    $("#cropOrigin").hidden = !o;
+    if (!o) $("#cropOriginInfo").textContent = "";
+  });
   crop.img = new Image();
   crop.img.onload = () => { $("#cropDlg").hidden = false; requestAnimationFrame(() => drawCropPreview(false)); };
   crop.img.src = img.getAttribute("src").split("?")[0] + "?t=" + Date.now();
@@ -656,11 +789,36 @@ function initCrop() {
     window.addEventListener("mousemove", move);
     window.addEventListener("mouseup", up);
   });
+  // corners of the perspective frame
+  const svg = $("#perspSvg");
+  svg.querySelectorAll("circle").forEach((c, i) => c.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    c.setPointerCapture(e.pointerId);
+    const cv = $("#cropCanvas");
+    const move = (ev) => {
+      const r = cv.getBoundingClientRect(), k = cv.width / r.width;
+      crop.quad[i] = [Math.max(0, Math.min(cv.width, (ev.clientX - r.left) * k)), Math.max(0, Math.min(cv.height, (ev.clientY - r.top) * k))];
+      drawQuad();
+    };
+    const up = () => { c.removeEventListener("pointermove", move); c.removeEventListener("pointerup", up); };
+    c.addEventListener("pointermove", move);
+    c.addEventListener("pointerup", up);
+  }));
+  $("#cropPersp").addEventListener("click", () => setPersp(!crop.persp));
+  $("#cropOrigin").addEventListener("click", loadOriginal);
+  let fineTimer = 0;
+  $("#rotFine").addEventListener("input", () => {
+    cancelAnimationFrame(fineTimer);
+    fineTimer = requestAnimationFrame(() => {
+      crop.angle = Math.round(crop.angle / 90) * 90 + parseFloat($("#rotFine").value);
+      drawCropPreview("scale");
+    });
+  });
   document.querySelectorAll("[data-rot]").forEach((b) => b.addEventListener("click", () => {
     crop.angle = Math.round((crop.angle + parseFloat(b.dataset.rot)) * 10) / 10;
-    drawCropPreview(Math.abs(parseFloat(b.dataset.rot)) < 90);
+    drawCropPreview(Math.abs(parseFloat(b.dataset.rot)) < 90 ? "scale" : false);
   }));
-  $("#cropReset").addEventListener("click", () => { crop.angle = 0; drawCropPreview(false); });
+  $("#cropReset").addEventListener("click", () => { crop.angle = 0; setPersp(false); drawCropPreview(false); });
   for (const id of ["#adjBright", "#adjContrast", "#adjSat"]) $(id).addEventListener("input", applyAdjust);
   $("#adjGray").addEventListener("click", () => { $("#adjSat").value = 0; crop.sepia = 0; applyAdjust(); });
   $("#adjSepia").addEventListener("click", () => { $("#adjSat").value = 100; crop.sepia = crop.sepia ? 0 : 70; applyAdjust(); });
@@ -669,14 +827,25 @@ function initCrop() {
   $("#cropApply").addEventListener("click", async () => {
     const s = crop.scale, r = crop.rect;
     const out = document.createElement("canvas");
-    out.width = Math.round(r.w / s); out.height = Math.round(r.h / s);
     const octx = out.getContext("2d");
-    octx.filter = cropFilter();
-    octx.drawImage(crop.rotated, r.x / s, r.y / s, r.w / s, r.h / s, 0, 0, out.width, out.height);
+    if (crop.persp) {
+      $("#cropApply").disabled = true;
+      await new Promise((res) => setTimeout(res, 30));
+      const flat = warpQuad(crop.rotated, crop.quad.map(([x, y]) => [x / s, y / s]));
+      out.width = flat.width; out.height = flat.height;
+      octx.filter = cropFilter();
+      octx.drawImage(flat, 0, 0);
+      $("#cropApply").disabled = false;
+    } else {
+      out.width = Math.round(r.w / s); out.height = Math.round(r.h / s);
+      octx.filter = cropFilter();
+      octx.drawImage(crop.rotated, r.x / s, r.y / s, r.w / s, r.h / s, 0, 0, out.width, out.height);
+    }
     const blob = await new Promise((res) => out.toBlob(res, "image/jpeg", 0.92));
     const src = await uploadImage(new File([blob], "crop.jpg", { type: "image/jpeg" }));
     if (src) {
       crop.target.setAttribute("src", src);
+      if (crop.origin && !crop.target.dataset.origin) crop.target.dataset.origin = crop.origin.book + "/" + crop.origin.file;
       markDirty();
       toast("Obrázek upraven. Původní zůstává v historii verzí.");
     }
