@@ -28,6 +28,8 @@
   <symbol id="i-ul" viewBox="0 0 512 512"><circle cx="72" cy="112" r="44"/><circle cx="72" cy="256" r="44"/><circle cx="72" cy="400" r="44"/><rect x="160" y="84" width="320" height="56" rx="28"/><rect x="160" y="228" width="320" height="56" rx="28"/><rect x="160" y="372" width="320" height="56" rx="28"/></symbol>
   <symbol id="i-ol" viewBox="0 0 512 512"><text x="20" y="150" font-size="150" font-weight="700" font-family="Arial, sans-serif">1</text><text x="20" y="300" font-size="150" font-weight="700" font-family="Arial, sans-serif">2</text><text x="20" y="450" font-size="150" font-weight="700" font-family="Arial, sans-serif">3</text><rect x="160" y="84" width="320" height="56" rx="28"/><rect x="160" y="228" width="320" height="56" rx="28"/><rect x="160" y="372" width="320" height="56" rx="28"/></symbol>
   <symbol id="i-quote" viewBox="0 0 512 512"><path d="M64 264c0-104 48-176 144-200l16 48c-56 20-80 60-84 104h76v192H64zm256 0c0-104 48-176 144-200l16 48c-56 20-80 60-84 104h76v192H320z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r="1.2" fill="currentColor"/></symbol>
   <symbol id="i-ask" viewBox="0 0 512 512"><path d="M256 32C123.5 32 16 121.5 16 232c0 48.6 20.8 93.1 55.4 127.9L48 464l116.6-50.6C192.3 424.1 223.4 432 256 432c132.5 0 240-89.5 240-200S388.5 32 256 32zm0 320c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm40-122c-18 12-20 18-20 34h-40c0-34 12-48 32-62 18-12 28-20 28-38 0-20-18-34-40-34-24 0-40 14-42 38h-40c2-46 36-74 82-74 46 0 80 28 80 70 0 34-20 52-40 66z"/></symbol>
 </svg>
 <div id="oldServer" class="old-server" hidden>
@@ -53,6 +55,8 @@
   <div class="spacer"></div>
   <button id="uiSmaller" class="ui-size" title="Menší písmo a ovládání">A−</button>
   <button id="uiBigger" class="ui-size" title="Větší písmo a ovládání">A+</button>
+  <button id="settingsBtn" class="ui-size icon-btn" title="Nastavení – jazykový model pro Dotaz"><svg class="ico"><use href="#i-gear"/></svg></button>
+  <button id="helpBtn" class="ui-size icon-btn help-btn" title="Nápověda a průvodce aplikací"><svg class="ico"><use href="#i-help"/></svg></button>
 </header>
 
 <main id="workspace" class="workspace">
@@ -182,6 +186,7 @@
       <button class="tb" data-cmd="insertOrderedList" title="Číslování"><svg class="ico"><use href="#i-ol"/></svg><span>Čísla</span></button>
       <button class="tb" id="imageBtn" title="Vložit obrázek ze souboru"><svg class="ico"><use href="#i-images"/></svg><span>Obrázek</span></button>
       <input type="file" id="imageFile" accept="image/*" hidden>
+      <input type="file" id="cameraFile" accept="image/*" capture="environment" hidden>
       <button class="tb" id="msZoomOut" title="Menší písmo rukopisu na obrazovce">A−<span>Písmo</span></button>
       <button class="tb" id="msZoomIn" title="Větší písmo rukopisu na obrazovce">A+<span>Písmo</span></button>
     </div>
@@ -208,6 +213,10 @@
         <div id="insertMark" class="insert-mark" hidden><span>sem se vloží</span></div>
         <article id="msEditor" class="page" contenteditable="true" spellcheck="true" lang="cs"></article>
       </div>
+      <aside id="msOutline" class="ms-outline">
+        <button id="outlineToggle" class="outline-toggle" title="Zobrazit nebo skrýt osnovu kapitol">Osnova</button>
+        <nav id="outline" class="toc outline-list" aria-label="Osnova rukopisu"></nav>
+      </aside>
     </div>
   </section>
 
@@ -241,7 +250,7 @@
         <button id="askBtn" class="ask-btn">Zeptat se</button>
         <button id="askClear" class="ask-clear" title="Smaže otázku, odpověď i zdroje">Nový dotaz</button>
       </div>
-      <div id="askStatus" class="ask-status">Odpověď vzniká jen z přepsaných knih a rukopisu a u každého tvrzení je číslo zdroje.</div>
+      <div id="askStatus" class="ask-status">Odpověď vzniká pomocí AI jen z přepsaných knih a rukopisu a u každého tvrzení je číslo zdroje.</div>
       <div id="askAnswer" class="ask-answer"></div>
       <button id="askToMs" class="ask-tms" hidden>➜ Vložit odpověď do rukopisu</button>
       <div id="askSources" class="ask-sources"></div>
@@ -344,6 +353,96 @@
   </div>
 </div>
 
+<div id="setDlg" class="dlg" hidden>
+  <div class="dlg-box set-box">
+    <div class="dlg-head"><h2>Nastavení jazykového modelu</h2></div>
+    <div class="set-body">
+      <p class="set-intro">Model odpovídá na otázky ve sloupci <b>Dotaz</b>. Může to být model na serveru, vlastní účet u OpenAI nebo Anthropicu, nebo model v počítači (LM Studio, Ollama).</p>
+      <label>Kde model běží<select id="setPreset"></select></label>
+      <label id="setUrlRow">Adresa API<input id="setUrl" placeholder="https://…/v1"></label>
+      <label id="setModelRow">Název modelu<input id="setModel" placeholder="např. gpt-4.1-mini"></label>
+      <label id="setKeyRow">API klíč<input id="setKey" type="password" autocomplete="off" placeholder="sk-…"><small id="setKeyInfo"></small></label>
+      <label class="set-check" id="setTlsRow"><input id="setTls" type="checkbox" checked> Ověřovat certifikát HTTPS</label>
+      <div id="setResult" class="set-result"></div>
+      <div class="cap-actions">
+        <button id="setTest" class="big">Vyzkoušet</button>
+        <button id="setCancel" class="big">Zavřít</button>
+        <button id="setSave" class="big primary">Uložit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="imgMenu" class="pop-menu" hidden>
+  <button id="imgFromGallery"><svg class="ico"><use href="#i-images"/></svg> Z obrázků v aplikaci</button>
+  <button id="imgFromFile"><svg class="ico"><use href="#i-original"/></svg> Z počítače</button>
+  <button id="imgFromCamera"><svg class="ico"><use href="#i-crop"/></svg> Vyfotit kamerou</button>
+</div>
+
+<div id="camDlg" class="dlg" hidden>
+  <div class="dlg-box set-box">
+    <div class="dlg-head"><h2>Vyfotit kamerou</h2></div>
+    <div class="set-body">
+      <video id="camVideo" class="cam-video" autoplay playsinline muted></video>
+      <div class="cap-actions">
+        <button id="camCancel" class="big">Zrušit</button>
+        <button id="camShot" class="big primary">Vyfotit a vložit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="supDlg" class="dlg" hidden>
+  <div class="dlg-box set-box">
+    <div class="dlg-head"><h2>Podpora</h2></div>
+    <div class="set-body">
+      <p class="set-intro">Napište, co nefunguje nebo co by se hodilo. Hlášení dostane autor aplikace i s informací, kde v aplikaci jste byli.</p>
+      <label>Co posíláte<select id="supKind">
+        <option value="bug">Něco nefunguje (chyba)</option>
+        <option value="idea">Nápad na novou funkci</option>
+        <option value="question">Dotaz, jak něco udělat</option>
+      </select></label>
+      <label>Krátce, o co jde<input id="supTitle" maxlength="120" placeholder="např. Nejde vložit obrázek do rukopisu"></label>
+      <label>Popis<textarea id="supText" rows="6" placeholder="Co jste dělali, co se stalo a co jste čekali…"></textarea></label>
+      <label>Obrázek obrazovky (nepovinné)<input id="supShot" type="file" accept="image/*"><small>Snímek obrazovky na Macu: Cmd+Shift+4. Můžete ho sem také vložit pomocí Cmd+V.</small></label>
+      <img id="supPreview" class="sup-preview" alt="" hidden>
+      <div id="supResult" class="set-result"></div>
+      <div class="cap-actions">
+        <button id="supCancel" class="big">Zavřít</button>
+        <button id="supSend" class="big primary">Odeslat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tourLayer" class="tour-layer" hidden>
+  <div id="tourSpot" class="tour-spot"></div>
+  <div id="tourBubble" class="tour-bubble" role="dialog" aria-live="polite">
+    <div id="tourStep" class="tour-step"></div>
+    <h3 id="tourTitle"></h3>
+    <div id="tourText" class="tour-text"></div>
+    <div class="tour-nav">
+      <button id="tourPrev" class="big">← Zpět</button>
+      <button id="tourNext" class="big primary">Další →</button>
+      <button id="tourClose" class="big">Konec</button>
+    </div>
+  </div>
+</div>
+
+<div id="helpDlg" class="dlg" hidden>
+  <div class="dlg-box help-box">
+    <div class="dlg-head"><h2>Nápověda</h2><button id="helpClose" class="big">Zavřít</button></div>
+    <div class="help-body">
+      <button id="helpTour" class="big primary help-tour-btn">▶ Projít aplikaci krok za krokem</button>
+      <p class="help-hint">Nebo zapněte <b>režim vysvětlivek</b>: pak stačí kliknout na libovolné tlačítko a aplikace napíše, k čemu slouží.</p>
+      <button id="helpPoint" class="big">Režim vysvětlivek</button>
+      <button id="helpSupport" class="big">✉ Nahlásit chybu nebo navrhnout novou funkci</button>
+      <h3>Jak na to</h3>
+      <div id="helpTopics" class="help-topics"></div>
+    </div>
+  </div>
+</div>
+
 <footer class="credits">Ikony: Flaticon (flaticon.com)</footer>
 
 <div id="toast" class="toast"><span id="toastText"></span><button id="toastUndo" hidden><svg class="ico"><use href="#i-undo"/></svg> Vrátit</button></div>
@@ -351,5 +450,7 @@
 <script src="manuscript.js"></script>
 <script src="gallery.js"></script>
 <script src="chat.js"></script>
+<script src="settings.js"></script>
+<script src="help.js"></script>
 </body>
 </html>

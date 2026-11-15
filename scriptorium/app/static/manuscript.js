@@ -57,6 +57,29 @@ function cleanHtml(html) {
   return sanitize(d).innerHTML;
 }
 
+// ---------- camera ----------
+let camStream = null;
+async function openCamera() {
+  $("#imgMenu").hidden = true;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    // phones/tablets without camera API: the system picker offers the camera
+    $("#cameraFile").click();
+    return;
+  }
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { ideal: 1920 } }, audio: false });
+    $("#camVideo").srcObject = camStream;
+    $("#camDlg").hidden = false;
+  } catch (e) {
+    window.showToast("Kameru se nepodařilo zapnout. Povolte ji v prohlížeči, nebo vyberte fotku z počítače.", 7000);
+  }
+}
+function closeCamera() {
+  if (camStream) camStream.getTracks().forEach((t) => t.stop());
+  camStream = null;
+  $("#camDlg").hidden = true;
+}
+
 // ---------- load & save ----------
 async function load() {
   const res = await fetch("api/manuscript");
@@ -64,6 +87,7 @@ async function load() {
   msState.version = doc.version;
   msState.title = doc.title || "Můj rukopis";
   $("#msTitle").value = msState.title;
+  editor.dataset.title = msState.title;
   editor.innerHTML = doc.html.replace(/src="\/books\//g, 'src="books/');
   // unsaved text left in this browser after a crash or closed window?
   try {
@@ -128,17 +152,31 @@ async function save() {
 
 // ---------- table of contents ----------
 function refreshToc() {
-  const toc = $("#toc");
-  toc.innerHTML = "";
-  const heads = editor.querySelectorAll("h1, h2, h3");
-  if (!heads.length) { toc.innerHTML = '<div class="empty">Zatím žádné kapitoly. Nadpis kapitoly nastavíte v nabídce typu odstavce.</div>'; return; }
-  heads.forEach((h) => {
-    const a = document.createElement("a");
-    a.className = "l" + h.tagName[1];
-    a.textContent = h.textContent.trim() || "(bez názvu)";
-    a.addEventListener("click", () => h.scrollIntoView({ behavior: "smooth", block: "start" }));
-    toc.append(a);
-  });
+  const heads = [...editor.querySelectorAll("h1, h2, h3")];
+  for (const toc of [$("#toc"), $("#outline")]) {
+    toc.innerHTML = "";
+    if (!heads.length) { toc.innerHTML = '<div class="empty">Zatím žádné kapitoly. Nadpis kapitoly nastavíte v nabídce typu odstavce.</div>'; continue; }
+    heads.forEach((h, i) => {
+      const a = document.createElement("a");
+      a.className = "l" + h.tagName[1];
+      a.dataset.i = i;
+      a.textContent = h.textContent.trim() || "(bez názvu)";
+      a.title = a.textContent;
+      a.addEventListener("click", () => h.scrollIntoView({ behavior: "smooth", block: "start" }));
+      toc.append(a);
+    });
+  }
+  markCurrentHeading();
+}
+
+// highlight the chapter currently on screen in the outline
+function markCurrentHeading() {
+  const desk = $("#msDesk");
+  const heads = [...editor.querySelectorAll("h1, h2, h3")];
+  const top = desk.getBoundingClientRect().top + 80;
+  let cur = -1;
+  heads.forEach((h, i) => { if (h.getBoundingClientRect().top <= top) cur = i; });
+  document.querySelectorAll("#outline a").forEach((a) => a.classList.toggle("current", +a.dataset.i === cur));
 }
 
 // ---------- formatting ----------
@@ -519,8 +557,34 @@ function init() {
   for (const sel of ["#blockStyle", "#fontName", "#fontSize"]) $(sel).addEventListener("mousedown", rememberSelection);
 
   $("#imageBtn").addEventListener("mousedown", rememberSelection);
-  $("#imageBtn").addEventListener("click", () => $("#imageFile").click());
+  $("#imageBtn").addEventListener("click", (e) => {
+    e.stopPropagation();
+    const m = $("#imgMenu");
+    if (!m.hidden) { m.hidden = true; return; }
+    const r = $("#imageBtn").getBoundingClientRect();
+    m.hidden = false;
+    Object.assign(m.style, { left: Math.max(8, Math.min(r.left, innerWidth - m.offsetWidth - 12)) + "px", top: r.bottom + 6 + "px" });
+  });
+  document.addEventListener("click", (e) => { if (!e.target.closest("#imgMenu")) $("#imgMenu").hidden = true; });
+  $("#imgFromFile").addEventListener("click", () => { $("#imgMenu").hidden = true; $("#imageFile").click(); });
+  $("#imgFromGallery").addEventListener("click", () => {
+    $("#imgMenu").hidden = true;
+    window.ensureColumn("img");
+    window.showToast("Klikněte na obrázek v Obrázkách a pak na „Vložit do rukopisu“.", 6000);
+  });
+  $("#imgFromCamera").addEventListener("click", openCamera);
+  $("#camCancel").addEventListener("click", closeCamera);
+  $("#camShot").addEventListener("click", async () => {
+    const v = $("#camVideo");
+    const c = document.createElement("canvas");
+    c.width = v.videoWidth; c.height = v.videoHeight;
+    c.getContext("2d").drawImage(v, 0, 0);
+    closeCamera();
+    const blob = await new Promise((res) => c.toBlob(res, "image/jpeg", 0.9));
+    await insertImages([new File([blob], "foto.jpg", { type: "image/jpeg" })]);
+  });
   $("#imageFile").addEventListener("change", async (e) => { await insertImages(e.target.files); e.target.value = ""; });
+  $("#cameraFile").addEventListener("change", async (e) => { await insertImages(e.target.files); e.target.value = ""; });
 
   const zoomKey = "publisher.manuscript.zoom";
   let zoom = parseInt(localStorage.getItem(zoomKey) || "20", 10);
@@ -529,6 +593,11 @@ function init() {
   $("#msZoomIn").addEventListener("click", () => { zoom = Math.min(36, zoom + 2); applyZoom(); });
   $("#msZoomOut").addEventListener("click", () => { zoom = Math.max(14, zoom - 2); applyZoom(); });
 
+  $("#msDesk").addEventListener("scroll", () => { clearTimeout(msState.spyTimer); msState.spyTimer = setTimeout(markCurrentHeading, 80); });
+  const outlineKey = "publisher.outline";
+  const setOutline = (open) => { $("#msOutline").classList.toggle("closed", !open); try { localStorage.setItem(outlineKey, open ? "1" : "0"); } catch (e) { /* ignore */ } };
+  setOutline((localStorage.getItem(outlineKey) || "1") === "1");
+  $("#outlineToggle").addEventListener("click", () => setOutline($("#msOutline").classList.contains("closed")));
   editor.addEventListener("input", () => { markDirty(); clearTimeout(msState.tocTimer); msState.tocTimer = setTimeout(refreshToc, 800); });
   editor.addEventListener("keyup", () => { rememberSelection(); updateToolbar(); });
   editor.addEventListener("mouseup", () => { rememberSelection(); updateToolbar(); });
@@ -616,7 +685,7 @@ function init() {
   setInterval(() => { if (msState.dirty) save(); }, 20000);
   setInterval(loadClips, 3000);
 
-  $("#msTitle").addEventListener("input", (e) => { msState.title = e.target.value; markDirty(); });
+  $("#msTitle").addEventListener("input", (e) => { msState.title = e.target.value; editor.dataset.title = e.target.value; markDirty(); });
   $("#msDrawerBtn").addEventListener("click", () => { $("#msDrawer").hidden = !$("#msDrawer").hidden; });
   editor.addEventListener("blur", () => { rememberSelection(); setTimeout(showInsertMark, 0); });
   editor.addEventListener("focus", () => { $("#insertMark").hidden = true; });

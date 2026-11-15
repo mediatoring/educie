@@ -21,6 +21,7 @@ python3 -m py_compile scriptorium/app/*.py scriptorium/app/tools/*.py
 
 rm -rf "$APP.prev"; cp -a "$APP" "$APP.prev"
 rsync -a --delete --exclude '__pycache__' scriptorium/app/ "$APP/"
+echo "$NEW" > "$APP/VERSION"
 chown -R root:publisher "$APP"; chmod -R u=rwX,g=rX,o= "$APP"
 systemctl restart publisher
 sleep 3

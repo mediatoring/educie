@@ -21,6 +21,8 @@ from auth import Auth
 import rag
 from library import Library, figure_caption, gallery
 from manuscript import Conflict, Manuscript
+from settings import Settings
+from support import Support
 
 PORT = int(os.environ.get("PUBLISHER_PORT", "2209"))
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -32,6 +34,8 @@ SAFE_NAME = re.compile(r"^[\w\-. ]+$")
 MS = Manuscript(ROOT)
 AUTH = Auth(ROOT)
 LIB = Library(ROOT)
+SETTINGS = Settings(ROOT)
+SUPPORT = Support(ROOT, APP_DIR)
 PUBLIC_PATHS = {"/login.html", "/login.css", "/api/login", "/healthz", "/favicon.ico"}
 
 
@@ -56,6 +60,26 @@ def list_books():
             except (OSError, ValueError):
                 books.append({"id": name, "title": name + " (chyba v project.json)", "pages": 0})
     return books
+
+
+def books_overview(max_chars=350):
+    """Short description of every book (title + text of the first pages) for the question column."""
+    out = []
+    for b in list_books():
+        try:
+            with open(os.path.join(ROOT, b["id"], "project.json"), encoding="utf-8") as f:
+                data = json.load(f)
+        except (OSError, ValueError):
+            continue
+        bits = []
+        for page in data.get("pages", [])[:3]:
+            for blk in page.get("blocks", []):
+                t = blk.get("text") or blk.get("caption") or re.sub(r"<[^>]+>", " ", blk.get("html", ""))
+                if t and t.strip():
+                    bits.append(" ".join(t.split()))
+        text = " | ".join(bits)[:max_chars]
+        out.append(f"- {data.get('title', b['id'])}: {text}")
+    return "\n".join(out)
 
 
 def save_project(path, project):
@@ -202,6 +226,10 @@ class Handler(SimpleHTTPRequestHandler):
             rel = path[len("/books/"):]
             if "/" not in rel.strip("/") or any(seg.startswith(".") for seg in rel.split("/")):
                 return os.path.join(STATIC_DIR, "404")  # hidden files: secrets, history
+            top = rel.strip("/").split("/")[0]
+            # only book folders, the manuscript and the image library are served (never settings or deploy files)
+            if top not in ("_rukopis", "images") and not os.path.isfile(os.path.join(ROOT, top, "project.json")):
+                return os.path.join(STATIC_DIR, "404")
             full = os.path.normpath(os.path.join(ROOT, rel))
             if not full.startswith(ROOT + os.sep):
                 return os.path.join(STATIC_DIR, "404")
@@ -245,7 +273,7 @@ class Handler(SimpleHTTPRequestHandler):
         if parts == ["healthz"]:
             return self.send_json({"ok": True})
         if parts == ["api", "me"]:
-            return self.send_json({"auth": AUTH.enabled, "user": AUTH.user if AUTH.enabled else None})
+            return self.send_json({"auth": AUTH.enabled, "user": AUTH.user if AUTH.enabled else None, "version": SUPPORT.version()})
         if parts == ["logout"]:
             self.send_response(302)
             self.send_header("Set-Cookie", AUTH.clear_cookie())
@@ -253,6 +281,8 @@ class Handler(SimpleHTTPRequestHandler):
             self.end_headers()
             return
         try:
+            if parts == ["api", "settings"]:
+                return self.send_json(SETTINGS.public())
             if parts[:2] == ["api", "books"] and len(parts) == 2:
                 return self.send_json(list_books())
             if parts[:2] == ["api", "books"] and len(parts) == 3:
@@ -300,6 +330,8 @@ class Handler(SimpleHTTPRequestHandler):
             return
         parts = self.route()
         try:
+            if parts == ["api", "settings"]:
+                return self.send_json(SETTINGS.save(self.read_json()))
             if parts[:2] == ["api", "library"] and len(parts) == 3:
                 body = self.read_json()
                 LIB.update(os.path.basename(parts[2]), body.get("caption", ""), body.get("source", ""))
@@ -329,6 +361,10 @@ class Handler(SimpleHTTPRequestHandler):
         parts = self.route()
         if parts == ["api", "chat"]:
             return self.stream_chat(self.read_json().get("question", ""))
+        if parts == ["api", "support"]:
+            return self.send_json(SUPPORT.submit(self.read_json(), AUTH.user if AUTH.enabled else ""))
+        if parts == ["api", "settings", "test"]:
+            return self.test_llm(self.read_json())
         if parts == ["api", "login"]:
             body = self.read_json()
             if not AUTH.enabled:
@@ -384,6 +420,22 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json({"error": str(e)}, 400)
         self.send_json({"error": "unknown endpoint"}, 404)
 
+    def test_llm(self, body):
+        """Try the given (or saved) model settings with a tiny request."""
+        cfg = SETTINGS.llm()
+        if body.get("preset") and body.get("preset") != "server":
+            cfg = {"base_url": (body.get("base_url") or "").rstrip("/"), "model": body.get("model") or "",
+                   "api_key": body.get("api_key") or (SETTINGS._load().get("api_key", "") if not body.get("clear_key") else ""),
+                   "verify_tls": bool(body.get("verify_tls", True))}
+        if not cfg["base_url"].startswith(("http://", "https://")):
+            return self.send_json({"ok": False, "error": "Adresa musí začínat http:// nebo https://"})
+        started = time.time()
+        try:
+            text = "".join(rag.llm_stream([{"role": "user", "content": "Odpověz jedním slovem: funguje to?"}], cfg, max_tokens=10))
+            return self.send_json({"ok": True, "reply": text.strip()[:80], "seconds": round(time.time() - started, 1), "model": cfg["model"]})
+        except Exception as e:
+            return self.send_json({"ok": False, "error": str(e)[:300]})
+
     def stream_chat(self, question):
         """Server-sent events: sources, then the answer as it is generated."""
         self.send_response(200)
@@ -401,7 +453,7 @@ class Handler(SimpleHTTPRequestHandler):
             if not question.strip():
                 send({"type": "error", "text": "Napište otázku."})
                 return
-            for ev in rag.answer(question, search_index()["entries"], fold):
+            for ev in rag.answer(question, search_index()["entries"], fold, SETTINGS.llm(), books_overview()):
                 send(ev)
             send({"type": "done"})
         except (BrokenPipeError, ConnectionResetError):

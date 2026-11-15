@@ -880,6 +880,31 @@ window.updateBookImage = async (book, blockId, { caption, source }) => {
 };
 
 // ---------- columns ----------
+// relative column widths, changed with the − / + buttons in each column header
+const COL_DEFAULT = { scan: 1, text: 1, ms: 1.15, ask: 1, img: 1 };
+function colWidths() {
+  try { return Object.assign({}, COL_DEFAULT, JSON.parse(localStorage.getItem("publisher.widths") || "{}")); } catch (e) { return { ...COL_DEFAULT }; }
+}
+function resizeCol(col, delta) {
+  const w = colWidths();
+  w[col] = delta === 0 ? COL_DEFAULT[col] : Math.max(0.4, Math.min(3, Math.round((w[col] + delta) * 100) / 100));
+  try { localStorage.setItem("publisher.widths", JSON.stringify(w)); } catch (e) { /* ignore */ }
+  setCols(state.cols);
+}
+function addWidthButtons() {
+  const map = { colScan: "scan", colText: "text", colMs: "ms", colAsk: "ask", colImg: "img" };
+  for (const [id, col] of Object.entries(map)) {
+    const head = document.querySelector(`#${id} .col-head`);
+    if (!head || head.querySelector(".col-width")) continue;
+    const g = document.createElement("span");
+    g.className = "col-width";
+    g.innerHTML = `<button data-d="-0.25" title="Zúžit sloupec">−</button><span title="Dvojklik vrátí původní šířku">šířka</span><button data-d="0.25" title="Rozšířit sloupec">+</button>`;
+    g.addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) resizeCol(col, parseFloat(b.dataset.d)); });
+    g.addEventListener("dblclick", () => resizeCol(col, 0));
+    head.append(g);
+  }
+}
+
 function setCols(cols) {
   const order = ["scan", "text", "ms", "ask", "img"];
   cols = order.filter((c) => cols.includes(c));
@@ -895,12 +920,9 @@ function setCols(cols) {
   $("#bookNav").hidden = !bookVisible;
   $("#emptyHint").hidden = cols.length > 0;
   const tpl = [];
+  const w = colWidths();
   if (bookVisible) tpl.push("196px");
-  if (cols.includes("scan")) tpl.push("minmax(0, 1fr)");
-  if (cols.includes("text")) tpl.push("minmax(0, 1fr)");
-  if (cols.includes("ms")) tpl.push(cols.length === 1 ? "minmax(0, 1fr)" : "minmax(0, 1.15fr)");
-  if (cols.includes("ask")) tpl.push("minmax(0, 1fr)");
-  if (cols.includes("img")) tpl.push("minmax(0, 1fr)");
+  for (const c of cols) tpl.push(`minmax(0, ${cols.length === 1 ? 1 : w[c]}fr)`);
   $("#workspace").style.gridTemplateColumns = tpl.join(" ") || "1fr";
   document.querySelectorAll(".col-btn").forEach((b) => b.classList.toggle("on", cols.includes(b.dataset.col)));
   document.querySelectorAll(".presets [data-preset]").forEach((b) => b.classList.toggle("on", b.dataset.preset === cols.join(",")));
@@ -912,6 +934,7 @@ function setCols(cols) {
 // ---------- init ----------
 
 function init() {
+  addWidthButtons();
   $("#bookSelect").addEventListener("change", (e) => openBook(e.target.value));
   $("#bookTitle").addEventListener("input", (e) => { state.project.title = e.target.value; markDirty(); });
   $("#prevPage").addEventListener("click", () => goToPage(state.pageIndex - 1));

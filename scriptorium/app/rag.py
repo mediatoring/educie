@@ -18,7 +18,7 @@ der die das und oder ist sind ein eine einer eines dem den des mit von zu im in 
 SYSTEM_PROMPT = (
     "Jsi pečlivý pomocník autora knihy o historii numismatiky. Odpovídáš česky, srozumitelně a stručně, "
     "VÝHRADNĚ na základě přiložených úryvků ze zdrojových knih a z autorova rukopisu. "
-    "Každé tvrzení doplň odkazem na úryvek v hranatých závorkách, např. [1] nebo [2][3]. "
+    "Každé tvrzení doplň odkazem na úryvek v hranatých závorkách, např. [1] nebo [2][3]. Údaje z přehledu knih (název, autor, rok) můžeš použít i bez čísla. "
     "Když odpověď v úryvcích není, napiš to otevřeně a nic si nedomýšlej. "
     "Německé úryvky překládej do češtiny."
 )
@@ -69,22 +69,22 @@ def retrieve(question, entries, fold, k=6, max_chars=700):
 TITLE_PAREN = re.compile(r'\s*\(.*\)\s*$')
 
 
-def llm_stream(messages, max_tokens=700):
+def llm_stream(messages, cfg, max_tokens=700):
     """Yield text deltas from an OpenAI-compatible /chat/completions endpoint."""
-    base = os.environ.get("LLM_BASE_URL", "http://127.0.0.1:18080/v1").rstrip("/")
-    u = urlparse(base)
+    u = urlparse(cfg["base_url"])
     if u.scheme == "https":
         ctx = ssl.create_default_context()
-        if os.environ.get("LLM_VERIFY_TLS", "1") == "0":
+        if not cfg.get("verify_tls", True):
             ctx.check_hostname = False
             ctx.verify_mode = ssl.CERT_NONE
         conn = http.client.HTTPSConnection(u.hostname, u.port or 443, timeout=600, context=ctx)
     else:
         conn = http.client.HTTPConnection(u.hostname, u.port or 80, timeout=600)
     headers = {"Content-Type": "application/json"}
-    if os.environ.get("LLM_API_KEY"):
-        headers["Authorization"] = "Bearer " + os.environ["LLM_API_KEY"]
-    body = json.dumps({"model": os.environ.get("LLM_MODEL", "gemma-4-26b-a4b"), "messages": messages,
+    if cfg.get("api_key"):
+        headers["Authorization"] = "Bearer " + cfg["api_key"]
+        headers["x-api-key"] = cfg["api_key"]
+    body = json.dumps({"model": cfg["model"], "messages": messages,
                        "stream": True, "max_tokens": max_tokens, "temperature": 0.2})
     conn.request("POST", u.path + "/chat/completions", body=body, headers=headers)
     resp = conn.getresponse()
@@ -106,17 +106,18 @@ def llm_stream(messages, max_tokens=700):
     conn.close()
 
 
-def answer(question, entries, fold):
+def answer(question, entries, fold, cfg, books_overview=""):
     """Events for the browser: sources first, then text deltas."""
     sources = retrieve(question, entries, fold)
     yield {"type": "sources", "sources": sources}
-    if not sources:
+    if not sources and not books_overview:
         yield {"type": "delta", "text": "V přepsaných knihách ani v rukopisu jsem k této otázce nic nenašel. Zkuste ji položit jinými slovy."}
         return
     context = "\n\n".join(f"[{i + 1}] {s['label']}:\n{s['text']}" for i, s in enumerate(sources))
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": f"Úryvky:\n{context}\n\nOtázka: {question}"},
+        {"role": "user", "content": (f"Přehled zdrojových knih (názvy a titulní strany):\n{books_overview}\n\n" if books_overview else "")
+         + f"Úryvky:\n{context}\n\nOtázka: {question}"},
     ]
-    for chunk in llm_stream(messages):
+    for chunk in llm_stream(messages, cfg):
         yield {"type": "delta", "text": chunk}

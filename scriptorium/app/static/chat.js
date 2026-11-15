@@ -128,7 +128,7 @@ function clearAsk() {
   $("#askToMs").hidden = true;
   sources = [];
   renderSources();
-  setStatus("Odpověď vzniká jen z přepsaných knih a rukopisu a u každého tvrzení je číslo zdroje.");
+  setStatus("Odpověď vzniká pomocí AI jen z přepsaných knih a rukopisu a u každého tvrzení je číslo zdroje.");
   $("#askInput").focus();
 }
 

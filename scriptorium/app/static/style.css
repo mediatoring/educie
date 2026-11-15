@@ -252,3 +252,52 @@ body:not(.ms-on) .block.selected .block-actions { display: flex; }
 .ask-src-text { font: 14px/1.45 Georgia, serif; color: #333; margin: 6px 0; max-height: 7.5em; overflow: hidden; }
 .ask-src-act { display: flex; gap: 6px; }
 .ask-src-act button { font-size: 14px; }
+
+/* settings + help */
+.icon-btn .ico { width: 22px; height: 22px; }
+.help-btn { color: #1f6feb; border-color: #1f6feb; }
+.dlg-box.set-box { width: min(560px, 94vw); }
+.set-body { display: flex; flex-direction: column; gap: 12px; padding: 16px 20px 20px; }
+.set-body label { display: flex; flex-direction: column; gap: 4px; font-size: 15px; font-weight: 600; }
+.set-body input:not([type=checkbox]), .set-body select { font: 16px system-ui, sans-serif; padding: 9px 10px; border: 1px solid #c8ccd1; border-radius: 8px; font-weight: 400; }
+.set-body small { font-weight: 400; color: #57606a; }
+.set-body .set-check { flex-direction: row; align-items: center; gap: 8px; font-weight: 400; }
+.set-intro { margin: 0; color: #424a53; }
+.set-result { min-height: 1.4em; color: #1a7f37; }
+.set-result.error { color: #cf222e; }
+.dlg-box.help-box { width: min(680px, 94vw); max-height: 88vh; display: flex; flex-direction: column; }
+.help-box .dlg-head { display: flex; justify-content: space-between; align-items: center; }
+.help-body { padding: 16px 20px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.help-tour-btn { font-size: 18px; }
+.help-hint { margin: 4px 0 0; color: #424a53; }
+.help-topics details { border: 1px solid #d0d7de; border-radius: 8px; padding: 8px 12px; background: #fff; }
+.help-topics summary { cursor: pointer; font-weight: 600; font-size: 16px; }
+.help-topics p { margin: 8px 0 2px; line-height: 1.5; }
+.tour-layer { position: fixed; inset: 0; z-index: 60; pointer-events: none; }
+.tour-spot { position: fixed; border-radius: 10px; box-shadow: 0 0 0 4px #ffb000, 0 0 0 9999px rgba(15, 20, 30, .45); transition: all .25s ease; pointer-events: none; }
+.tour-bubble { position: fixed; background: #fff; border-radius: 12px; padding: 16px 18px; box-shadow: 0 10px 30px rgba(0,0,0,.3); pointer-events: auto; font-size: 17px; line-height: 1.45; }
+.tour-bubble h3 { margin: 2px 0 6px; font-size: 20px; }
+.tour-step { font-size: 13px; color: #57606a; }
+.tour-nav { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.tour-tip { font-size: 14px; color: #57606a; margin-bottom: 0; }
+body.help-point * { cursor: help !important; }
+body.help-point .tour-bubble, body.help-point .tour-bubble * { cursor: auto !important; }
+.dlg-box.set-box, .dlg-box.help-box { height: auto; }
+.tour-nav button { min-height: 44px; padding: 8px 14px; border-radius: 8px; font-size: 16px; }
+.tour-nav button.primary { background: #1f6feb; color: #fff; border-color: #1f6feb; }
+.tour-layer[hidden] { display: none; }
+.main-head .search-wrap { flex: 0 1 270px; min-width: 120px; }
+.main-head .search-wrap .search { width: 100%; box-sizing: border-box; }
+.main-head .spacer { flex: 1 1 0; min-width: 0; }
+@media (min-width: 1280px) { .main-head { flex-wrap: nowrap; } }
+.main-head .search-wrap { flex: 1 1 220px; min-width: 110px; max-width: 300px; }
+.sup-preview { max-width: 100%; max-height: 200px; border: 1px solid #d0d7de; border-radius: 6px; align-self: flex-start; }
+.set-body textarea { font: 16px/1.4 system-ui, sans-serif; padding: 9px 10px; border: 1px solid #c8ccd1; border-radius: 8px; font-weight: 400; resize: vertical; }
+.pop-menu { min-width: 240px; position: fixed; z-index: 40; background: #fff; border: 1px solid #d0d7de; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.18); padding: 6px; display: flex; flex-direction: column; gap: 4px; }
+.pop-menu[hidden] { display: none; }
+.pop-menu button { white-space: nowrap; display: flex; align-items: center; gap: 10px; font-size: 16px; min-height: 44px; padding: 8px 14px; border: none; text-align: left; border-radius: 8px; }
+.pop-menu button:hover { background: #eef4ff; }
+.cam-video { width: 100%; border-radius: 8px; background: #000; max-height: 60vh; }
+.col-width { margin-left: auto; display: inline-flex; align-items: center; gap: 2px; font-size: 12px; color: #57606a; flex: none; }
+.col-width button { min-height: 30px; min-width: 30px; padding: 0 6px; font-size: 18px; line-height: 1; border-radius: 6px; }
+.col-width span { padding: 0 2px; cursor: default; }
