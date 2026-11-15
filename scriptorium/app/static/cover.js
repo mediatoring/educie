@@ -11,6 +11,7 @@ const DEFAULT = {
   layout: "text", image: "", zoom: 1, px: 0.5, py: 0.5, shade: 0, textPos: "bottom",
   bg: "#24364f", bg2: "#4a6a8f", grad: true, fg: "#f4ecd8", fg2: "#f4ecd8",
   font: "Georgia, serif", size: 100, size2: 100, authorTop: true, logo: "auto", dx: 0, dy: 0,
+  frame: true, fw: 0.7, fh: 0.42, fx: 0.5, fy: 0.57, feather: 0,
 };
 
 let design = { ...DEFAULT };
@@ -19,6 +20,7 @@ let picture = null;     // loaded photo
 let size = "ebook";     // which variant the editor shows
 let photoBox = null;    // last photo area and scale, for dragging
 let textBox = null;     // last text block area, for dragging
+let dragMode = "move";  // frame layout: drag moves the picture ("move") or the crop inside it ("pan")
 
 // ---------- images ----------
 const imgCache = new Map();
@@ -91,12 +93,32 @@ function drawText(ctx, block, top, bottom, dx) {
   return { x: W / 2 + dx - maxW / 2 - 30, y: y0 - 30, w: maxW + 60, h: y - y0 + 60 };
 }
 
-function drawPhoto(ctx, pic, d, x, y, w, h) {
+function drawPhoto(ctx, pic, d, x, y, w, h, feather = 0) {
   const r = Math.max(w / pic.naturalWidth, h / pic.naturalHeight) * Math.max(1, d.zoom);
   const sw = w / r, sh = h / r;
   const sx = Math.min(Math.max(0, d.px * pic.naturalWidth - sw / 2), pic.naturalWidth - sw);
   const sy = Math.min(Math.max(0, d.py * pic.naturalHeight - sh / 2), pic.naturalHeight - sh);
-  ctx.drawImage(pic, sx, sy, sw, sh, x, y, w, h);
+  if (feather > 0) {
+    // soft edges: draw into a separate canvas and fade its border to transparent
+    const c = document.createElement("canvas");
+    c.width = Math.max(1, Math.round(w)); c.height = Math.max(1, Math.round(h));
+    const x2 = c.getContext("2d");
+    x2.drawImage(pic, sx, sy, sw, sh, 0, 0, c.width, c.height);
+    const f = Math.min(c.width, c.height) * 0.5 * feather / 100;
+    x2.globalCompositeOperation = "destination-out";
+    const edge = (gx0, gy0, gx1, gy1, rx, ry, rw, rh) => {
+      const g = x2.createLinearGradient(gx0, gy0, gx1, gy1);
+      g.addColorStop(0, "rgba(0,0,0,1)"); g.addColorStop(1, "rgba(0,0,0,0)");
+      x2.fillStyle = g; x2.fillRect(rx, ry, rw, rh);
+    };
+    edge(0, 0, f, 0, 0, 0, f, c.height);
+    edge(c.width, 0, c.width - f, 0, c.width - f, 0, f, c.height);
+    edge(0, 0, 0, f, 0, 0, c.width, f);
+    edge(0, c.height, 0, c.height - f, 0, c.height - f, c.width, f);
+    ctx.drawImage(c, x, y, w, h);
+  } else {
+    ctx.drawImage(pic, sx, sy, sw, sh, x, y, w, h);
+  }
   return { x, y, w, h, r, nw: pic.naturalWidth, nh: pic.naturalHeight };
 }
 
@@ -117,9 +139,15 @@ function drawLogo(ctx, d, H, canvas, k) {
   ctx.fillStyle = color;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
+  // "Educie.Press" with the dot in the publisher's colour
   ctx.font = `bold 60px Georgia, serif`;
-  ctx.fillText("Educie.Press", W / 2, y + 30);
-  ctx.fillRect(W / 2 - 60, y + 82, 120, 3);
+  ctx.textAlign = "left";
+  const a = ctx.measureText("Educie").width, dot = ctx.measureText(".").width, b = ctx.measureText("Press").width;
+  let x = W / 2 - (a + dot + b) / 2;
+  ctx.fillText("Educie", x, y + 30); x += a;
+  ctx.fillStyle = "#B5390A"; ctx.fillText(".", x, y + 30); x += dot;
+  ctx.fillStyle = color; ctx.fillText("Press", x, y + 30);
+  ctx.textAlign = "center";
 }
 
 // draws a cover into `canvas` (any pixel size with the right aspect); returns the photo area
@@ -157,11 +185,15 @@ function draw(canvas, d, tx, pic, variant = "ebook") {
     if (d.shade) { ctx.fillStyle = `rgba(0,0,0,${d.shade / 100})`; ctx.fillRect(0, 0, W, ph); }
     top = ph + 70; bottom = H - foot - 30;
   } else if (usePic && d.layout === "frame") {
-    const fw = 1120, fh = Math.round(H * 0.42), fx = (W - fw) / 2, fy = Math.round(H * 0.36);
-    ctx.fillStyle = d.fg2; ctx.fillRect(fx - 16, fy - 16, fw + 32, fh + 32);
-    box = drawPhoto(ctx, pic, d, fx, fy, fw, fh);
+    // the picture is a free box: position (centre) and size set by the user, frame optional
+    const fw = Math.round(W * (d.fw || 0.7)), fh = Math.round(H * (d.fh || 0.42));
+    const fx = Math.round(W * (d.fx ?? 0.5) - fw / 2), fy = Math.round(H * (d.fy ?? 0.57) - fh / 2);
+    if (d.frame !== false) { ctx.fillStyle = d.fg2; ctx.fillRect(fx - 16, fy - 16, fw + 32, fh + 32); }
+    box = drawPhoto(ctx, pic, d, fx, fy, fw, fh, d.frame === false ? d.feather || 0 : 0);
     if (d.shade) { ctx.fillStyle = `rgba(0,0,0,${d.shade / 100})`; ctx.fillRect(fx, fy, fw, fh); }
-    top = 150; bottom = fy - 70;
+    box.free = true;
+    // text above the picture, or below it when the picture sits high up
+    if (fy > H * 0.3) { top = 150; bottom = fy - 70; } else { top = fy + fh + 70; bottom = H - foot - 40; }
   } else {
     top = H * 0.2; bottom = H - foot - 120;
   }
@@ -202,6 +234,8 @@ function readForm() {
   design.size = +$("#cvSize").value; design.size2 = +$("#cvSize2").value; design.authorTop = $("#cvAuthorTop").checked;
   design.logo = $("#cvLogo").value; design.zoom = +$("#cvZoom").value / 100; design.shade = +$("#cvShade").value;
   design.textPos = $("#cvTextPos").value;
+  design.frame = $("#cvFrame").checked; design.fw = +$("#cvFw").value / 100; design.fh = +$("#cvFh").value / 100;
+  design.feather = +$("#cvFeather").value;
   texts = { title: $("#cvTitle").value, subtitle: $("#cvSubtitle").value, author: $("#cvAuthor").value, line: $("#cvPublisher").value };
 }
 
@@ -211,6 +245,8 @@ function writeForm() {
   $("#cvSize").value = design.size; $("#cvSize2").value = design.size2 || 100; $("#cvAuthorTop").checked = design.authorTop !== false;
   $("#cvLogo").value = design.logo; $("#cvZoom").value = Math.round(design.zoom * 100); $("#cvShade").value = design.shade;
   $("#cvTextPos").value = design.textPos || "bottom";
+  $("#cvFrame").checked = design.frame !== false; $("#cvFw").value = Math.round((design.fw || 0.7) * 100);
+  $("#cvFh").value = Math.round((design.fh || 0.42) * 100); $("#cvFeather").value = design.feather || 0;
   $("#cvImage").value = [...$("#cvImage").options].some((o) => o.value === design.image) ? design.image : "";
 }
 
@@ -231,6 +267,12 @@ function redraw() {
   const photoOn = design.layout !== "text";
   $("#cvPhotoSet").hidden = !photoOn;
   $("#cvTextPosL").hidden = design.layout !== "full";
+  $("#cvFrameSet").hidden = design.layout !== "frame";
+  $("#cvFeatherL").hidden = design.frame !== false;
+  $("#cvFwVal").textContent = Math.round(design.fw * 100) + " %";
+  $("#cvFhVal").textContent = Math.round(design.fh * 100) + " %";
+  $("#cvFeatherVal").textContent = design.feather + " %";
+  document.querySelectorAll("#cvDragMode button").forEach((b) => b.classList.toggle("on", b.dataset.mode === dragMode));
   $("#cvPanHint").textContent = photoOn && picture
     ? "Text i fotografii posunete tažením myší (prstem) po obálce. Kolečko nad textem mění velikost textu, nad fotografií její přiblížení."
     : "Text posunete tažením myší (prstem) po obálce, kolečkem nad ním změníte jeho velikost.";
@@ -315,8 +357,11 @@ function initPan() {
   const onText = (p) => textBox && p.x >= textBox.x && p.x <= textBox.x + textBox.w && p.y >= textBox.y && p.y <= textBox.y + textBox.h;
   cv.addEventListener("pointerdown", (e) => {
     const p = toCover(e);
-    if (onText(p) || !picture || design.layout === "text" || !photoBox) {
+    const inPhoto = photoBox && p.x >= photoBox.x && p.x <= photoBox.x + photoBox.w && p.y >= photoBox.y && p.y <= photoBox.y + photoBox.h;
+    if (onText(p) || !picture || design.layout === "text" || !photoBox || (photoBox.free && !inPhoto)) {
       drag = { text: true, x: e.clientX, y: e.clientY, dx: design.dx || 0, dy: design.dy || 0 };
+    } else if (photoBox.free && dragMode === "move") {
+      drag = { box: true, x: e.clientX, y: e.clientY, fx: design.fx ?? 0.5, fy: design.fy ?? 0.57 };
     } else {
       drag = { x: e.clientX, y: e.clientY, px: design.px, py: design.py };
     }
@@ -326,6 +371,14 @@ function initPan() {
   cv.addEventListener("pointermove", (e) => {
     if (!drag) return;
     const unit = W / cv.getBoundingClientRect().width;   // screen px -> cover units
+    if (drag.box) {
+      const H = SIZES[size];
+      design.fx = Math.min(1, Math.max(0, drag.fx + (e.clientX - drag.x) * unit / W));
+      design.fy = Math.min(1, Math.max(0, drag.fy + (e.clientY - drag.y) * unit / H));
+      if (Math.abs(design.fx - 0.5) < 0.015) design.fx = 0.5;   // snap to the centre line
+      redraw();
+      return;
+    }
     if (drag.text) {
       design.dx = Math.round(drag.dx + (e.clientX - drag.x) * unit);
       design.dy = Math.round(drag.dy + (e.clientY - drag.y) * unit);
@@ -403,7 +456,7 @@ function thumbnail(book) {
 
 // ---------- wiring ----------
 for (const id of ["#cvTitle", "#cvSubtitle", "#cvAuthor", "#cvPublisher", "#cvBg", "#cvBg2", "#cvGrad", "#cvFg", "#cvFg2",
-  "#cvFont", "#cvSize", "#cvSize2", "#cvAuthorTop", "#cvLogo", "#cvZoom", "#cvShade", "#cvTextPos"]) {
+  "#cvFont", "#cvSize", "#cvSize2", "#cvFrame", "#cvFw", "#cvFh", "#cvFeather", "#cvAuthorTop", "#cvLogo", "#cvZoom", "#cvShade", "#cvTextPos"]) {
   $(id).addEventListener("input", redraw);
   $(id).addEventListener("change", redraw);
 }
@@ -432,6 +485,22 @@ for (const id of ["#cvFile", "#cvCam"]) {
   });
 }
 $("#cvCenter").addEventListener("click", () => { design.px = 0.5; design.py = 0.5; $("#cvZoom").value = 100; redraw(); });
+document.querySelectorAll("#cvDragMode button").forEach((b) => b.addEventListener("click", () => { dragMode = b.dataset.mode; redraw(); }));
+// box with the picture's own proportions, so nothing is cut off
+$("#cvFit").addEventListener("click", () => {
+  if (!picture) return;
+  const H = SIZES[size];
+  let fw = +$("#cvFw").value / 100;
+  let fh = fw * W * picture.naturalHeight / picture.naturalWidth / H;
+  if (fh > 0.8) { fh = 0.8; fw = fh * H * picture.naturalWidth / picture.naturalHeight / W; }
+  $("#cvFw").value = Math.round(fw * 100); $("#cvFh").value = Math.round(fh * 100); $("#cvZoom").value = 100;
+  design.px = 0.5; design.py = 0.5;
+  redraw();
+});
+$("#cvFrameReset").addEventListener("click", () => {
+  Object.assign(design, { fx: 0.5, fy: 0.57, px: 0.5, py: 0.5 });
+  $("#cvFw").value = 70; $("#cvFh").value = 42; $("#cvZoom").value = 100; redraw();
+});
 $("#cvTextReset").addEventListener("click", () => { design.dx = 0; design.dy = 0; $("#cvSize").value = 100; $("#cvSize2").value = 100; redraw(); });
 $("#cvSizeEbook").addEventListener("click", () => { size = "ebook"; $("#cvSizeEbook").classList.add("on"); $("#cvSizePrint").classList.remove("on"); redraw(); });
 $("#cvSizePrint").addEventListener("click", () => { size = "print"; $("#cvSizePrint").classList.add("on"); $("#cvSizeEbook").classList.remove("on"); redraw(); });

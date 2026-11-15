@@ -19,6 +19,8 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 from auth import Auth
 from audit import Audit, device_label
+from importer import Importer
+from mcp_server import MCP
 import rag
 import book_export
 from library import Library, figure_caption, gallery
@@ -62,7 +64,10 @@ def list_books():
             try:
                 with open(pj, encoding="utf-8") as f:
                     data = json.load(f)
-                books.append({"id": name, "title": data.get("title", name), "pages": len(data.get("pages", []))})
+                pages = data.get("pages", [])
+                empty = sum(1 for p in pages if not any(b.get("type") == "text" and b.get("html") for b in p.get("blocks", [])))
+                books.append({"id": name, "title": data.get("title", name), "pages": len(pages), "empty": empty,
+                              "ocr_running": IMPORTER.running(name)})
             except (OSError, ValueError):
                 books.append({"id": name, "title": name + " (chyba v project.json)", "pages": 0})
     return books
@@ -175,6 +180,10 @@ def save_project(path, project):
     os.replace(tmp, pj)
 
 
+IMPORTER = Importer(ROOT, SETTINGS, save_project, AUDIT)
+MCPS = MCP(ROOT, book_dir, list_books, save_project, IMPORTER, AUDIT, SUPPORT.version())
+
+
 FONTS = {"serif": "Georgia, serif", "book": "'Times New Roman', serif", "palatino": "Palatino, serif",
          "sans": "Helvetica, Arial, sans-serif"}
 SIZES = {"s": ".85em", "l": "1.2em", "xl": "1.45em"}
@@ -281,6 +290,8 @@ figcaption{{font-size:.9rem;color:#555}} figcaption .src{{display:block;font-siz
 
 
 class Handler(SimpleHTTPRequestHandler):
+    extensions_map = {**SimpleHTTPRequestHandler.extensions_map, ".mjs": "text/javascript", ".js": "text/javascript"}
+
     def log_message(self, fmt, *args):
         if args and "/api/" in str(args[0]):
             sys.stderr.write("%s\n" % (fmt % args))
@@ -345,9 +356,29 @@ class Handler(SimpleHTTPRequestHandler):
         return {"user": AUTH.user if logged else ("" if AUTH.enabled else "místně"), "ip": self.client_ip(),
                 "fp": fp, "dev": device_label(self.headers.get("User-Agent"))}
 
+    def handle_mcp(self, parts):
+        if len(parts) != 2 or not MCPS.check(parts[1]):
+            time.sleep(0.5)
+            return self.send_json({"error": "unknown address"}, 404)
+        try:
+            msg = self.read_json()
+        except ValueError:
+            return self.send_json({"jsonrpc": "2.0", "id": None, "error": {"code": -32700, "message": "parse error"}}, 400)
+        who = {"user": "Claude (MCP)", "ip": self.client_ip(), "fp": "", "dev": device_label(self.headers.get("User-Agent")) + " · MCP"}
+        if isinstance(msg, list):
+            out = [r for r in (MCPS.handle(m, who) for m in msg) if r is not None]
+        else:
+            out = MCPS.handle(msg, who)
+        if not out:
+            self.send_response(202)
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
+        return self.send_json(out)
+
     def audit_edit(self, parts):
         """Logs a write request: which book or manuscript changed, by whom."""
-        if parts[:1] != ["api"] or parts[1:2] in (["chat"], ["proof"], ["login"], ["support"]):
+        if parts[:1] != ["api"] or parts[1:2] in (["chat"], ["proof"], ["login"], ["support"]) or parts[1:3] == ["settings", "test"]:
             return
         if parts[1:2] == ["manuscript"] or parts[1:2] == ["manuscripts"]:
             key = "ms:" + self.ms().name
@@ -367,6 +398,8 @@ class Handler(SimpleHTTPRequestHandler):
     def guard(self):
         """True when the request may continue; otherwise the response is already sent."""
         path = urlparse(self.path).path
+        if path.startswith("/mcp/"):
+            return True   # MCP clients prove themselves with the secret token in the address
         if path in PUBLIC_PATHS or AUTH.is_logged_in(self.headers.get("Cookie")):
             return True
         if path.startswith("/api/") or path.startswith("/books/"):
@@ -383,6 +416,16 @@ class Handler(SimpleHTTPRequestHandler):
         parts = self.route()
         if parts == ["healthz"]:
             return self.send_json({"ok": True})
+        if parts[:1] == ["mcp"]:
+            # no server-initiated stream: Streamable HTTP clients then use POST only
+            self.send_response(405)
+            self.send_header("Allow", "POST")
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
+        if parts == ["api", "mcp"]:
+            tok = MCPS.token()
+            return self.send_json({"enabled": bool(tok), "path": "mcp/" + tok if tok else ""})
         if parts == ["api", "me"]:
             return self.send_json({"auth": AUTH.enabled, "user": AUTH.user if AUTH.enabled else None, "version": SUPPORT.version()})
         if parts == ["logout"]:
@@ -401,6 +444,8 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.send_json(list_books())
             if parts[:2] == ["api", "books"] and len(parts) == 4 and parts[3] == "history":
                 return self.send_json(book_history(book_dir(parts[2])))
+            if parts[:2] == ["api", "books"] and len(parts) == 4 and parts[3] == "ocr":
+                return self.send_json(IMPORTER.status(parts[2]))
             if parts[:2] == ["api", "books"] and len(parts) == 3:
                 with open(os.path.join(book_dir(parts[2]), "project.json"), encoding="utf-8") as f:
                     return self.send_json(json.load(f))
@@ -489,6 +534,8 @@ class Handler(SimpleHTTPRequestHandler):
                     return self.send_json({"error": "conflict", "version": c.args[0]}, 409)
                 return self.send_json({"ok": True, "version": version, "saved": time.strftime("%H:%M:%S")})
             if parts[:2] == ["api", "books"] and len(parts) == 3:
+                if IMPORTER.running(parts[2]):
+                    return self.send_json({"error": "ocr running"}, 423)
                 project = self.read_json()
                 if not isinstance(project.get("pages"), list):
                     raise ValueError("invalid project")
@@ -504,9 +551,34 @@ class Handler(SimpleHTTPRequestHandler):
         if not self.guard():
             return
         parts = self.route()
+        if parts[:1] == ["mcp"]:
+            return self.handle_mcp(parts)
         self.audit_edit(parts)
+        if parts == ["api", "mcp"]:
+            action = self.read_json().get("action")
+            if action == "new":
+                MCPS.new_token()
+            elif action == "remove":
+                MCPS.remove_token()
+            tok = MCPS.token()
+            return self.send_json({"enabled": bool(tok), "path": "mcp/" + tok if tok else ""})
         if parts == ["api", "chat"]:
             return self.stream_chat(self.read_json().get("question", ""))
+        if parts == ["api", "books"]:
+            body = self.read_json()
+            return self.send_json(IMPORTER.create(body.get("title", ""), body.get("lang", "cs")))
+        if parts[:2] == ["api", "books"] and len(parts) == 4 and parts[3] in ("pages", "ocr", "delete"):
+            try:
+                if parts[3] == "pages":
+                    return self.send_json(IMPORTER.add_page(parts[2], self.read_json()))
+                if parts[3] == "ocr":
+                    body = self.read_json()
+                    return self.send_json(IMPORTER.start(parts[2], body.get("pages"), body.get("engine", "auto"), self.who()))
+                return self.send_json(IMPORTER.delete_book(parts[2]))
+            except FileNotFoundError:
+                return self.send_json({"error": "not found"}, 404)
+            except (ValueError, KeyError) as e:
+                return self.send_json({"error": str(e)}, 400)
         if parts[:2] == ["api", "books"] and len(parts) == 4 and parts[3] == "restore":
             return self.send_json(restore_book(book_dir(parts[2]), self.read_json()["name"]))
         if parts == ["api", "proof", "check"]:
@@ -575,6 +647,7 @@ class Handler(SimpleHTTPRequestHandler):
                 os.makedirs(os.path.join(path, "images"), exist_ok=True)
                 with open(os.path.join(path, "images", name), "wb") as f:
                     f.write(base64.b64decode(data))
+                IMPORTER.image_saved(parts[2], name) if re.match(r"^kniha-\d+$", parts[2]) else None
                 return self.send_json({"ok": True, "src": "images/" + name})
         except FileNotFoundError:
             return self.send_json({"error": "not found"}, 404)
@@ -592,6 +665,16 @@ class Handler(SimpleHTTPRequestHandler):
         if not cfg["base_url"].startswith(("http://", "https://")):
             return self.send_json({"ok": False, "error": "Adresa musí začínat http:// nebo https://"})
         started = time.time()
+        if body.get("image"):
+            # can the model read pictures? (needed for reading book pages)
+            try:
+                msg = [{"role": "user", "content": [
+                    {"type": "text", "text": "Přepiš přesně text na obrázku. Odpověz jen tím textem."},
+                    {"type": "image_url", "image_url": {"url": body["image"]}}]}]
+                text = "".join(rag.llm_stream(msg, cfg, max_tokens=40))
+                return self.send_json({"ok": True, "reply": text.strip()[:80], "seconds": round(time.time() - started, 1), "model": cfg["model"]})
+            except Exception as e:
+                return self.send_json({"ok": False, "error": str(e)[:300]})
         try:
             text = "".join(rag.llm_stream([{"role": "user", "content": "Odpověz jedním slovem: funguje to?"}], cfg, max_tokens=10))
             return self.send_json({"ok": True, "reply": text.strip()[:80], "seconds": round(time.time() - started, 1), "model": cfg["model"]})

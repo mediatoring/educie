@@ -1,9 +1,11 @@
-# Educie Scriptorium
+<img src="logo.svg" alt="Educie.Scriptorium" height="48">
 
 Webový editor pro práci se starými tisky. Sken stránky je vlevo, přepsaný text vpravo, vedle něj vlastní rukopis. Obrázky se dají vyříznout a narovnat, odstavce i citace přenést do rukopisu jedním kliknutím a nad všemi texty se lze ptát jazykového modelu, který odpovídá s odkazy na zdroje.
 
 Co umí:
 
+- **přidání zdrojové knihy** – fotografie stran nebo PDF (vykresluje se v prohlížeči), řazení tažením, otočení, mazání; text se čte v pozadí jazykovým modelem s viděním (rozpozná nadpisy, poznámky a polohu obrázků, které se samy vyříznou), záložně Tesseractem; znovu přečtení strany nebo stran bez textu,
+- **MCP server** pro Claude (claude.ai i aplikace na počítači) a jiné MCP klienty – tajná adresa z Nastavení AI; nástroje list_books, list_pages, get_page (obrázek strany a text), set_page_text, update_block, search_text,
 - rozcestník **Moje knihy** – více rozepsaných knih, každá s vlastním textem, historií verzí a nastavením (titulní strana, tiráž, záhlaví a zápatí, obálka),
 - **originál a transkripce** vedle sebe, výřezy a narovnání obrázků, nový ořez z původní strany skenu, srovnání perspektivy za čtyři rohy, úpravy jasu, kontrastu a sytosti, vrácení původního textu odstavce a historie transkripce,
 - **editor obálky** – rozvržení, fotografie posouvaná a zvětšovaná přímo na obálce, posun a velikost textu, barvy, přechod, logo Educie Press bílé nebo černé podle pozadí; obálka zvlášť pro e-knihu a pro tisk A4 a zůstává upravitelná,

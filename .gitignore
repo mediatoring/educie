@@ -13,4 +13,5 @@ scriptorium/*
 !scriptorium/app/
 !scriptorium/deploy/
 !scriptorium/README.md
+!scriptorium/logo.svg
 !scriptorium/Spustit-Scriptorium.command

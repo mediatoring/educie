@@ -31,7 +31,19 @@ Ruční nasazení a log:
     systemctl start publisher-deploy
     journalctl -t publisher-deploy -n 20
 
-## 4. Zálohy
+## 4. Čtení textu nových knih (OCR)
+
+Aplikace čte strany jazykovým modelem z **Nastavení AI**, pokud umí číst obrázky (tlačítko *Vyzkoušet čtení obrázku*). Záložně, nebo když je zvoleno, použije Tesseract:
+
+    apt install -y tesseract-ocr tesseract-ocr-ces tesseract-ocr-deu tesseract-ocr-frk
+
+`tesseract-ocr-frk` je švabach (Fraktur) pro staré německé tisky. Po instalaci není potřeba nic restartovat.
+
+## 5. Připojení pro Claude (MCP)
+
+Adresu MCP serveru vytvoří přihlášený uživatel v **Nastavení AI → Připojení pro Claude**. Adresa obsahuje tajný token, takže nginx nepotřebuje nic dalšího; žádost bez platného tokenu skončí 404.
+
+## 6. Zálohy
 
 Data jsou jen v `/opt/publisher/data`. Doporučená noční záloha mimo server, např.:
 

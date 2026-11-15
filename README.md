@@ -1,4 +1,5 @@
-# Educie
+<img src="logo-educie-press.svg" alt="Educie.Press" height="48">
+
 
 Nástroje nakladatelství Educie Press (Mediatoring.com s.r.o.).
 

@@ -87,13 +87,14 @@ async function openBook(id) {
   if (new URLSearchParams(location.search).has("open")) history.replaceState(null, "", location.pathname + location.search + "#" + encodeURIComponent(id));
   state.project = await (await fetch(`api/books/${encodeURIComponent(id)}`)).json();
   state.scanCache = {};
+  setTimeout(() => watchOcr(id), 50);
   const savedPage = parseInt(localStorage.getItem(`publisher.page.${id}`) || "0", 10);
   state.pageIndex = Math.min(savedPage, state.project.pages.length - 1);
   const params = new URLSearchParams(location.search);
   if (params.has("page")) {
     state.pageIndex = Math.min(parseInt(params.get("page"), 10) || 0, state.project.pages.length - 1);
     state.selectedBlockId = params.get("block");
-    history.replaceState(null, "", location.pathname + "#" + id);
+    history.replaceState(null, "", location.pathname + "?open=1#" + encodeURIComponent(id));
     setTimeout(() => { const n = document.querySelector(`.block[data-id="${state.selectedBlockId}"]`); if (n) n.scrollIntoView({ block: "center" }); }, 300);
   }
   $("#bookTitle").value = state.project.title || id;
@@ -112,6 +113,7 @@ function markDirty() {
 async function save() {
   clearTimeout(state.saveTimer);
   if (!state.dirty || !state.project) return;
+  if (state.ocrRunning) { setSaveState("čeká na dočtení textu", "dirty"); return; }
   state.dirty = false;
   setSaveState("ukládám…", "dirty");
   try {
@@ -916,11 +918,87 @@ async function openBookHistory() {
 $("#bookHistBtn").addEventListener("click", openBookHistory);
 $("#bookHistClose").addEventListener("click", () => { $("#bookHistDlg").hidden = true; });
 
+// ---------- reading text (OCR) running on the server ----------
+// While the server writes the book, the transcription is read-only and reloads as pages arrive.
+async function watchOcr(id) {
+  if (state.ocrWatching === id) return;
+  state.ocrWatching = id;
+  let lastDone = -1;
+  const banner = $("#ocrBanner") || (() => {
+    const b = el("div", { id: "ocrBanner", class: "ocr-banner" });
+    $("#colText").prepend(b);
+    return b;
+  })();
+  for (;;) {
+    if (state.bookId !== id) break;
+    const st = await fetch(`api/books/${encodeURIComponent(id)}/ocr`).then((r) => r.json()).catch(() => ({}));
+    state.ocrRunning = !!st.running;
+    if (!st.running) {
+      banner.hidden = true;
+      if (lastDone >= 0) {   // just finished: load the final text
+        state.project = await (await fetch(`api/books/${encodeURIComponent(id)}`)).json();
+        renderAll();
+        toast(`Text knihy je přečtený${st.errors && st.errors.length ? `, ${st.errors.length} stran se přečíst nepodařilo` : ""}. Zkontrolujte ho proti skenu.`, 9000);
+      }
+      break;
+    }
+    banner.hidden = false;
+    banner.textContent = `Čtu text knihy: hotovo ${st.done} z ${st.total} stran. Do té doby nelze transkripci upravovat.`;
+    if (st.done !== lastDone && !state.dirty) {
+      lastDone = st.done;
+      state.project = await (await fetch(`api/books/${encodeURIComponent(id)}`)).json();
+      state.pageIndex = Math.min(state.pageIndex, state.project.pages.length - 1);
+      renderAll();
+    }
+    await new Promise((r) => setTimeout(r, 3000));
+  }
+  state.ocrWatching = null;
+  cutPendingImages();
+}
+
+// picture blocks found by the OCR are cut out of the scan the first time the book is open
+async function cutPendingImages() {
+  if (!window.Importer || !state.project) return;
+  if (!state.project.pages.some((p) => p.blocks.some((b) => b.pending))) return;
+  const n = await Importer.cutPending(state.bookId, state.project);
+  if (n) { markDirty(); renderAll(); }
+}
+
+async function readAgain(pages, label) {
+  if (state.dirty) await save();
+  const engine = localStorage.getItem("scriptorium.ocrEngine") || "auto";
+  if (!confirm(`${label}\n\nSoučasný text ${pages === "empty" ? "stran bez textu" : "strany"} se nahradí nově přečteným. Předchozí stav zůstane v Historii transkripce.`)) return;
+  const res = await fetch(`api/books/${encodeURIComponent(state.bookId)}/ocr`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ pages, engine }) });
+  if (!res.ok) { toast("Čtení textu se nepodařilo spustit."); return; }
+  state.ocrWatching = null;
+  watchOcr(state.bookId);
+}
+
+$("#ocrPageBtn").addEventListener("click", () => readAgain([state.pageIndex], `Znovu přečíst stranu ${state.pageIndex + 1}?`));
+$("#ocrEmptyBtn").addEventListener("click", () => {
+  const n = state.project.pages.filter((p) => !pageHasText(p)).length;
+  if (!n) { toast("Všechny strany už text mají."); return; }
+  readAgain("empty", `Přečíst ${n} stran bez textu?`);
+});
+$("#deleteBookBtn").addEventListener("click", async () => {
+  if (!confirm(`Odebrat zdrojovou knihu „${state.project.title}“?\n\nZ aplikace zmizí i její transkripce. Na serveru zůstane v koši, takže ji správce může vrátit.`)) return;
+  const res = await fetch(`api/books/${encodeURIComponent(state.bookId)}/delete`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+  if (!res.ok) { toast("Knihu se nepodařilo odebrat."); return; }
+  localStorage.removeItem("publisher.book");
+  state.dirty = false;
+  location.href = location.pathname;
+});
+$("#addPagesBtn").addEventListener("click", async () => {
+  if (state.dirty) await save();
+  if (window.Importer) Importer.open(state.bookId);
+});
+
 window.Book = {
   get project() { return state.project; },
   get pageIndex() { return state.pageIndex; },
   get view() { return state.view || "both"; },
   get id() { return state.bookId; },
+  reload: async () => { state.project = await (await fetch(`api/books/${encodeURIComponent(state.bookId)}`)).json(); renderAll(); watchOcr(state.bookId); },
   goToPage: (i) => goToPage(i),
   selectBlock: (id) => selectBlock(id),
 };

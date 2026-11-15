@@ -429,3 +429,56 @@ html[data-theme="dark"] #cropCanvas { filter: invert(1) hue-rotate(180deg); }
 .audit-row small { grid-column: 2; color: #57606a; }
 .audit-row.ev-login-failed { background: #fff1f0; }
 .audit-row.ev-login { background: #eef6ff; }
+
+/* Educie logo: serif wordmark with the dot in the publisher's colour */
+.brand { font-family: Georgia, "Times New Roman", serif; font-weight: 700; letter-spacing: .02em; }
+.brand-dot { color: #B5390A; }
+html[data-theme="dark"] .brand-dot { color: #4ac6f5; }
+.cv-sub { display: flex; flex-direction: column; gap: 8px; border-left: 3px solid #d0d7de; padding-left: 10px; }
+.cv-sub[hidden] { display: none; }
+#cvDragMode { align-items: center; }
+#cvDragMode button { min-height: 38px; }
+#cvDragMode button.on { background: #1f6feb; color: #fff; border-color: #1f6feb; }
+
+/* adding source books */
+.home-h2-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.dlg-box.import-box { width: min(1100px, 96vw); height: 92vh; }
+.import-body { overflow-y: auto; flex: 1; }
+.imp-fields { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+.imp-fields[hidden] { display: none; }
+.imp-fields label, .imp-engine { display: flex; flex-direction: column; gap: 4px; font-weight: 600; }
+.imp-fields input, .imp-fields select, .imp-engine select { font-size: 17px; min-height: 46px; border-radius: 8px; border: 1px solid #c8ccd1; padding: 0 10px; }
+.imp-engine { margin-top: 10px; }
+.imp-drop { margin: 14px 0; border: 3px dashed #b8bec6; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 18px; color: #424a53; background: #fafbfc; }
+.imp-drop.over { border-color: #1f6feb; background: #eef6ff; }
+.imp-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.imp-tools[hidden] { display: none; }
+.imp-tools span { font-weight: 700; margin-right: auto; }
+.imp-tools button { min-height: 40px; }
+.imp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.imp-card { position: relative; border: 1px solid #d0d7de; border-radius: 10px; padding: 6px; background: #fff; display: flex; flex-direction: column; gap: 4px; cursor: grab; }
+.imp-card.over { border-color: #1f6feb; box-shadow: 0 0 0 3px rgba(31,111,235,.3); }
+.imp-card.dragging { opacity: .4; }
+.imp-card.bad { border-color: #cf222e; }
+.imp-n { position: absolute; top: 8px; left: 8px; background: #1f2328; color: #fff; border-radius: 6px; padding: 0 7px; font-weight: 700; font-size: 14px; }
+.imp-img { height: 180px; display: flex; align-items: center; justify-content: center; background: #f6f8fa; border-radius: 6px; overflow: hidden; }
+.imp-img img { max-width: 100%; max-height: 100%; }
+.imp-name { font-size: 12px; color: #57606a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.imp-acts { display: flex; gap: 4px; }
+.imp-acts button { flex: 1; min-height: 34px; padding: 0; }
+.imp-progress { height: 22px; border-radius: 11px; background: #eaeef2; overflow: hidden; margin: 20px 0 10px; }
+.imp-progress div { height: 100%; width: 0; background: #1f6feb; transition: width .4s; }
+.imp-status { font-size: 18px; }
+.imp-errors { color: #b42318; font-size: 15px; display: flex; flex-direction: column; gap: 4px; }
+.ocr-banner { background: #fff8c5; border: 1px solid #d4a72c; border-radius: 8px; padding: 10px 14px; margin: 8px; font-size: 16px; font-weight: 600; }
+.ocr-banner[hidden] { display: none; }
+@media (max-width: 760px) { .imp-fields { grid-template-columns: 1fr; } }
+.ocr-run { color: #9a6700; font-weight: 700; }
+.home-empty { color: #57606a; }
+button.danger { color: #b42318; border-color: #f0b4ae; }
+.mcp-set { border: 1px solid #d0d7de; border-radius: 10px; padding: 8px 14px 12px; margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.mcp-set legend { font-weight: 700; padding: 0 6px; }
+.mcp-set input { width: 100%; font: 14px ui-monospace, monospace; min-height: 40px; padding: 0 8px; border-radius: 8px; border: 1px solid #c8ccd1; }
+.mcp-set small { color: #57606a; }
+#setDlg .dlg-box { max-height: 92vh; overflow-y: auto; }
+.dlg .imp-acts button { flex: 1; min-width: 0; min-height: 34px; padding: 0; font-size: 15px; }

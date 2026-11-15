@@ -70,7 +70,7 @@
   <div class="home-inner">
     <div class="home-top">
       <div>
-        <h1>Educie Scriptorium</h1>
+        <h1 class="brand">Educie<span class="brand-dot">.</span>Scriptorium</h1>
         <p class="home-sub">Ze starých tisků k nové knize: originál, transkripce a vlastní rukopis na jednom místě.</p>
       </div>
       <div class="home-actions">
@@ -86,13 +86,14 @@
       <div>
         <h2>Moje knihy</h2>
         <div id="homeBooks" class="home-books"></div>
-        <h2 class="home-h2">Zdrojové knihy (skeny a transkripce)</h2>
+        <div class="home-h2-row"><h2 class="home-h2">Zdrojové knihy (skeny a transkripce)</h2><button id="importBtn" class="big primary">+ Přidat zdrojovou knihu</button></div>
         <div id="homeSources" class="home-sources"></div>
       </div>
       <aside class="home-help">
         <h2>Jak se s programem pracuje</h2>
         <ol>
           <li><b>Vyberte knihu</b>, kterou píšete, nebo založte novou. Každá kniha má vlastní text, verze a nastavení.</li>
+          <li><b>Přidejte zdrojové knihy</b>: fotografie stran nebo PDF nahrajte tlačítkem <i>Přidat zdrojovou knihu</i>. Text se z nich přečte sám.</li>
           <li><b>Zapněte sloupce</b> nahoře: <i>Originál</i> je sken, <i>Transkripce</i> je text přečtený ze skenu, <i>Rukopis</i> je vaše kniha.</li>
           <li><b>Opravte transkripci</b> podle skenu. Pomůže <i>Korektura</i>, která ukáže podezřelá slova a skáče mezi nimi.</li>
           <li><b>Přenášejte do rukopisu</b> odstavce, citace a obrázky tlačítky pod každým odstavcem, nebo celé transkripce přes <i>Vložit</i>.</li>
@@ -177,6 +178,10 @@
         <option value="both">Export dvojjazyčně</option>
         <option value="orig">Export v originále</option>
       </select>
+      <button id="addPagesBtn" title="Přidat do této knihy další naskenované strany nebo PDF">+ Přidat strany</button>
+      <button id="ocrPageBtn" title="Přečíst text této strany znovu (umělá inteligence nebo Tesseract). Současný text se nahradí, předchozí stav zůstane v historii.">Znovu přečíst tuto stranu</button>
+      <button id="ocrEmptyBtn" title="Přečíst text všech stran, které ho zatím nemají">Přečíst strany bez textu</button>
+      <button id="deleteBookBtn" class="danger" title="Odebere tuto zdrojovou knihu z aplikace. Na serveru se přesune do koše, nic se nesmaže natrvalo.">Odebrat tuto zdrojovou knihu</button>
       <button id="exportBtn" title="Uloží transkripci této zdrojové knihy (ne váš rukopis) jako webovou stránku">Export transkripce této knihy</button>
     </details>
     <span id="saveState" class="save-state">—</span>
@@ -476,7 +481,7 @@
   <div class="dlg-box set-box">
     <div class="dlg-head"><h2>Nastavení jazykového modelu</h2></div>
     <div class="set-body">
-      <p class="set-intro">Model odpovídá na otázky ve sloupci <b>Dotaz</b>. Může to být model na serveru, vlastní účet u OpenAI nebo Anthropicu, nebo model v počítači (LM Studio, Ollama).</p>
+      <p class="set-intro">Model odpovídá na otázky ve sloupci <b>Dotaz</b> a čte text z naskenovaných stran nových zdrojových knih. Může to být model na serveru, vlastní účet u OpenAI nebo Anthropicu, nebo model v počítači (LM Studio, Ollama). Ke čtení stran musí model umět číst obrázky – ověříte to tlačítkem <b>Vyzkoušet čtení obrázku</b>.</p>
       <label>Kde model běží<select id="setPreset"></select></label>
       <label id="setUrlRow">Adresa API<input id="setUrl" placeholder="https://…/v1"></label>
       <label id="setModelRow">Název modelu<input id="setModel" placeholder="např. gpt-4.1-mini"></label>
@@ -485,9 +490,19 @@
       <div id="setResult" class="set-result"></div>
       <div class="cap-actions">
         <button id="setTest" class="big">Vyzkoušet</button>
+        <button id="setTestImg" class="big">Vyzkoušet čtení obrázku</button>
         <button id="setCancel" class="big">Zavřít</button>
         <button id="setSave" class="big primary">Uložit</button>
       </div>
+      <fieldset class="mcp-set"><legend>Připojení pro Claude (MCP)</legend>
+        <p class="set-intro">S touto adresou může Claude (aplikace Claude na počítači nebo claude.ai) v rámci vašeho předplatného číst naskenované strany zdrojových knih a psát nebo opravovat jejich transkripci. Kdo adresu zná, má ke knihám přístup – nesdílejte ji. Novou adresou tu starou zrušíte.</p>
+        <div id="mcpOff"><button id="mcpNew" class="big">Vytvořit adresu pro Claude</button></div>
+        <div id="mcpOn" hidden>
+          <label>Adresa MCP serveru<input id="mcpUrl" readonly></label>
+          <div class="cv-row"><button id="mcpCopy" class="big">Zkopírovat</button><button id="mcpRenew" class="big">Vytvořit novou adresu</button><button id="mcpRemove" class="big danger">Vypnout připojení</button></div>
+          <small>claude.ai: Nastavení → Konektory → Přidat vlastní konektor → vložte adresu. Aplikace Claude na počítači: totéž v Nastavení → Konektory. Pak stačí napsat např. „Přepiš stranu 12 knihy Pražské groše podle skenu“.</small>
+        </div>
+      </fieldset>
     </div>
   </div>
 </div>
@@ -499,6 +514,45 @@
       <p class="set-intro">Aplikace ukládá verzi transkripce každé tři minuty práce. Obnovením se vrátí celá kniha do zvoleného stavu, současný stav se předtím sám uloží, takže se nic neztratí. Jednotlivý odstavec vrátíte tlačítkem <b>↺ původní text</b> přímo u něj.</p>
       <div id="bookHistList" class="hist-list"></div>
       <div class="cap-actions"><button id="bookHistClose" class="big">Zavřít</button></div>
+    </div>
+  </div>
+</div>
+
+<div id="importDlg" class="dlg" hidden>
+  <div class="dlg-box import-box">
+    <div class="dlg-head"><h2 id="impTitle">Přidat zdrojovou knihu</h2><button id="impClose" class="big">Zavřít</button></div>
+    <div class="set-body import-body">
+      <div id="impStep1">
+        <p class="set-intro">Nahrajte naskenované strany knihy – fotografie (JPG, PNG, HEIC z iPhonu převeďte na JPG) nebo PDF. Strany seřaďte tažením, otočte nebo smažte. Aplikace je uloží a v pozadí z nich přečte text; mezitím můžete dělat něco jiného.</p>
+        <div class="imp-fields" id="impNewFields">
+          <label>Název knihy<input id="impBookTitle" placeholder="např. Pražské groše (Teisinger 1934)"></label>
+          <label>Jazyk knihy<select id="impLang"><option value="cs">čeština</option><option value="de">němčina (i švabach)</option><option value="cs+de">čeština i němčina</option></select></label>
+        </div>
+        <label class="imp-engine">Čtení textu<select id="impEngine">
+          <option value="auto">Umělá inteligence z Nastavení AI, při chybě Tesseract</option>
+          <option value="ai">Jen umělá inteligence</option>
+          <option value="tesseract">Jen Tesseract (zdarma, slabší na staré písmo)</option>
+        </select></label>
+        <div id="impDrop" class="imp-drop">
+          <b>Sem přetáhněte fotografie nebo PDF</b>
+          <span>nebo</span>
+          <button id="impPick" class="big">Vybrat soubory…</button>
+          <input type="file" id="impFiles" accept="image/*,application/pdf" multiple hidden>
+        </div>
+        <div class="imp-tools" id="impTools" hidden>
+          <span id="impCount"></span>
+          <button id="impSortName">Seřadit podle názvu souborů</button>
+          <button id="impClear">Odebrat vše</button>
+        </div>
+        <div id="impGrid" class="imp-grid"></div>
+        <div class="cap-actions"><button id="impStart" class="big primary" disabled>Nahrát a přečíst text</button></div>
+      </div>
+      <div id="impStep2" hidden>
+        <div class="imp-progress"><div id="impBar"></div></div>
+        <p id="impStatus" class="imp-status"></p>
+        <div id="impErrors" class="imp-errors"></div>
+        <div class="cap-actions"><button id="impOpen" class="big primary" hidden>Otevřít knihu</button></div>
+      </div>
     </div>
   </div>
 </div>
@@ -543,7 +597,15 @@
           </div>
           <input type="file" id="cvFile" accept="image/*" hidden>
           <input type="file" id="cvCam" accept="image/*" capture="environment" hidden>
-          <label>Velikost fotografie <span id="cvZoomVal">100 %</span><input id="cvZoom" type="range" min="100" max="400" step="5" value="100"></label>
+          <div id="cvFrameSet" class="cv-sub">
+            <label class="set-check"><input type="checkbox" id="cvFrame" checked> Rámeček kolem obrázku</label>
+            <label id="cvFeatherL">Prolnout okraje do pozadí <span id="cvFeatherVal">0 %</span><input id="cvFeather" type="range" min="0" max="60" step="5" value="0"></label>
+            <label>Šířka obrázku <span id="cvFwVal">70 %</span><input id="cvFw" type="range" min="15" max="100" step="1" value="70"></label>
+            <label>Výška obrázku <span id="cvFhVal">42 %</span><input id="cvFh" type="range" min="10" max="80" step="1" value="42"></label>
+            <div class="cv-row" id="cvDragMode"><span>Tažení po obrázku:</span><button data-mode="move" class="on">přesouvá obrázek</button><button data-mode="pan">posouvá výřez</button></div>
+            <div class="cv-row"><button id="cvFit" class="big">Celý obrázek bez ořezu</button><button id="cvFrameReset" class="big">Obrázek zpět doprostřed</button></div>
+          </div>
+          <label>Přiblížení (ořez) fotografie <span id="cvZoomVal">100 %</span><input id="cvZoom" type="range" min="100" max="400" step="5" value="100"></label>
           <div class="cv-row"><button id="cvCenter" class="big">Vycentrovat</button></div>
           <label>Ztmavení fotografie <span id="cvShadeVal">0 %</span><input id="cvShade" type="range" min="0" max="80" step="5" value="0"></label>
           <label id="cvTextPosL">Text na fotografii<select id="cvTextPos"><option value="bottom">dole</option><option value="center">uprostřed</option><option value="top">nahoře</option></select></label>
@@ -697,5 +759,6 @@
 <script src="home.js"></script>
 <script src="proof.js"></script>
 <script src="cover.js"></script>
+<script src="import.js"></script>
 </body>
 </html>

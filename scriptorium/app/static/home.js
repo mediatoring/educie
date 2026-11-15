@@ -86,7 +86,8 @@ async function render() {
   });
 
   const src = $("#homeSources");
-  src.innerHTML = sources.map((s) => `<button class="home-source" data-id="${esc(s.id)}"><b>${esc(s.title)}</b><small>${s.pages} stran</small></button>`).join("");
+  src.innerHTML = sources.map((s) => `<button class="home-source" data-id="${esc(s.id)}"><b>${esc(s.title)}</b><small>${s.pages} stran${s.ocr_running ? " · <span class=\"ocr-run\">čte se text…</span>" : s.empty ? ` · ${s.empty} bez textu` : ""}</small></button>`).join("")
+    || '<p class="home-empty">Zatím žádná. Přidejte první knihu tlačítkem <b>Přidat zdrojovou knihu</b>.</p>';
   src.querySelectorAll(".home-source").forEach((btn) => btn.addEventListener("click", () => {
     try { localStorage.setItem("publisher.book", btn.dataset.id); } catch (e) { /* ignore */ }
     if (location.search.includes("open=1")) { hide(); location.hash = btn.dataset.id; location.reload(); }
@@ -194,7 +195,13 @@ if (reopenHome) {
     const b = books.find((x) => x.id === currentId()) || books[0];
     if (b) $("#homeBookTitle").textContent = b.title;
   });
-  if (params.has("settings")) setTimeout(() => openSettings().then(() => { if (params.has("cover") && window.Cover) Cover.open(); }), 600);
+  if (params.has("settings")) {
+    // one-off requests: drop them from the address so a refresh does not open the dialog again
+    const clean = new URLSearchParams(location.search);
+    clean.delete("settings"); clean.delete("cover");
+    history.replaceState(null, "", location.pathname + "?" + clean.toString() + location.hash);
+    setTimeout(() => openSettings().then(() => { if (params.has("cover") && window.Cover) Cover.open(); }), 600);
+  }
 } else {
   show();
 }

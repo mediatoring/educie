@@ -58,6 +58,7 @@ async function open() {
   result("");
   refreshRows();
   $("#setDlg").hidden = false;
+  mcp().catch(() => {});
 }
 
 async function test() {
@@ -85,7 +86,49 @@ async function save() {
   if (window.showToast) window.showToast("Nastavení modelu uloženo.");
 }
 
+async function testImage() {
+  // a small picture with text the model has to read
+  const c = document.createElement("canvas");
+  c.width = 520; c.height = 120;
+  const x = c.getContext("2d");
+  x.fillStyle = "#f4ecd8"; x.fillRect(0, 0, c.width, c.height);
+  x.fillStyle = "#222"; x.font = "bold 46px Georgia, serif"; x.textBaseline = "middle";
+  x.fillText("Pražský groš 1300", 24, 62);
+  result("Zkouším, jestli model přečte text z obrázku…");
+  $("#setTestImg").disabled = true;
+  try {
+    const r = await fetch("api/settings/test", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form(), image: c.toDataURL("image/png") }) }).then((y) => y.json());
+    if (r.ok && /gro/i.test(r.reply)) result(`Model čte obrázky (za ${r.seconds} s přečetl „${r.reply}“). Může číst strany knih.`);
+    else if (r.ok) result(`Model odpověděl „${r.reply}“, ale text z obrázku nepřečetl. Ke čtení stran se nehodí – použije se Tesseract.`, true);
+    else result("Model obrázek nepřečetl: " + r.error + ". Ke čtení stran se použije Tesseract.", true);
+  } catch (e) {
+    result("Nefunguje: " + e.message, true);
+  } finally {
+    $("#setTestImg").disabled = false;
+  }
+}
+
+// ---------- MCP address for Claude ----------
+function showMcp(st) {
+  $("#mcpOff").hidden = st.enabled;
+  $("#mcpOn").hidden = !st.enabled;
+  $("#mcpUrl").value = st.enabled ? new URL(st.path, document.baseURI).href : "";
+}
+async function mcp(action) {
+  const st = action ? await fetch("api/mcp", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action }) }).then((r) => r.json())
+    : await fetch("api/mcp").then((r) => r.json());
+  showMcp(st);
+}
+$("#mcpNew").addEventListener("click", () => mcp("new"));
+$("#mcpRenew").addEventListener("click", () => { if (confirm("Vytvořit novou adresu? Stará přestane fungovat a v Claude ji bude potřeba vyměnit.")) mcp("new"); });
+$("#mcpRemove").addEventListener("click", () => { if (confirm("Vypnout připojení pro Claude? Adresa přestane fungovat.")) mcp("remove"); });
+$("#mcpCopy").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText($("#mcpUrl").value); } catch (e) { $("#mcpUrl").select(); document.execCommand("copy"); }
+  if (window.showToast) window.showToast("Adresa zkopírována.");
+});
+
 $("#settingsBtn").addEventListener("click", open);
+$("#setTestImg").addEventListener("click", testImage);
 $("#setPreset").addEventListener("change", applyPreset);
 $("#setTest").addEventListener("click", test);
 $("#setSave").addEventListener("click", save);
