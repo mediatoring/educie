@@ -1,0 +1,6 @@
+[Unit]
+Description=Educie Scriptorium – nasazení z GitHubu
+
+[Service]
+Type=oneshot
+ExecStart=/opt/publisher/bin/pull-deploy.sh

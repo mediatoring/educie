@@ -1,0 +1,9 @@
+[Unit]
+Description=Educie Scriptorium – kontrola nové verze každé 2 minuty
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=2min
+
+[Install]
+WantedBy=timers.target

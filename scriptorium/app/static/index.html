@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Publisher</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="manuscript.css">
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-text" viewBox="0 0 512 512"><path d="m15 114.235c8.284 0 15-6.716 15-15v-69.235h69.235c8.284 0 15-6.716 15-15s-6.716-15-15-15h-84.235c-8.284 0-15 6.716-15 15v84.235c0 8.285 6.716 15 15 15z"/><path d="m497 0h-84.235c-8.284 0-15 6.716-15 15s6.716 15 15 15h69.235v69.235c0 8.284 6.716 15 15 15s15-6.716 15-15v-84.235c0-8.284-6.716-15-15-15z"/><path d="m497 397.765c-8.284 0-15 6.716-15 15v69.235h-69.235c-8.284 0-15 6.716-15 15s6.716 15 15 15h84.235c8.284 0 15-6.716 15-15v-84.235c0-8.285-6.716-15-15-15z"/><path d="m99.235 482h-69.235v-69.235c0-8.284-6.716-15-15-15s-15 6.716-15 15v84.235c0 8.284 6.716 15 15 15h84.235c8.284 0 15-6.716 15-15s-6.715-15-15-15z"/><path d="m419.66 191.38v-94.73c0-4.7-3.81-8.51-8.52-8.51h-155.14-155.14c-4.71 0-8.52 3.81-8.52 8.51v94.73c0 4.71 3.81 8.52 8.52 8.52h45.24c4.7 0 8.51-3.81 8.51-8.52v-32.45c0-4.71 3.82-8.52 8.52-8.52h53.21c4.71 0 8.52 3.81 8.52 8.52v234.14c0 4.71-3.81 8.52-8.52 8.52h-23.27c-4.71 0-8.52 3.81-8.52 8.52v45.24c0 4.7 3.81 8.51 8.52 8.51h62.93 62.93c4.71 0 8.52-3.81 8.52-8.51v-45.24c0-4.71-3.81-8.52-8.52-8.52h-23.27c-4.71 0-8.52-3.81-8.52-8.52v-234.14c0-4.71 3.81-8.52 8.52-8.52h53.21c4.7 0 8.52 3.81 8.52 8.52v32.45c0 4.71 3.81 8.52 8.51 8.52h45.24c4.71 0 8.52-3.81 8.52-8.52z"/></symbol>
+  <symbol id="i-lupa" viewBox="0 0 512 512"><path d="m325.571 0c-102.8 0-186.43 83.63-186.43 186.42 0 44.88 15.86 87.19 44.43 120.8l-29.42 29.43-10.61-10.62c-5.86-5.85-15.36-5.85-21.21 0l-117.94 117.94c-5.85 5.85-5.86 15.35 0 21.21l42.43 42.43c5.86 5.85 15.35 5.86 21.21 0l117.93-117.94c5.86-5.85 5.86-15.35 0-21.21l-10.6-10.6 29.42-29.43c33.69 28.64 76.03 44.43 120.79 44.43 102.8 0 186.43-83.63 186.43-186.44 0-102.79-83.63-186.42-186.43-186.42zm0 90c-53.17 0-96.43 43.26-96.43 96.43 0 8.28-6.72 15-15 15-8.29 0-15-6.72-15-15 0-69.71 56.72-126.43 126.43-126.43 8.28 0 15 6.72 15 15s-6.72 15-15 15z"/></symbol>
+  <symbol id="i-prepis" viewBox="0 0 512 512"><path d="m417.138 0h-397.13c-11.05 0-20 8.95-20 20v456.4c0 17.529 12.585 31.875 28.95 34.99 6.432 1.072 9.056.485 11.39.29 17.32-2.39 30.87-17.870 30.87-36.14v-49.74c0-8.28 6.72-15 15-15h349.57c11.05 0 20-8.95 20-20v-352.15c0-21.35-17.3-38.65-38.65-38.65zm-51.66 337.91h-275.16c-8.28 0-15-6.72-15-15s6.72-15 15-15h275.16c8.28 0 15 6.72 15 15s-6.72 15-15 15zm0-78.71h-275.16c-8.28 0-15-6.72-15-15 0-8.29 6.72-15 15-15h275.16c8.28 0 15 6.71 15 15 0 8.28-6.72 15-15 15zm0-78.72h-275.16c-8.28 0-15-6.71-15-15 0-8.28 6.72-15 15-15h275.16c8.28 0 15 6.72 15 15 0 8.29-6.72 15-15 15zm0-78.71h-275.16c-8.28 0-15-6.72-15-15 0-8.29 6.72-15 15-15h275.16c8.28 0 15 6.71 15 15 0 8.28-6.72 15-15 15z"/><path d="m512.008 454.045v22.355c0 19.661-15.939 35.6-35.6 35.6h-385.71c6.65-10.26 10.52-22.49 10.52-35.6v-22.355c0-7.315 5.93-13.246 13.246-13.246h384.299c7.315.001 13.245 5.931 13.245 13.246z"/></symbol>
+  <symbol id="i-images" viewBox="0 0 512 512"><path d="m454.62 122.61h-.09l-12.59-29.57c-11.15-26.14-36.71-43.04-65.14-43.04h-161.6c-28.43 0-53.99 16.9-65.13 43.04l-12.6 29.57h-80.09c-31.64 0-57.38 25.74-57.38 57.38v224.63c0 31.64 25.74 57.38 57.38 57.38h397.24c31.640 0 57.38-25.74 57.38-57.38v-224.63c0-31.64-25.74-57.38-57.38-57.38zm-344.74 255.78c0 8.28-6.72 15-15 15-8.29 0-15-6.72-15-15v-59.79c0-8.29 6.71-15 15-15 8.28 0 15 6.71 15 15zm0-120.99c0 8.28-6.72 15-15 15-8.29 0-15-6.72-15-15v-59.79c0-8.28 6.71-15 15-15 8.28 0 15 6.72 15 15zm186.12 144.6c-75.12 0-136.24-61.12-136.24-136.24 0-75.13 61.12-136.24 136.24-136.24s136.24 61.11 136.24 136.24c0 75.12-61.12 136.24-136.24 136.24z"/><path d="m296 159.52c-58.58 0-106.24 47.66-106.24 106.24s47.66 106.24 106.24 106.24 106.24-47.66 106.24-106.24-47.66-106.24-106.24-106.24zm-32.69 138.930c5.85 5.86 5.86 15.36 0 21.22-5.86 5.85-15.36 5.85-21.22 0-14.4-14.4-22.33-33.55-22.33-53.91s7.93-39.5 22.33-53.91c5.86-5.85 15.36-5.85 21.22 0 5.86 5.86 5.86 15.36 0 21.22-8.74 8.73-13.55 20.34-13.55 32.69s4.81 23.96 13.55 32.69z"/></symbol>
+  <symbol id="i-original" viewBox="0 0 512 512"><path d="M96 0h224l128 128v354c0 16.6-13.4 30-30 30H96c-16.6 0-30-13.4-30-30V30C66 13.4 79.4 0 96 0zm208 32v96c0 8.8 7.2 16 16 16h96zM136 232c-8.3 0-15 6.7-15 15s6.7 15 15 15h240c8.3 0 15-6.7 15-15s-6.7-15-15-15zm0 72c-8.3 0-15 6.7-15 15s6.7 15 15 15h240c8.3 0 15-6.7 15-15s-6.7-15-15-15zm0 72c-8.3 0-15 6.7-15 15s6.7 15 15 15h160c8.3 0 15-6.7 15-15s-6.7-15-15-15z"/></symbol>
+  <symbol id="i-crop" viewBox="0 0 512 512"><path d="M128 16c0-8.8-7.2-16-16-16H80c-8.8 0-16 7.2-16 16v48H16C7.2 64 0 71.2 0 80v32c0 8.8 7.2 16 16 16h48v288c0 17.7 14.3 32 32 32h288v48c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-48h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16h-48V128l64-64-32-32-64 64H128zm0 112h224L128 352zm32 256 224-224v224z"/></symbol>
+  <symbol id="i-save" viewBox="0 0 512 512"><path d="M64 32C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L384 18.7C372 6.7 355.7 0 338.7 0H64v32zm32 64h224v96H96zm160 352c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z"/></symbol>
+  <symbol id="i-history" viewBox="0 0 512 512"><path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm24 256c0 6.4-2.5 12.5-7 17l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l73-73V112c0-13.3 10.7-24 24-24s24 10.7 24 24z"/></symbol>
+  <symbol id="i-print" viewBox="0 0 512 512"><path d="M128 0h256c17.7 0 32 14.3 32 32v96H96V32c0-17.7 14.3-32 32-32zM64 160h384c35.3 0 64 28.7 64 64v128c0 17.7-14.3 32-32 32h-64v96c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32v-96H32c-17.7 0-32-14.3-32-32V224c0-35.3 28.7-64 64-64zm96 224v96h192v-96z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 512 512"><path d="M40 64h432c22 0 40 18 40 40s-18 40-40 40H40C18 144 0 126 0 104s18-40 40-40zm0 152h432c22 0 40 18 40 40s-18 40-40 40H40c-22 0-40-18-40-40s18-40 40-40zm0 152h432c22 0 40 18 40 40s-18 40-40 40H40c-22 0-40-18-40-40s18-40 40-40z"/></symbol>
+  <symbol id="i-al-left" viewBox="0 0 512 512"><rect x="32" y="64" width="448" height="56" rx="28"/><rect x="32" y="176" width="300" height="56" rx="28"/><rect x="32" y="288" width="448" height="56" rx="28"/><rect x="32" y="400" width="300" height="56" rx="28"/></symbol>
+  <symbol id="i-al-center" viewBox="0 0 512 512"><rect x="32" y="64" width="448" height="56" rx="28"/><rect x="106" y="176" width="300" height="56" rx="28"/><rect x="32" y="288" width="448" height="56" rx="28"/><rect x="106" y="400" width="300" height="56" rx="28"/></symbol>
+  <symbol id="i-al-right" viewBox="0 0 512 512"><rect x="32" y="64" width="448" height="56" rx="28"/><rect x="180" y="176" width="300" height="56" rx="28"/><rect x="32" y="288" width="448" height="56" rx="28"/><rect x="180" y="400" width="300" height="56" rx="28"/></symbol>
+  <symbol id="i-al-justify" viewBox="0 0 512 512"><rect x="32" y="64" width="448" height="56" rx="28"/><rect x="32" y="176" width="448" height="56" rx="28"/><rect x="32" y="288" width="448" height="56" rx="28"/><rect x="32" y="400" width="448" height="56" rx="28"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 512 512"><path d="M212 64 32 216l180 152v-96c112 0 196 32 268 176-12-176-108-296-268-312z"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 512 512"><path d="M300 64l180 152-180 152v-96c-112 0-196 32-268 176 12-176 108-296 268-312z"/></symbol>
+  <symbol id="i-ul" viewBox="0 0 512 512"><circle cx="72" cy="112" r="44"/><circle cx="72" cy="256" r="44"/><circle cx="72" cy="400" r="44"/><rect x="160" y="84" width="320" height="56" rx="28"/><rect x="160" y="228" width="320" height="56" rx="28"/><rect x="160" y="372" width="320" height="56" rx="28"/></symbol>
+  <symbol id="i-ol" viewBox="0 0 512 512"><text x="20" y="150" font-size="150" font-weight="700" font-family="Arial, sans-serif">1</text><text x="20" y="300" font-size="150" font-weight="700" font-family="Arial, sans-serif">2</text><text x="20" y="450" font-size="150" font-weight="700" font-family="Arial, sans-serif">3</text><rect x="160" y="84" width="320" height="56" rx="28"/><rect x="160" y="228" width="320" height="56" rx="28"/><rect x="160" y="372" width="320" height="56" rx="28"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 512 512"><path d="M64 264c0-104 48-176 144-200l16 48c-56 20-80 60-84 104h76v192H64zm256 0c0-104 48-176 144-200l16 48c-56 20-80 60-84 104h76v192H320z"/></symbol>
+  <symbol id="i-ask" viewBox="0 0 512 512"><path d="M256 32C123.5 32 16 121.5 16 232c0 48.6 20.8 93.1 55.4 127.9L48 464l116.6-50.6C192.3 424.1 223.4 432 256 432c132.5 0 240-89.5 240-200S388.5 32 256 32zm0 320c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm40-122c-18 12-20 18-20 34h-40c0-34 12-48 32-62 18-12 28-20 28-38 0-20-18-34-40-34-24 0-40 14-42 38h-40c2-46 36-74 82-74 46 0 80 28 80 70 0 34-20 52-40 66z"/></symbol>
+</svg>
+<div id="oldServer" class="old-server" hidden>
+  Běží stará verze serveru. Zavřete okno Terminálu a znovu spusťte <b>Spustit-Publisher.command</b>.
+</div>
+<header class="main-head">
+  <div class="cols-toggle" role="group" aria-label="Sloupce">
+    <button class="col-btn" data-col="scan" title="Zobrazit / skrýt naskenovaný originál"><svg class="ico"><use href="#i-original"/></svg> Originál</button>
+    <button class="col-btn" data-col="text" title="Zobrazit / skrýt přepsaný text"><svg class="ico"><use href="#i-prepis"/></svg> Přepis</button>
+    <button class="col-btn" data-col="ms" title="Zobrazit / skrýt vlastní rukopis"><svg class="ico"><use href="#i-text"/></svg> Rukopis</button>
+    <button class="col-btn" data-col="ask" title="Zeptat se na cokoli z knih a rukopisu"><svg class="ico"><use href="#i-ask"/></svg> Dotaz</button>
+    <button class="col-btn" data-col="img" title="Zobrazit / skrýt všechny obrázky"><svg class="ico"><use href="#i-images"/></svg> Obrázky</button>
+  </div>
+  <div class="presets">
+    <button data-preset="scan,text" title="Originál a přepis vedle sebe – čtení a opravy přepisu">Čtu a opravuji</button>
+    <button data-preset="text,ms" title="Přepis a rukopis vedle sebe – přenášení textů a citací">Píšu s citacemi</button>
+    <button data-preset="scan,ms" title="Originál a rukopis vedle sebe – vyřezávání obrázků do rukopisu">Obrázky do rukopisu</button>
+  </div>
+  <div class="search-wrap">
+    <input id="searchInput" class="search" type="search" placeholder="Hledat všude…" autocomplete="off">
+    <div id="searchPop" class="search-pop" hidden></div>
+  </div>
+  <div class="spacer"></div>
+  <button id="uiSmaller" class="ui-size" title="Menší písmo a ovládání">A−</button>
+  <button id="uiBigger" class="ui-size" title="Větší písmo a ovládání">A+</button>
+</header>
+
+<main id="workspace" class="workspace">
+  <!-- shared book navigation (visible when Originál or Přepis is on) -->
+  <aside id="bookNav" class="book-nav">
+    <select id="bookSelect" title="Kniha"></select>
+    <div class="page-step">
+      <button id="prevPage" class="step" title="Předchozí strana">◀</button>
+      <div class="page-info"><span id="pageInfo"></span><small id="pageNoLabel"></small></div>
+      <button id="nextPage" class="step" title="Další strana">▶</button>
+    </div>
+    <div id="pageList" class="page-list"></div>
+    <details class="book-more">
+      <summary>Nastavení knihy</summary>
+      <label>Název <input id="bookTitle" class="title-input"></label>
+      <label>Číslo strany <input id="pageNo" type="number" min="0" class="page-no"></label>
+      <label class="skip"><input id="pageSkip" type="checkbox"> vynechat stranu z knihy</label>
+      <select id="exportMode" class="tr-only" title="Jazyk exportu">
+        <option value="tr">Export česky</option>
+        <option value="both">Export dvojjazyčně</option>
+        <option value="orig">Export v originále</option>
+      </select>
+      <button id="exportBtn">Export knihy</button>
+    </details>
+    <span id="saveState" class="save-state">—</span>
+  </aside>
+
+  <section id="colScan" class="col col-scan">
+    <div class="col-head">
+      <h2><svg class="ico"><use href="#i-original"/></svg> Originál</h2>
+      <button id="loupeBtn" title="Lupa – zvětší místo pod myší"><svg class="ico"><use href="#i-lupa"/></svg> Lupa</button>
+      <button id="zoomOut" title="Zmenšit sken">−</button>
+      <button id="zoomFit" title="Sken na šířku">⤢</button>
+      <button id="zoomIn" title="Zvětšit sken">+</button>
+    </div>
+    <div class="col-head col-head2">
+      <button id="cropBtn" title="Tažením na skenu vyříznete obrázek do přepisu"><svg class="ico"><use href="#i-crop"/></svg> Výřez do přepisu</button>
+      <button id="cropMsBtn" class="ms-only" title="Tažením na skenu vyříznete obrázek rovnou do rukopisu"><svg class="ico"><use href="#i-crop"/></svg> Výřez do rukopisu</button>
+      <button id="pageToMs" class="ms-only" title="Celá strana jako obrázek do rukopisu"><svg class="ico"><use href="#i-original"/></svg> Celá strana do rukopisu</button>
+    </div>
+    <div id="viewer" class="viewer">
+      <div id="scanBox" class="scan-box">
+        <img id="scanImg" alt="">
+        <div id="overlay" class="overlay"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="colText" class="col col-text editor-wrap">
+    <div class="col-head">
+      <h2><svg class="ico"><use href="#i-prepis"/></svg> Přepis</h2>
+      <select id="viewSelect" class="tr-only" title="Co zobrazit">
+        <option value="both">Originál + překlad</option>
+        <option value="tr">Jen překlad</option>
+        <option value="orig">Jen originál</option>
+      </select>
+    </div>
+    <div id="fmtBar" class="fmt-bar disabled">
+      <select id="fmtStyle" title="Typ odstavce">
+        <option value="p">Odstavec</option><option value="h1">Název knihy</option><option value="h2">Kapitola (1. úroveň)</option>
+        <option value="h3">Podkapitola (2. úroveň)</option><option value="quote">Citace</option><option value="note">Poznámka pod čarou</option>
+      </select>
+      <button data-cmd="bold" title="Tučně"><b>B</b></button>
+      <button data-cmd="italic" title="Kurzíva"><i>I</i></button>
+      <button data-cmd="underline" title="Podtrhnout"><u>U</u></button>
+      <span class="sep"></span>
+      <button data-align="left" title="Zarovnat vlevo"><svg class="ico"><use href="#i-al-left"/></svg></button>
+      <button data-align="center" title="Na střed"><svg class="ico"><use href="#i-al-center"/></svg></button>
+      <button data-align="right" title="Zarovnat vpravo"><svg class="ico"><use href="#i-al-right"/></svg></button>
+      <button data-align="justify" title="Do bloku"><svg class="ico"><use href="#i-al-justify"/></svg></button>
+      <span class="sep"></span>
+      <select id="fmtFont" title="Písmo"><option value="">Písmo</option><option value="serif">Klasické</option><option value="book">Knižní</option><option value="palatino">Palatino</option><option value="sans">Bezpatkové</option></select>
+      <select id="fmtSize" title="Velikost"><option value="">Normální</option><option value="s">Malé</option><option value="l">Větší</option><option value="xl">Velké</option></select>
+    </div>
+    <div id="blocks" class="blocks"></div>
+    <div class="add-row">
+      <button data-add="p">+ Odstavec</button>
+      <button data-add="h2">+ Kapitola</button>
+      <button data-add="note">+ Poznámka</button>
+    </div>
+  </section>
+
+  <section id="colMs" class="col col-ms">
+    <div class="col-head">
+      <h2><svg class="ico"><use href="#i-text"/></svg> Rukopis</h2>
+      <input id="msTitle" class="ms-title" title="Název knihy (titulní strana, obálka e-knihy)" placeholder="Název knihy">
+      <span id="msSaveState" class="save-state">načítám…</span>
+      <div class="spacer"></div>
+      <button id="msDrawerBtn" title="Obsah rukopisu a schránka"><svg class="ico"><use href="#i-list"/></svg> Obsah a schránka <span id="clipCount" class="badge" hidden></span></button>
+      <button id="snapshotBtn" title="Uložit pojmenovanou verzi"><svg class="ico"><use href="#i-save"/></svg> Verze</button>
+      <button id="historyBtn" title="Starší verze rukopisu"><svg class="ico"><use href="#i-history"/></svg> Historie</button>
+      <button id="printBtn" title="Tisk nebo PDF"><svg class="ico"><use href="#i-print"/></svg> Tisk</button>
+    </div>
+    <div class="toolbar" id="toolbar">
+      <button class="tb" data-cmd="undo" title="Zpět"><svg class="ico"><use href="#i-undo"/></svg><span>Zpět</span></button>
+      <button class="tb" data-cmd="redo" title="Znovu"><svg class="ico"><use href="#i-redo"/></svg><span>Znovu</span></button>
+      <select id="blockStyle" class="tb-select" title="Typ odstavce">
+        <option value="p">Běžný text</option>
+        <option value="h1">Kapitola – nadpis 1. úrovně</option>
+        <option value="h2">Podkapitola – 2. úroveň</option>
+        <option value="h3">Oddíl – 3. úroveň</option>
+        <option value="blockquote">Citace</option>
+      </select>
+      <button class="tb" data-cmd="bold" title="Tučně"><b>B</b><span>Tučně</span></button>
+      <button class="tb" data-cmd="italic" title="Kurzíva"><i>I</i><span>Kurzíva</span></button>
+      <button class="tb" data-cmd="underline" title="Podtrhnout"><u>U</u><span>Podtrh.</span></button>
+      <button class="tb" data-cmd="justifyLeft" title="Zarovnat vlevo"><svg class="ico"><use href="#i-al-left"/></svg><span>Vlevo</span></button>
+      <button class="tb" data-cmd="justifyCenter" title="Na střed"><svg class="ico"><use href="#i-al-center"/></svg><span>Střed</span></button>
+      <button class="tb" data-cmd="justifyRight" title="Zarovnat vpravo"><svg class="ico"><use href="#i-al-right"/></svg><span>Vpravo</span></button>
+      <button class="tb" data-cmd="justifyFull" title="Do bloku"><svg class="ico"><use href="#i-al-justify"/></svg><span>Blok</span></button>
+      <select id="fontName" class="tb-select" title="Písmo">
+        <option value="">Písmo…</option>
+        <option value="Georgia, serif">Klasické</option>
+        <option value="'Times New Roman', Times, serif">Knižní</option>
+        <option value="Palatino, 'Palatino Linotype', serif">Palatino</option>
+        <option value="Helvetica, Arial, sans-serif">Bezpatkové</option>
+      </select>
+      <select id="fontSize" class="tb-select" title="Velikost písma v knize">
+        <option value="">Velikost…</option>
+        <option value="2">Malé</option>
+        <option value="3">Normální</option>
+        <option value="4">Větší</option>
+        <option value="5">Velké</option>
+        <option value="6">Velmi velké</option>
+      </select>
+      <button class="tb" data-cmd="insertUnorderedList" title="Odrážky"><svg class="ico"><use href="#i-ul"/></svg><span>Odrážky</span></button>
+      <button class="tb" data-cmd="insertOrderedList" title="Číslování"><svg class="ico"><use href="#i-ol"/></svg><span>Čísla</span></button>
+      <button class="tb" id="imageBtn" title="Vložit obrázek ze souboru"><svg class="ico"><use href="#i-images"/></svg><span>Obrázek</span></button>
+      <input type="file" id="imageFile" accept="image/*" hidden>
+      <button class="tb" id="msZoomOut" title="Menší písmo rukopisu na obrazovce">A−<span>Písmo</span></button>
+      <button class="tb" id="msZoomIn" title="Větší písmo rukopisu na obrazovce">A+<span>Písmo</span></button>
+    </div>
+    <div class="ms-body">
+      <aside id="msDrawer" class="ms-drawer" hidden>
+        <section>
+          <h3>Obsah</h3>
+          <div id="toc" class="toc"></div>
+        </section>
+        <section>
+          <h3>Schránka</h3>
+          <p class="hint">Sem chodí, co pošlete z přepisu, když je rukopis skrytý. Klikněte do textu a stiskněte <b>Vložit sem</b>.</p>
+          <div id="clips" class="clips"></div>
+        </section>
+      </aside>
+      <div id="msDesk" class="desk">
+        <div id="imgBar" class="img-bar" hidden>
+          Obrázek:
+          <button data-w="25">¼</button><button data-w="50">½</button><button data-w="75">¾</button><button data-w="100">celý</button>
+          <button id="imgCrop"><svg class="ico"><use href="#i-crop"/></svg> Oříznout / narovnat</button>
+          <button id="imgCaption">Popisek</button>
+          <button id="imgDelete" class="danger">Odstranit</button>
+        </div>
+        <div id="insertMark" class="insert-mark" hidden><span>sem se vloží</span></div>
+        <article id="msEditor" class="page" contenteditable="true" spellcheck="true" lang="cs"></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="colImg" class="col col-img">
+    <div class="col-head">
+      <h2><svg class="ico"><use href="#i-images"/></svg> Obrázky</h2>
+      <div class="spacer"></div>
+      <button id="galAdd" title="Přidat obrázky ze souboru do knihovny">+ Přidat obrázek</button>
+      <button id="galReload" title="Načíst znovu">↻</button>
+      <input type="file" id="galFile" accept="image/*" multiple hidden>
+    </div>
+    <div class="col-head col-head2 gal-tools">
+      <div id="galFilters" class="gal-filters">
+        <button data-f="all">Vše <small></small></button>
+        <button data-f="library">Knihovna <small></small></button>
+        <button data-f="book">Z knih <small></small></button>
+        <button data-f="manuscript">V rukopisu <small></small></button>
+      </div>
+      <input id="galSearch" type="search" placeholder="Hledat v popiscích a zdrojích…">
+    </div>
+    <div id="galGrid" class="gal-grid"></div>
+  </section>
+
+  <section id="colAsk" class="col col-ask">
+    <div class="col-head">
+      <h2><svg class="ico"><use href="#i-ask"/></svg> Dotaz na knihy a rukopis</h2>
+    </div>
+    <div class="ask-body">
+      <textarea id="askInput" rows="3" placeholder="Napište otázku, např.: Kde se razily grešle Leopolda I.?"></textarea>
+      <div class="ask-row">
+        <button id="askBtn" class="ask-btn">Zeptat se</button>
+        <button id="askClear" class="ask-clear" title="Smaže otázku, odpověď i zdroje">Nový dotaz</button>
+      </div>
+      <div id="askStatus" class="ask-status">Odpověď vzniká jen z přepsaných knih a rukopisu a u každého tvrzení je číslo zdroje.</div>
+      <div id="askAnswer" class="ask-answer"></div>
+      <button id="askToMs" class="ask-tms" hidden>➜ Vložit odpověď do rukopisu</button>
+      <div id="askSources" class="ask-sources"></div>
+    </div>
+  </section>
+
+  <div id="emptyHint" class="empty-hint" hidden>Zapněte nahoře aspoň jeden sloupec: Originál, Přepis nebo Rukopis.</div>
+</main>
+
+<!-- manuscript dialogs -->
+<div id="historyDlg" class="dlg" hidden>
+  <div class="dlg-box">
+    <div class="dlg-head">
+      <h2>Historie verzí rukopisu</h2>
+      <button id="historyClose" class="big">Zavřít</button>
+    </div>
+    <div class="dlg-body">
+      <div id="historyList" class="hist-list"></div>
+      <div class="hist-preview">
+        <div class="hist-actions">
+          <span id="histInfo">Vyberte verzi vlevo.</span>
+          <button id="histRestore" class="big primary" disabled>Obnovit tuto verzi</button>
+        </div>
+        <div id="histView" class="page small"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="cropDlg" class="dlg" hidden>
+  <div class="dlg-box crop-box">
+    <div class="dlg-head">
+      <h2>Oříznout a narovnat obrázek</h2>
+      <div>
+        <button id="cropCancel" class="big">Zrušit</button>
+        <button id="cropApply" class="big primary">✓ Použít</button>
+      </div>
+    </div>
+    <div class="crop-tools">
+      <span>Narovnat:</span>
+      <button data-rot="-1">⟲ 1°</button>
+      <button data-rot="-0.2">⟲ 0,2°</button>
+      <span id="rotValue" class="rot-value">0,0°</span>
+      <button data-rot="0.2">⟳ 0,2°</button>
+      <button data-rot="1">⟳ 1°</button>
+      <button data-rot="-90">⟲ 90°</button>
+      <button data-rot="90">⟳ 90°</button>
+      <button id="cropReset">Vše zpět</button>
+      <span class="hint">Táhněte za bílé čtverečky v rozích, nebo uprostřed rámečku pro posun.</span>
+    </div>
+    <div class="crop-stage" id="cropStage">
+      <div class="crop-wrap" id="cropWrap">
+        <canvas id="cropCanvas"></canvas>
+        <div id="cropRect" class="crop-rect">
+          <i class="h nw"></i><i class="h n"></i><i class="h ne"></i><i class="h e"></i>
+          <i class="h se"></i><i class="h s"></i><i class="h sw"></i><i class="h w"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="lightbox" class="lightbox" hidden>
+  <div class="lb-box">
+    <div class="lb-head">
+      <span id="lbCount"></span>
+      <div class="spacer"></div>
+      <button id="lbEdit">Upravit popisek a zdroj</button>
+      <button id="lbToMs" class="primary">➜ Do rukopisu</button>
+      <button id="lbGoto"></button>
+      <button id="lbClose">Zavřít ✕</button>
+    </div>
+    <div class="lb-stage">
+      <button id="lbPrev" class="lb-nav" title="Předchozí">◀</button>
+      <img id="lbImg" alt="">
+      <button id="lbNext" class="lb-nav" title="Další">▶</button>
+    </div>
+    <div class="lb-info">
+      <div id="lbCaption" class="lb-caption"></div>
+      <div id="lbSource" class="lb-source"></div>
+      <div id="lbWhere" class="lb-where"></div>
+    </div>
+  </div>
+</div>
+
+<div id="capDlg" class="dlg" hidden>
+  <div class="dlg-box cap-box">
+    <div class="dlg-head"><h2 id="capTitle">Popisek a zdroj obrázku</h2></div>
+    <div class="cap-body">
+      <img id="capPreview" alt="">
+      <div class="cap-fields">
+        <label>Popisek<textarea id="capCaption" rows="4" placeholder="Co je na obrázku…"></textarea></label>
+        <label>Zdroj<input id="capSource" placeholder="Odkud obrázek pochází (kniha, archiv, web, fotograf)…"></label>
+        <div class="cap-actions">
+          <button id="capCancel" class="big">Zrušit</button>
+          <button id="capOk" class="big primary">Uložit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="credits">Ikony: Flaticon (flaticon.com)</footer>
+
+<div id="toast" class="toast"><span id="toastText"></span><button id="toastUndo" hidden><svg class="ico"><use href="#i-undo"/></svg> Vrátit</button></div>
+<script src="app.js"></script>
+<script src="manuscript.js"></script>
+<script src="gallery.js"></script>
+<script src="chat.js"></script>
+</body>
+</html>

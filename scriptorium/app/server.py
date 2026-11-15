@@ -1,0 +1,543 @@
+#!/usr/bin/env python3
+"""Publisher – local editor for scanned books.
+
+Runs with the Python standard library only:
+    python3 server.py            -> http://localhost:2209
+The parent folder of app/ holds the books (any folder with project.json).
+"""
+import base64
+import html
+import json
+import os
+import re
+import shutil
+import sys
+import time
+import unicodedata
+from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
+from urllib.parse import parse_qs, unquote, urlparse
+
+from auth import Auth
+import rag
+from library import Library, figure_caption, gallery
+from manuscript import Conflict, Manuscript
+
+PORT = int(os.environ.get("PUBLISHER_PORT", "2209"))
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.environ.get("PUBLISHER_DATA") or os.path.dirname(APP_DIR))
+HOST = os.environ.get("PUBLISHER_HOST", "127.0.0.1")
+STATIC_DIR = os.path.join(APP_DIR, "static")
+HISTORY_KEEP = 30
+SAFE_NAME = re.compile(r"^[\w\-. ]+$")
+MS = Manuscript(ROOT)
+AUTH = Auth(ROOT)
+LIB = Library(ROOT)
+PUBLIC_PATHS = {"/login.html", "/login.css", "/api/login", "/healthz", "/favicon.ico"}
+
+
+def book_dir(name):
+    if not SAFE_NAME.match(name) or name.startswith("."):
+        raise ValueError("bad book name")
+    path = os.path.join(ROOT, name)
+    if not os.path.isfile(os.path.join(path, "project.json")):
+        raise FileNotFoundError(name)
+    return path
+
+
+def list_books():
+    books = []
+    for name in sorted(os.listdir(ROOT)):
+        pj = os.path.join(ROOT, name, "project.json")
+        if os.path.isfile(pj):
+            try:
+                with open(pj, encoding="utf-8") as f:
+                    data = json.load(f)
+                books.append({"id": name, "title": data.get("title", name), "pages": len(data.get("pages", []))})
+            except (OSError, ValueError):
+                books.append({"id": name, "title": name + " (chyba v project.json)", "pages": 0})
+    return books
+
+
+def save_project(path, project):
+    pj = os.path.join(path, "project.json")
+    hist = os.path.join(path, ".history")
+    os.makedirs(hist, exist_ok=True)
+    if os.path.exists(pj):
+        shutil.copy2(pj, os.path.join(hist, time.strftime("project-%Y%m%d-%H%M%S.json")))
+        old = sorted(os.listdir(hist))
+        for f in old[:-HISTORY_KEEP]:
+            os.remove(os.path.join(hist, f))
+    tmp = pj + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(project, f, ensure_ascii=False, indent=1)
+    os.replace(tmp, pj)
+
+
+FONTS = {"serif": "Georgia, serif", "book": "'Times New Roman', serif", "palatino": "Palatino, serif",
+         "sans": "Helvetica, Arial, sans-serif"}
+SIZES = {"s": ".85em", "l": "1.2em", "xl": "1.45em"}
+
+
+def block_css(b):
+    css = []
+    if b.get("align") in ("left", "center", "right", "justify"):
+        css.append(f"text-align:{b['align']}")
+    if b.get("font") in FONTS:
+        css.append(f"font-family:{FONTS[b['font']]}")
+    if b.get("size") in SIZES:
+        css.append(f"font-size:{SIZES[b['size']]}")
+    return ";".join(css)
+
+
+def last_paragraph(items):
+    """Last text item if only page marks follow it, else None."""
+    for it in reversed(items):
+        if it[0] == "mark":
+            continue
+        return it if it[0] == "text" and it[1] == "p" else None
+    return None
+
+
+def prev_text_continues(left, right):
+    plain_right = re.sub(r"<[^>]+>", "", right).lstrip()
+    plain_left = re.sub(r"<[^>]+>", "", left).rstrip()
+    if not plain_right or not plain_left:
+        return False
+    if plain_left.endswith("-"):
+        return True
+    return plain_right[0].islower() and plain_left[-1] not in ".!?:;"
+
+
+def export_html(path, mode="orig"):
+    with open(os.path.join(path, "project.json"), encoding="utf-8") as f:
+        project = json.load(f)
+    # items: ("mark", label) | ("text", style, html) | ("image", src, caption)
+    items = []
+    for page in project["pages"]:
+        if page.get("skip"):
+            continue
+        label = f"s. {page['page_no']}" if page.get("page_no") else page["id"]
+        items.append(["mark", label, page["id"]])
+        for b in page["blocks"]:
+            if b["type"] == "text":
+                style = b.get("style") or "p"
+                if style not in ("p", "h1", "h2", "h3", "note", "quote"):
+                    style = "p"
+                if mode == "tr" and b.get("tr"):
+                    html_text = b["tr"].strip()
+                elif mode == "both" and b.get("tr"):
+                    html_text = b["html"].strip() + '<span class="tr">' + b["tr"].strip() + "</span>"
+                else:
+                    html_text = b["html"].strip()
+                prev = last_paragraph(items)
+                # paragraph continuing from the previous page: join it
+                if (style == "p" and prev is not None and items[-1][0] == "mark"
+                        and prev_text_continues(prev[2], html_text)):
+                    mark = items.pop()
+                    joiner = "" if prev[2].endswith("-") else " "
+                    left = prev[2][:-1] if prev[2].endswith("-") else prev[2]
+                    prev[2] = left + f'<span class="pm" title="{html.escape(mark[1])}"></span>' + joiner + html_text
+                    continue
+                css = block_css(b)
+                items.append(["text", style, html_text, css])
+            elif b["type"] == "image":
+                src = b["src"] + (f"?v={b['v']}" if b.get("v") else "")
+                items.append(["image", src, b.get("caption", ""), b.get("width", 100), b.get("source", "")])
+    parts = []
+    for it in items:
+        if it[0] == "mark":
+            parts.append(f'<div class="pagemark" id="{it[2]}">{html.escape(it[1])}</div>')
+        elif it[0] == "text":
+            attr = f' style="{it[3]}"' if len(it) > 3 and it[3] else ""
+            if it[1] == "note":
+                parts.append(f'<p class="note"{attr}>{it[2]}</p>')
+            elif it[1] == "quote":
+                parts.append(f"<blockquote{attr}>{it[2]}</blockquote>")
+            else:
+                parts.append(f"<{it[1]}{attr}>{it[2]}</{it[1]}>")
+        else:
+            cap = html.escape(it[2])
+            src_line = f'<span class="src">Zdroj: {html.escape(it[4])}</span>' if len(it) > 4 and it[4] else ""
+            parts.append(f'<figure><img src="{html.escape(it[1])}" alt="{cap}" style="width:{int(it[3])}%">'
+                         + (f"<figcaption>{cap}{src_line}</figcaption>" if cap or src_line else "") + "</figure>")
+    title = html.escape(project.get("title", ""))
+    body = "\n".join(parts)
+    return f"""<!DOCTYPE html>
+<html lang="cs"><head><meta charset="utf-8"><title>{title}</title>
+<style>
+body{{font-family:Georgia,'Times New Roman',serif;max-width:42rem;margin:3rem auto;padding:0 1rem;line-height:1.6;color:#222}}
+h1,h2,h3{{font-weight:normal;text-align:center}}
+figure{{margin:1.5rem 0;text-align:center}} figure img{{max-width:100%}}
+figcaption{{font-size:.9rem;color:#555}} figcaption .src{{display:block;font-size:.8rem;color:#777}} blockquote{{margin:1rem 2rem;font-style:italic}} p.note{{font-size:.85rem;color:#444}}
+.tr{{display:block;color:#1f4e9c;margin-top:.3rem}}
+.pagemark{{font:11px sans-serif;color:#aaa;text-align:right;border-top:1px dotted #ddd;margin-top:2rem}}
+.pm::before{{content:"|";color:#ccc;font:10px sans-serif;margin:0 2px}}
+@media print{{.pagemark,.pm{{display:none}}}}
+</style></head><body><h1>{title}</h1>
+{body}
+</body></html>"""
+
+
+class Handler(SimpleHTTPRequestHandler):
+    def log_message(self, fmt, *args):
+        if args and "/api/" in str(args[0]):
+            sys.stderr.write("%s\n" % (fmt % args))
+
+    def send_json(self, data, status=200):
+        body = json.dumps(data, ensure_ascii=False).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(body)
+
+    def read_json(self):
+        length = int(self.headers.get("Content-Length", 0))
+        return json.loads(self.rfile.read(length).decode("utf-8"))
+
+    def translate_path(self, path):
+        path = unquote(urlparse(path).path)
+        if path.startswith("/books/"):
+            rel = path[len("/books/"):]
+            if "/" not in rel.strip("/") or any(seg.startswith(".") for seg in rel.split("/")):
+                return os.path.join(STATIC_DIR, "404")  # hidden files: secrets, history
+            full = os.path.normpath(os.path.join(ROOT, rel))
+            if not full.startswith(ROOT + os.sep):
+                return os.path.join(STATIC_DIR, "404")
+            return full
+        rel = path.lstrip("/") or "index.html"
+        full = os.path.normpath(os.path.join(STATIC_DIR, rel))
+        if not full.startswith(STATIC_DIR):
+            return os.path.join(STATIC_DIR, "404")
+        return full
+
+    def end_headers(self):
+        if self.path.endswith((".js", ".css", ".html", "/")):
+            self.send_header("Cache-Control", "no-store")
+        super().end_headers()
+
+    def route(self):
+        parts = [unquote(p) for p in urlparse(self.path).path.split("/") if p]
+        return parts
+
+    def client_ip(self):
+        fwd = self.headers.get("X-Forwarded-For")
+        return fwd.split(",")[0].strip() if fwd else self.client_address[0]
+
+    def guard(self):
+        """True when the request may continue; otherwise the response is already sent."""
+        path = urlparse(self.path).path
+        if path in PUBLIC_PATHS or AUTH.is_logged_in(self.headers.get("Cookie")):
+            return True
+        if path.startswith("/api/") or path.startswith("/books/"):
+            self.send_json({"error": "login required"}, 401)
+        else:
+            self.send_response(302)
+            self.send_header("Location", "login.html")
+            self.end_headers()
+        return False
+
+    def do_GET(self):
+        if not self.guard():
+            return
+        parts = self.route()
+        if parts == ["healthz"]:
+            return self.send_json({"ok": True})
+        if parts == ["api", "me"]:
+            return self.send_json({"auth": AUTH.enabled, "user": AUTH.user if AUTH.enabled else None})
+        if parts == ["logout"]:
+            self.send_response(302)
+            self.send_header("Set-Cookie", AUTH.clear_cookie())
+            self.send_header("Location", "login.html" if AUTH.enabled else "./")
+            self.end_headers()
+            return
+        try:
+            if parts[:2] == ["api", "books"] and len(parts) == 2:
+                return self.send_json(list_books())
+            if parts[:2] == ["api", "books"] and len(parts) == 3:
+                with open(os.path.join(book_dir(parts[2]), "project.json"), encoding="utf-8") as f:
+                    return self.send_json(json.load(f))
+            if parts[:2] == ["api", "manuscript"]:
+                if len(parts) == 2:
+                    return self.send_json(MS.load())
+                if parts[2] == "history" and len(parts) == 3:
+                    return self.send_json(MS.history())
+                if parts[2] == "history" and len(parts) == 4:
+                    return self.send_json({"html": MS.history_item(parts[3])})
+                if parts[2] == "export":
+                    doc = MS.load()
+                    return self.send_html(manuscript_export(doc["title"], doc["html"]))
+            if parts[:2] == ["api", "clips"]:
+                return self.send_json(MS.clips())
+            if parts == ["api", "gallery"]:
+                return self.send_json(gallery(ROOT, list_books(), LIB))
+            if parts[:2] == ["api", "search"]:
+                q = parse_qs(urlparse(self.path).query).get("q", [""])[0]
+                return self.send_json(do_search(q))
+            if parts[:2] == ["api", "export"] and len(parts) == 3:
+                path = book_dir(parts[2])
+                out = os.path.join(path, "export.html")
+                with open(out, "w", encoding="utf-8") as f:
+                    mode = parse_qs(urlparse(self.path).query).get("mode", ["orig"])[0]
+                    f.write(export_html(path, mode if mode in ("orig", "tr", "both") else "orig"))
+                self.send_response(302)
+                self.send_header("Location", f"../../books/{parts[2]}/export.html")
+                self.end_headers()
+                return
+        except FileNotFoundError:
+            return self.send_json({"error": "not found"}, 404)
+        except ValueError as e:
+            return self.send_json({"error": str(e)}, 400)
+        return super().do_GET()
+
+    def do_HEAD(self):
+        if self.guard():
+            super().do_HEAD()
+
+    def do_PUT(self):
+        if not self.guard():
+            return
+        parts = self.route()
+        try:
+            if parts[:2] == ["api", "library"] and len(parts) == 3:
+                body = self.read_json()
+                LIB.update(os.path.basename(parts[2]), body.get("caption", ""), body.get("source", ""))
+                return self.send_json({"ok": True})
+            if parts[:2] == ["api", "manuscript"] and len(parts) == 2:
+                body = self.read_json()
+                try:
+                    version = MS.save(body["html"], body.get("version"), body.get("title"))
+                except Conflict as c:
+                    return self.send_json({"error": "conflict", "version": c.args[0]}, 409)
+                return self.send_json({"ok": True, "version": version, "saved": time.strftime("%H:%M:%S")})
+            if parts[:2] == ["api", "books"] and len(parts) == 3:
+                project = self.read_json()
+                if not isinstance(project.get("pages"), list):
+                    raise ValueError("invalid project")
+                save_project(book_dir(parts[2]), project)
+                return self.send_json({"ok": True, "saved": time.strftime("%H:%M:%S")})
+        except FileNotFoundError:
+            return self.send_json({"error": "not found"}, 404)
+        except ValueError as e:
+            return self.send_json({"error": str(e)}, 400)
+        self.send_json({"error": "unknown endpoint"}, 404)
+
+    def do_POST(self):
+        if not self.guard():
+            return
+        parts = self.route()
+        if parts == ["api", "chat"]:
+            return self.stream_chat(self.read_json().get("question", ""))
+        if parts == ["api", "login"]:
+            body = self.read_json()
+            if not AUTH.enabled:
+                return self.send_json({"ok": True})
+            ok, msg = AUTH.login(self.client_ip(), body.get("user"), body.get("pin"))
+            if not ok:
+                time.sleep(1)  # slow down guessing
+                return self.send_json({"ok": False, "error": msg}, 403)
+            body_bytes = json.dumps({"ok": True}).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body_bytes)))
+            self.send_header("Set-Cookie", AUTH.make_cookie())
+            self.end_headers()
+            self.wfile.write(body_bytes)
+            return
+        try:
+            if parts[:3] == ["api", "manuscript", "images"]:
+                return self.send_json({"ok": True, "src": MS.save_image(self.read_json()["data"])})
+            if parts[:3] == ["api", "manuscript", "copy-image"]:
+                body = self.read_json()
+                base = LIB.dir if body.get("library") else book_dir(body["book"])
+                return self.send_json({"ok": True, "src": MS.copy_book_image(base, body["src"])})
+            if parts == ["api", "library"]:
+                body = self.read_json()
+                name = LIB.add(body["data"], body.get("caption", ""), body.get("source", ""), body.get("name", ""))
+                return self.send_json({"ok": True, "file": name})
+            if parts[:3] == ["api", "manuscript", "snapshot"]:
+                return self.send_json({"ok": True, "name": MS.snapshot(self.read_json().get("label", "verze"))})
+            if parts[:3] == ["api", "manuscript", "restore"]:
+                version = MS.restore(self.read_json()["name"])
+                return self.send_json({"ok": True, "version": version})
+            if parts[:2] == ["api", "clips"] and len(parts) == 2:
+                return self.send_json(MS.add_clip(make_clip(self.read_json())))
+            if parts[:2] == ["api", "clips"] and len(parts) == 4 and parts[3] == "delete":
+                MS.remove_clip(parts[2])
+                return self.send_json({"ok": True})
+            # save an image cropped in the browser: {"name": "...jpg", "data": "data:image/jpeg;base64,..."}
+            if parts[:2] == ["api", "images"] and len(parts) == 3:
+                path = book_dir(parts[2])
+                payload = self.read_json()
+                name = os.path.basename(payload["name"])
+                if not SAFE_NAME.match(name) or not name.endswith(".jpg"):
+                    raise ValueError("bad image name")
+                data = payload["data"].split(",", 1)[1]
+                os.makedirs(os.path.join(path, "images"), exist_ok=True)
+                with open(os.path.join(path, "images", name), "wb") as f:
+                    f.write(base64.b64decode(data))
+                return self.send_json({"ok": True, "src": "images/" + name})
+        except FileNotFoundError:
+            return self.send_json({"error": "not found"}, 404)
+        except (ValueError, KeyError) as e:
+            return self.send_json({"error": str(e)}, 400)
+        self.send_json({"error": "unknown endpoint"}, 404)
+
+    def stream_chat(self, question):
+        """Server-sent events: sources, then the answer as it is generated."""
+        self.send_response(200)
+        self.send_header("Content-Type", "text/event-stream; charset=utf-8")
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("X-Accel-Buffering", "no")
+        self.end_headers()
+        self.close_connection = True
+
+        def send(ev):
+            self.wfile.write(("data: " + json.dumps(ev, ensure_ascii=False) + "\n\n").encode("utf-8"))
+            self.wfile.flush()
+
+        try:
+            if not question.strip():
+                send({"type": "error", "text": "Napište otázku."})
+                return
+            for ev in rag.answer(question, search_index()["entries"], fold):
+                send(ev)
+            send({"type": "done"})
+        except (BrokenPipeError, ConnectionResetError):
+            pass
+        except Exception as e:  # LLM unavailable etc.
+            try:
+                send({"type": "error", "text": f"Jazykový model teď neodpovídá ({e})."})
+            except OSError:
+                pass
+
+    def send_html(self, text):
+        body = text.encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+
+def fold(text):
+    """Lowercase and strip diacritics for forgiving search (č -> c, ü -> u)."""
+    text = unicodedata.normalize("NFD", text.lower())
+    return "".join(c for c in text if unicodedata.category(c) != "Mn")
+
+
+def plain(html_text):
+    return html.unescape(re.sub(r"<[^>]+>", " ", html_text or "")).replace("\xa0", " ")
+
+
+_index_cache = {"sig": None, "entries": [], "words": {}}
+
+
+def search_index():
+    """Entries for every text block of every book plus manuscript paragraphs; rebuilt when files change."""
+    files = [os.path.join(ROOT, b["id"], "project.json") for b in list_books()]
+    files.append(os.path.join(MS.dir, "document.html"))
+    sig = tuple((f, os.path.getmtime(f)) for f in files if os.path.exists(f))
+    if sig == _index_cache["sig"]:
+        return _index_cache
+    entries = []
+    for b in list_books():
+        with open(os.path.join(ROOT, b["id"], "project.json"), encoding="utf-8") as f:
+            project = json.load(f)
+        for pi, page in enumerate(project["pages"]):
+            for blk in page["blocks"]:
+                if blk["type"] == "image":
+                    texts = [("cap", blk.get("caption", ""))]
+                else:
+                    texts = [("orig", plain(blk.get("html"))), ("tr", plain(blk.get("tr")))]
+                for field, t in texts:
+                    if t.strip():
+                        entries.append({"where": "book", "book": b["id"], "title": project.get("title", b["id"]),
+                                        "page": pi, "page_no": page.get("page_no"), "block": blk["id"],
+                                        "field": field, "text": t, "folded": fold(t)})
+    doc = MS.load()["html"]
+    ms_entries = []
+    for i, para in enumerate(re.split(r"</(?:p|h1|h2|h3|li|blockquote|figcaption)>", doc)):
+        t = plain(para).strip()
+        if t:
+            ms_entries.append({"where": "manuscript", "title": "Můj rukopis", "para": i, "field": "ms",
+                            "text": t, "folded": fold(t)})
+    entries = ms_entries + entries
+    words = {}
+    for e in entries:
+        for w in re.findall(r"[^\W\d_]{3,}", e["text"]):
+            key = w.lower()
+            words[key] = words.get(key, 0) + 1
+    _index_cache.update(sig=sig, entries=entries, words=words)
+    return _index_cache
+
+
+def do_search(q, limit=80):
+    idx = search_index()
+    fq = fold(q.strip())
+    if len(fq) < 2:
+        return {"hits": [], "suggest": []}
+    terms = fq.split()
+    hits = []
+    for e in idx["entries"]:
+        if all(t in e["folded"] for t in terms):
+            pos = e["folded"].find(terms[0])
+            start = max(0, pos - 60)
+            snippet = ("…" if start else "") + e["text"][start:pos + 120] + ("…" if pos + 120 < len(e["text"]) else "")
+            hit = {k: v for k, v in e.items() if k not in ("text", "folded")}
+            hit["snippet"] = snippet
+            hits.append(hit)
+            if len(hits) >= limit:
+                break
+    last = terms[-1]
+    suggest = sorted((w for w in idx["words"] if fold(w).startswith(last) and fold(w) != last),
+                     key=lambda w: -idx["words"][w])[:8]
+    return {"hits": hits, "suggest": suggest}
+
+
+def make_clip(data):
+    """Build a tray item from a paragraph, quote or image sent from a source book."""
+    kind = data.get("kind", "text")
+    source = html.escape(data.get("source", ""))
+    if kind == "image":
+        src = MS.copy_book_image(book_dir(data["book"]), data["src"])
+        cap = figure_caption(data.get("caption", ""), data.get("image_source") or data.get("source", ""))
+        body = f'<figure><img src="{src}" style="width:{int(data.get("width", 100))}%"><figcaption>{cap}</figcaption></figure>'
+    elif kind == "quote":
+        body = f'<blockquote><p>{data["html"]}</p><p class="cite">({source})</p></blockquote>'
+    else:
+        body = f'<p>{data["html"]}</p>'
+    return {"kind": kind, "html": body, "source": data.get("source", "")}
+
+
+def manuscript_export(title, body):
+    return f"""<!DOCTYPE html>
+<html lang="cs"><head><meta charset="utf-8"><base href="../../"><title>{html.escape(title)}</title>
+<style>
+@page{{size:A4;margin:22mm 20mm}}
+body{{font-family:Georgia,'Times New Roman',serif;max-width:40rem;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#111;font-size:12pt}}
+h1{{font-size:24pt;text-align:center;font-weight:normal;margin:2rem 0 1rem}} h2{{font-size:17pt;font-weight:normal;margin-top:2rem}} h3{{font-size:13pt}}
+blockquote{{margin:1rem 2rem;font-style:italic;color:#333}} blockquote .cite{{font-style:normal;font-size:10pt;text-align:right}} figcaption .src{{display:block;font-size:9pt;color:#666}}
+figure{{margin:1rem 0;text-align:center;break-inside:avoid}} img{{max-width:100%}} figcaption{{font-size:10pt;color:#444}}
+.toolbar{{position:fixed;top:8px;right:8px}} .toolbar button{{font-size:16px;padding:8px 14px}}
+@media print{{.toolbar{{display:none}} body{{margin:0;max-width:none}}}}
+</style></head><body>
+<div class="toolbar"><button onclick="window.print()">Tisk / uložit jako PDF</button></div>
+{body}
+</body></html>"""
+
+
+def main():
+    server = ThreadingHTTPServer((HOST, PORT), Handler)
+    print(f"Publisher běží na http://{'localhost' if HOST == '127.0.0.1' else HOST}:{PORT}  (knihy ve složce {ROOT})")
+    print("Přihlášení:", f"zapnuto (uživatel {AUTH.user})" if AUTH.enabled else "vypnuto (lokální režim)")
+    print("Ukončení: Ctrl+C")
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        pass
+
+
+if __name__ == "__main__":
+    main()

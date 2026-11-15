@@ -1,0 +1,16 @@
+# Nic osobního ani dat v repu
+.env
+*.env
+!*/deploy/env.example
+__pycache__/
+*.pyc
+.DS_Store
+*.tgz
+*.bak*
+
+# Scriptorium: v repu je jen kód, šablony a dokumentace
+scriptorium/*
+!scriptorium/app/
+!scriptorium/deploy/
+!scriptorium/README.md
+!scriptorium/Spustit-Scriptorium.command

@@ -1,0 +1,20 @@
+[Unit]
+Description=Educie Scriptorium
+After=network.target
+
+[Service]
+User=publisher
+Group=publisher
+EnvironmentFile=/opt/publisher/deploy/.env
+WorkingDirectory=/opt/publisher/app
+ExecStart=/usr/bin/python3 /opt/publisher/app/server.py
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/publisher/data
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
