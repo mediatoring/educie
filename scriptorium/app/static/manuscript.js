@@ -37,7 +37,7 @@ function sanitize(root) {
           if (keep) child.setAttribute("style", keep); else child.removeAttribute("style");
         } else if (n === "src" && child.tagName === "IMG") {
           // keep only our own images; data: images are uploaded separately
-        } else if (n === "class" && /^(cite|src)$/.test(a.value)) {
+        } else if (n === "class" && /^(cite|src|var-toc|var-break)$/.test(a.value)) {
           // keep citation class
         } else if ((n === "face" || n === "size") && child.tagName === "FONT") {
           // legacy font tags from execCommand
@@ -54,7 +54,122 @@ function sanitize(root) {
 function cleanHtml(html) {
   const d = document.createElement("div");
   d.innerHTML = html;
+  // automatic parts are stored as empty markers and generated again on display / export
+  d.querySelectorAll("div.var-toc").forEach((el) => { el.innerHTML = "Obsah"; });
+  d.querySelectorAll("div.var-break").forEach((el) => { el.innerHTML = "Zlom strany"; });
   return sanitize(d).innerHTML;
+}
+
+// insert an automatic block after the paragraph with the cursor (plain DOM, no execCommand)
+function insertMarker(cls, message) {
+  restoreSelection();
+  const sel = window.getSelection();
+  let anchor = sel.rangeCount && editor.contains(sel.anchorNode) ? sel.anchorNode : null;
+  while (anchor && anchor.parentNode !== editor) anchor = anchor.parentNode;
+  const box = document.createElement("div");
+  box.className = cls;
+  const after = document.createElement("p");
+  after.innerHTML = "<br>";
+  if (anchor) anchor.after(box); else editor.append(box);
+  box.after(after);
+  const r = document.createRange();
+  r.setStart(after, 0); r.collapse(true);
+  sel.removeAllRanges(); sel.addRange(r);
+  markDirty();
+  refreshToc();
+  toast(message, 6000, () => { box.remove(); if (!after.textContent.trim()) after.remove(); markDirty(); refreshToc(); });
+}
+
+// ---------- whole transcripts of source books ----------
+let trSaved = null;
+async function openTranscripts() {
+  $("#insMenu").hidden = true;
+  trSaved = savedRange;
+  const books = await fetch("api/books").then((r) => r.json());
+  $("#trBooks").innerHTML = books.map((b) => `<label class="set-check"><input type="checkbox" value="${b.id}"> ${b.title.replace(/[<&]/g, "")} <small>(${b.pages} str.)</small></label>`).join("");
+  $("#trResult").textContent = "";
+  $("#trDlg").hidden = false;
+}
+
+const escT = (t) => String(t || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+async function transcriptHtml(bookId, opts) {
+  const p = await fetch("api/books/" + encodeURIComponent(bookId)).then((r) => r.json());
+  const short = (p.title || bookId).replace(/\s*\(.*\)\s*$/, "");
+  let out = `<h1>${escT(short)}</h1>`;
+  if (opts.sources) out += `<p class="cite">(Zdroj: ${escT(p.title || bookId)})</p>`;
+  for (const page of p.pages) {
+    for (const b of page.blocks) {
+      if (b.type === "image") {
+        if (!opts.images || !b.src) continue;
+        try {
+          const r = await fetch("api/manuscript/copy-image", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ book: bookId, src: b.src }) }).then((x) => x.json());
+          const label = `${short}${page.page_no ? ", s. " + page.page_no : ""}`;
+          out += `<figure><img src="${r.src}" style="width:${b.width || 70}%"><figcaption>${escT(b.caption || "")}<span class="src">Zdroj: ${escT(b.source || label)}</span></figcaption></figure>`;
+        } catch (e) { /* skip image */ }
+        continue;
+      }
+      let body = b.html || escT(b.text || "");
+      if (p.lang && b.tr) body = opts.lang === "orig" ? b.html : opts.lang === "both" ? `${b.html}</p><p><i>${b.tr}</i>` : b.tr;
+      if (!body.replace(/<[^>]+>/g, "").trim()) continue;
+      const st = b.style;
+      if (st === "h1" || st === "h2") out += `<h2>${body}</h2>`;
+      else if (st === "h3") out += `<h3>${body}</h3>`;
+      else if (st === "note") out += `<p><small>${body}</small></p>`;
+      else if (st === "quote") out += `<blockquote><p>${body}</p></blockquote>`;
+      else out += `<p>${body}</p>`;
+    }
+  }
+  return out;
+}
+
+async function insertTranscripts() {
+  const ids = [...document.querySelectorAll("#trBooks input:checked")].map((i) => i.value);
+  if (!ids.length) { $("#trResult").textContent = "Vyberte aspoň jednu knihu."; return; }
+  const opts = { images: $("#trImages").checked, sources: $("#trSources").checked, lang: $("#trLang").value };
+  $("#trOk").disabled = true;
+  let html = "";
+  try {
+    for (let i = 0; i < ids.length; i++) {
+      $("#trResult").textContent = `Připravuji ${i + 1}. knihu z ${ids.length}…`;
+      html += await transcriptHtml(ids[i], opts);
+    }
+  } finally { $("#trOk").disabled = false; }
+  $("#trDlg").hidden = true;
+  savedRange = trSaved;
+  insertFragment(html, `Vloženo ${ids.length === 1 ? "1 kniha" : ids.length + " knih(y)"} do rukopisu.`);
+}
+
+// insert larger HTML after the paragraph with the cursor (plain DOM; undo removes it again)
+function insertFragment(html, message) {
+  restoreSelection();
+  const sel = window.getSelection();
+  let anchor = sel.rangeCount && editor.contains(sel.anchorNode) ? sel.anchorNode : null;
+  while (anchor && anchor.parentNode !== editor) anchor = anchor.parentNode;
+  const tmp = document.createElement("div");
+  tmp.innerHTML = cleanHtml(html);
+  const nodes = [...tmp.childNodes];
+  const frag = document.createDocumentFragment();
+  nodes.forEach((n) => frag.append(n));
+  if (anchor) anchor.after(frag); else editor.append(frag);
+  if (nodes[0] && nodes[0].scrollIntoView) nodes[0].scrollIntoView({ block: "start" });
+  markDirty();
+  refreshToc();
+  toast(message, 8000, () => { nodes.forEach((n) => n.remove()); markDirty(); refreshToc(); });
+}
+
+// render the automatic table of contents and page breaks inside the editor
+function renderVars() {
+  const heads = [...editor.querySelectorAll("h1, h2, h3")].filter((h) => h.textContent.trim());
+  editor.querySelectorAll("div.var-toc").forEach((box) => {
+    box.contentEditable = "false";
+    const items = heads.map((h) => `<li class="l${h.tagName[1]}">${h.textContent.trim().replace(/[<&]/g, (c) => (c === "<" ? "&lt;" : "&amp;"))}</li>`).join("");
+    box.innerHTML = `<div class="var-label">Obsah – vytváří se sám z kapitol</div><ol>${items || "<li>Zatím žádné kapitoly</li>"}</ol>`;
+  });
+  editor.querySelectorAll("div.var-break").forEach((box) => {
+    box.contentEditable = "false";
+    box.innerHTML = '<span class="var-label">Zlom strany – další text začne na nové straně</span>';
+  });
 }
 
 // ---------- camera ----------
@@ -152,6 +267,7 @@ async function save() {
 
 // ---------- table of contents ----------
 function refreshToc() {
+  renderVars();
   const heads = [...editor.querySelectorAll("h1, h2, h3")].filter((h) => h.textContent.trim());
   for (const toc of [$("#toc"), $("#outline")]) {
     toc.innerHTML = "";
@@ -566,6 +682,28 @@ function init() {
     Object.assign(m.style, { left: Math.max(8, Math.min(r.left, innerWidth - m.offsetWidth - 12)) + "px", top: r.bottom + 6 + "px" });
   });
   document.addEventListener("click", (e) => { if (!e.target.closest("#imgMenu")) $("#imgMenu").hidden = true; });
+  $("#insertBtn").addEventListener("mousedown", rememberSelection);
+  $("#insertBtn").addEventListener("click", (e) => {
+    e.stopPropagation();
+    const m = $("#insMenu");
+    if (!m.hidden) { m.hidden = true; return; }
+    const r = $("#insertBtn").getBoundingClientRect();
+    m.hidden = false;
+    Object.assign(m.style, { left: Math.max(8, Math.min(r.left, innerWidth - m.offsetWidth - 12)) + "px", top: r.bottom + 6 + "px" });
+  });
+  document.addEventListener("click", (e) => { if (!e.target.closest("#insMenu")) $("#insMenu").hidden = true; });
+  $("#insToc").addEventListener("click", () => {
+    $("#insMenu").hidden = true;
+    if (editor.querySelector("div.var-toc")) { window.showToast("Obsah už v rukopisu je."); editor.querySelector("div.var-toc").scrollIntoView({ block: "center" }); return; }
+    insertMarker("var-toc", "Obsah vložen. Sám se doplní podle kapitol.");
+  });
+  $("#insTr").addEventListener("click", openTranscripts);
+  $("#trCancel").addEventListener("click", () => { $("#trDlg").hidden = true; });
+  $("#trOk").addEventListener("click", insertTranscripts);
+  $("#insBreak").addEventListener("click", () => {
+    $("#insMenu").hidden = true;
+    insertMarker("var-break", "Zlom strany vložen.");
+  });
   $("#imgFromFile").addEventListener("click", () => { $("#imgMenu").hidden = true; $("#imageFile").click(); });
   $("#imgFromGallery").addEventListener("click", () => {
     $("#imgMenu").hidden = true;

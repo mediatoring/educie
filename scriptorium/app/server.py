@@ -589,7 +589,29 @@ def make_clip(data):
     return {"kind": kind, "html": body, "source": data.get("source", "")}
 
 
+def render_vars(body):
+    """Replace the editor markers: automatic table of contents and page breaks."""
+    heads = []
+    counter = [0]
+
+    def tag_head(m):
+        counter[0] += 1
+        text = re.sub(r"<[^>]+>", "", m.group(3)).strip()
+        if not text:
+            return m.group(0)
+        hid = f"kap-{counter[0]}"
+        heads.append((int(m.group(1)), hid, text))
+        return f'<h{m.group(1)}{m.group(2)} id="{hid}">{m.group(3)}</h{m.group(1)}>'
+    body = re.sub(r"<h([123])([^>]*)>(.*?)</h\1>", tag_head, body, flags=re.S)
+    items = "".join(f'<li class="l{lvl}"><a href="#{hid}">{t}</a></li>' for lvl, hid, t in heads)
+    toc = f'<nav class="toc"><h2 class="toc-title">Obsah</h2><ol>{items}</ol></nav>'
+    body = re.sub(r'<div class="var-toc">.*?</div>', toc, body, flags=re.S)
+    body = re.sub(r'<div class="var-break">.*?</div>', '<div class="page-break"></div>', body, flags=re.S)
+    return body
+
+
 def manuscript_export(title, body):
+    body = render_vars(body)
     return f"""<!DOCTYPE html>
 <html lang="cs"><head><meta charset="utf-8"><base href="../../"><title>{html.escape(title)}</title>
 <style>
@@ -598,6 +620,8 @@ body{{font-family:Georgia,'Times New Roman',serif;max-width:40rem;margin:2rem au
 h1{{font-size:24pt;text-align:center;font-weight:normal;margin:2rem 0 1rem}} h2{{font-size:17pt;font-weight:normal;margin-top:2rem}} h3{{font-size:13pt}}
 blockquote{{margin:1rem 2rem;font-style:italic;color:#333}} blockquote .cite{{font-style:normal;font-size:10pt;text-align:right}} figcaption .src{{display:block;font-size:9pt;color:#666}}
 figure{{margin:1rem 0;text-align:center;break-inside:avoid}} img{{max-width:100%}} figcaption{{font-size:10pt;color:#444}}
+.toc ol{{list-style:none;padding:0}} .toc li{{margin:.25rem 0}} .toc li.l2{{padding-left:1.5rem}} .toc li.l3{{padding-left:3rem;font-size:11pt}} .toc a{{color:inherit;text-decoration:none}} .toc-title{{text-align:center}}
+.page-break{{break-after:page;height:0}} @media screen{{.page-break{{border-top:1px dashed #bbb;margin:2rem 0}}}}
 .toolbar{{position:fixed;top:8px;right:8px}} .toolbar button{{font-size:16px;padding:8px 14px}}
 @media print{{.toolbar{{display:none}} body{{margin:0;max-width:none}}}}
 </style></head><body>

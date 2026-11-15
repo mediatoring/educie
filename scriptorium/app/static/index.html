@@ -38,14 +38,14 @@
 <header class="main-head">
   <div class="cols-toggle" role="group" aria-label="Sloupce">
     <button class="col-btn" data-col="scan" title="Zobrazit / skrýt naskenovaný originál"><svg class="ico"><use href="#i-original"/></svg> Originál</button>
-    <button class="col-btn" data-col="text" title="Zobrazit / skrýt přepsaný text"><svg class="ico"><use href="#i-prepis"/></svg> Přepis</button>
+    <button class="col-btn" data-col="text" title="Zobrazit / skrýt transkripci (přepsaný text)"><svg class="ico"><use href="#i-prepis"/></svg> Transkripce</button>
     <button class="col-btn" data-col="ms" title="Zobrazit / skrýt vlastní rukopis"><svg class="ico"><use href="#i-text"/></svg> Rukopis</button>
     <button class="col-btn" data-col="ask" title="Zeptat se na cokoli z knih a rukopisu"><svg class="ico"><use href="#i-ask"/></svg> Dotaz</button>
     <button class="col-btn" data-col="img" title="Zobrazit / skrýt všechny obrázky"><svg class="ico"><use href="#i-images"/></svg> Obrázky</button>
   </div>
   <div class="presets">
-    <button data-preset="scan,text" title="Originál a přepis vedle sebe – čtení a opravy přepisu">Čtu a opravuji</button>
-    <button data-preset="text,ms" title="Přepis a rukopis vedle sebe – přenášení textů a citací">Píšu s citacemi</button>
+    <button data-preset="scan,text" title="Originál a transkripce vedle sebe – čtení a opravy transkripce">Čtu a opravuji</button>
+    <button data-preset="text,ms" title="Transkripce a rukopis vedle sebe – přenášení textů a citací">Píšu s citacemi</button>
     <button data-preset="scan,ms" title="Originál a rukopis vedle sebe – vyřezávání obrázků do rukopisu">Obrázky do rukopisu</button>
   </div>
   <div class="search-wrap">
@@ -60,7 +60,7 @@
 </header>
 
 <main id="workspace" class="workspace">
-  <!-- shared book navigation (visible when Originál or Přepis is on) -->
+  <!-- shared book navigation (visible when Originál or Transkripce is on) -->
   <aside id="bookNav" class="book-nav">
     <select id="bookSelect" title="Kniha"></select>
     <div class="page-step">
@@ -79,7 +79,7 @@
         <option value="both">Export dvojjazyčně</option>
         <option value="orig">Export v originále</option>
       </select>
-      <button id="exportBtn" title="Uloží přepis této zdrojové knihy (ne váš rukopis) jako webovou stránku">Export přepisu této knihy</button>
+      <button id="exportBtn" title="Uloží transkripci této zdrojové knihy (ne váš rukopis) jako webovou stránku">Export transkripce této knihy</button>
     </details>
     <span id="saveState" class="save-state">—</span>
   </aside>
@@ -93,7 +93,7 @@
       <button id="zoomIn" title="Zvětšit sken">+</button>
     </div>
     <div class="col-head col-head2">
-      <button id="cropBtn" title="Tažením na skenu vyříznete obrázek do přepisu"><svg class="ico"><use href="#i-crop"/></svg> Výřez do přepisu</button>
+      <button id="cropBtn" title="Tažením na skenu vyříznete obrázek do transkripce"><svg class="ico"><use href="#i-crop"/></svg> Výřez do transkripce</button>
       <button id="cropMsBtn" class="ms-only" title="Tažením na skenu vyříznete obrázek rovnou do rukopisu"><svg class="ico"><use href="#i-crop"/></svg> Výřez do rukopisu</button>
       <button id="pageToMs" class="ms-only" title="Celá strana jako obrázek do rukopisu"><svg class="ico"><use href="#i-original"/></svg> Celá strana do rukopisu</button>
     </div>
@@ -107,7 +107,7 @@
 
   <section id="colText" class="col col-text editor-wrap">
     <div class="col-head">
-      <h2><svg class="ico"><use href="#i-prepis"/></svg> Přepis</h2>
+      <h2><svg class="ico"><use href="#i-prepis"/></svg> Transkripce</h2>
       <select id="viewSelect" class="tr-only" title="Co zobrazit">
         <option value="both">Originál + překlad</option>
         <option value="tr">Jen překlad</option>
@@ -185,7 +185,8 @@
       </select>
       <button class="tb" data-cmd="insertUnorderedList" title="Odrážky"><svg class="ico"><use href="#i-ul"/></svg><span>Odrážky</span></button>
       <button class="tb" data-cmd="insertOrderedList" title="Číslování"><svg class="ico"><use href="#i-ol"/></svg><span>Čísla</span></button>
-      <button class="tb" id="imageBtn" title="Vložit obrázek ze souboru"><svg class="ico"><use href="#i-images"/></svg><span>Obrázek</span></button>
+      <button class="tb" id="insertBtn" title="Vložit automatický obsah nebo zlom strany"><svg class="ico"><use href="#i-list"/></svg><span>Vložit</span></button>
+      <button class="tb" id="imageBtn" title="Vložit obrázek z aplikace, z počítače nebo z kamery"><svg class="ico"><use href="#i-images"/></svg><span>Obrázek</span></button>
       <input type="file" id="imageFile" accept="image/*" hidden>
       <input type="file" id="cameraFile" accept="image/*" capture="environment" hidden>
       <button class="tb" id="msZoomOut" title="Menší písmo rukopisu na obrazovce">A−<span>Písmo</span></button>
@@ -199,7 +200,7 @@
         </section>
         <section>
           <h3>Schránka</h3>
-          <p class="hint">Sem chodí, co pošlete z přepisu, když je rukopis skrytý. Klikněte do textu a stiskněte <b>Vložit sem</b>.</p>
+          <p class="hint">Sem chodí, co pošlete z transkripce, když je rukopis skrytý. Klikněte do textu a stiskněte <b>Vložit sem</b>.</p>
           <div id="clips" class="clips"></div>
         </section>
       </aside>
@@ -258,7 +259,7 @@
     </div>
   </section>
 
-  <div id="emptyHint" class="empty-hint" hidden>Zapněte nahoře aspoň jeden sloupec: Originál, Přepis nebo Rukopis.</div>
+  <div id="emptyHint" class="empty-hint" hidden>Zapněte nahoře aspoň jeden sloupec: Originál, Transkripce nebo Rukopis.</div>
 </main>
 
 <!-- manuscript dialogs -->
@@ -369,6 +370,30 @@
         <button id="setTest" class="big">Vyzkoušet</button>
         <button id="setCancel" class="big">Zavřít</button>
         <button id="setSave" class="big primary">Uložit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="insMenu" class="pop-menu" hidden>
+  <button id="insToc"><svg class="ico"><use href="#i-list"/></svg> Obsah knihy (vytvoří se sám z kapitol)</button>
+  <button id="insTr"><svg class="ico"><use href="#i-prepis"/></svg> Transkripce knih…</button>
+  <button id="insBreak"><svg class="ico"><use href="#i-print"/></svg> Zlom strany (další text začne na nové straně)</button>
+</div>
+
+<div id="trDlg" class="dlg" hidden>
+  <div class="dlg-box set-box">
+    <div class="dlg-head"><h2>Vložit transkripce do rukopisu</h2></div>
+    <div class="set-body">
+      <p class="set-intro">Vyberte knihy. Jejich celé transkripce se vloží za místo, kde je v rukopisu kurzor, každá jako samostatná kapitola s názvem knihy.</p>
+      <div id="trBooks" class="tr-books"></div>
+      <label class="set-check"><input id="trImages" type="checkbox" checked> Vložit i obrázky z knih</label>
+      <label class="set-check"><input id="trSources" type="checkbox" checked> U každé kapitoly uvést zdroj</label>
+      <label id="trLangRow">U německých knih vložit<select id="trLang"><option value="tr">český překlad</option><option value="orig">originál</option><option value="both">obojí</option></select></label>
+      <div id="trResult" class="set-result"></div>
+      <div class="cap-actions">
+        <button id="trCancel" class="big">Zavřít</button>
+        <button id="trOk" class="big primary">Vložit vybrané</button>
       </div>
     </div>
   </div>

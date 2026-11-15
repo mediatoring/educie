@@ -102,3 +102,8 @@
 .ms-outline.closed .outline-list { display: none; }
 .ms-outline.closed .outline-toggle { writing-mode: vertical-rl; padding: 10px 6px; }
 @media (max-width: 1100px) { .ms-outline:not(.closed) { width: 180px; } }
+.page div.var-toc, .page div.var-break { user-select: none; border: 2px dashed #9ec1ff; background: #f3f8ff; border-radius: 8px; padding: 10px 16px; margin: 1em 0; font-size: .9em; color: #1f2328; }
+.page div.var-toc ol { margin: .4em 0 0; padding-left: 1.2em; }
+.page div.var-toc li.l2 { margin-left: 1.2em; } .page div.var-toc li.l3 { margin-left: 2.4em; font-size: .92em; }
+.page .var-label { display: block; font: 600 13px system-ui, sans-serif; color: #0b4fbf; }
+.page div.var-break { text-align: center; padding: 4px; }

@@ -6,21 +6,22 @@ const $ = (s) => document.querySelector(s);
 
 // Tour steps: element (CSS selector), title, text. Steps whose element is hidden are skipped.
 const STEPS = [
-  { sel: ".cols-toggle", title: "Sloupce", text: "Tlačítky zapínáte a vypínáte sloupce: <b>Originál</b> (sken), <b>Přepis</b> (text ze skenu), <b>Rukopis</b> (vaše kniha), <b>Dotaz</b> (otázky na knihy) a <b>Obrázky</b>. Zapnuté tlačítko je modré." },
-  { sel: ".presets", title: "Rychlé rozložení", text: "Tři nejčastější rozložení na jedno kliknutí. Například <b>Píšu s citacemi</b> dá vedle sebe přepis a rukopis." },
+  { sel: ".cols-toggle", title: "Sloupce", text: "Tlačítky zapínáte a vypínáte sloupce: <b>Originál</b> (sken), <b>Transkripce</b> (text ze skenu), <b>Rukopis</b> (vaše kniha), <b>Dotaz</b> (otázky na knihy) a <b>Obrázky</b>. Zapnuté tlačítko je modré." },
+  { sel: ".presets", title: "Rychlé rozložení", text: "Tři nejčastější rozložení na jedno kliknutí. Například <b>Píšu s citacemi</b> dá vedle sebe transkripci a rukopis." },
   { sel: ".search-wrap", title: "Hledání", text: "Napište slovo a aplikace ho najde ve všech knihách i v rukopisu. Při psaní nabízí návrhy. Kliknutím na výsledek se na místo přesunete." },
   { sel: "#uiBigger", title: "Velikost písma", text: "<b>A+</b> a <b>A−</b> zvětší nebo zmenší písmo i tlačítka v celé aplikaci. Nastavení si aplikace pamatuje." },
   { sel: "#bookNav", title: "Výběr knihy a stránky", text: "Nahoře vyberete knihu, šipkami listujete stránkami. Náhledy stránek jsou pod tím, kliknutím stránku otevřete." },
   { sel: "#colScan", title: "Originál", text: "Naskenovaná stránka. Kolečkem nebo tlačítky ji zvětšíte. Rámeček kolem obrázku můžete tahem upravit a obrázek tím přesněji vyříznout." },
-  { sel: "#colText", title: "Přepis", text: "Text přečtený ze skenu. Opravujte ho přímo v textu. Pod každým odstavcem je tlačítko <b>Do rukopisu</b> (přenese text) a <b>Jako citace</b> (vloží ho jako citaci se zdrojem)." },
-  { sel: "#fmtBar", title: "Formát přepisu", text: "Klikněte do odstavce a tady zvolíte, zda je to nadpis, citace nebo poznámka, a nastavíte tučné písmo či zarovnání." },
+  { sel: "#colText", title: "Transkripce", text: "Text přečtený ze skenu. Opravujte ho přímo v textu. Pod každým odstavcem je tlačítko <b>Do rukopisu</b> (přenese text) a <b>Jako citace</b> (vloží ho jako citaci se zdrojem)." },
+  { sel: "#fmtBar", title: "Formát transkripce", text: "Klikněte do odstavce a tady zvolíte, zda je to nadpis, citace nebo poznámka, a nastavíte tučné písmo či zarovnání." },
   { sel: "#msTitle", title: "Název knihy", text: "Název vaší knihy. Použije se na titulní straně a v e-knize." },
   { sel: "#colMs", title: "Rukopis", text: "Vaše vlastní kniha. Píše se jako ve Wordu, ukládá se sama každých pár vteřin. Nahoře vpravo vidíte, kdy se naposledy uložila." },
+  { sel: "#insertBtn", title: "Vložit obsah a zlom strany", text: "Vloží <b>automatický obsah</b>, který se sám doplňuje podle kapitol, nebo <b>zlom strany</b> pro tisk a PDF." },
   { sel: "#msDrawerBtn", title: "Obsah a schránka", text: "Otevře obsah rukopisu (kapitoly, kliknutím na ně skočíte) a schránku s texty a obrázky, které jste si odložili." },
   { sel: "#snapshotBtn", title: "Verze", text: "Uloží pojmenovanou verzi rukopisu, třeba „před úpravou kapitoly 3“. Kdykoli se k ní můžete vrátit." },
   { sel: "#historyBtn", title: "Historie", text: "Všechny dřívější verze rukopisu. Aplikace je ukládá sama, nic se neztratí." },
   { sel: "#printBtn", title: "Tisk a PDF", text: "Otevře rukopis připravený k tisku. V okně tisku zvolte <b>Uložit jako PDF</b>, pokud chcete soubor." },
-  { sel: "#msExportBtn", title: "Export rukopisu", text: "Stáhne celý váš rukopis i s obrázky jako jeden soubor. Otevře se v prohlížeči i ve Wordu. Tlačítko <b>Export přepisu</b> vlevo dole naopak ukládá přepis zdrojové knihy." },
+  { sel: "#msExportBtn", title: "Export rukopisu", text: "Stáhne celý váš rukopis i s obrázky jako jeden soubor. Otevře se v prohlížeči i ve Wordu. Tlačítko <b>Export transkripce</b> vlevo dole naopak ukládá transkripci zdrojové knihy." },
   { sel: "#colAsk", title: "Dotaz", text: "Zeptejte se na cokoli z knih a rukopisu. Odpověď má u každého tvrzení číslo zdroje. Na číslo klikněte a otevře se místo v knize. <b>Nový dotaz</b> vše smaže." },
   { sel: "#colImg", title: "Obrázky", text: "Všechny obrázky z knih, z rukopisu i z knihovny. Klikněte na obrázek pro zvětšení, úpravu popisku a zdroje nebo vložení do rukopisu." },
   { sel: "#settingsBtn", title: "Nastavení", text: "Tady se nastavuje jazykový model pro Dotaz: model na serveru, vlastní klíč OpenAI či Anthropic, nebo model v počítači (LM Studio, Ollama)." },
@@ -28,11 +29,12 @@ const STEPS = [
 ];
 
 const TOPICS = [
-  ["Jak přenést odstavec z knihy do rukopisu", "Zapněte sloupce <b>Přepis</b> a <b>Rukopis</b> (tlačítko <b>Píšu s citacemi</b>). V rukopisu klikněte tam, kam má text přijít. Pak pod odstavcem v přepisu klikněte na <b>Do rukopisu</b>. Když se to nepovede, tlačítko <b>Vrátit</b> v dolní liště krok vrátí."],
-  ["Jak vložit citaci se zdrojem", "Pod odstavcem v přepisu klikněte na <b>Jako citace</b>. Do rukopisu se vloží odsazená citace a pod ní název knihy se stránkou."],
+  ["Jak přenést odstavec z knihy do rukopisu", "Zapněte sloupce <b>Transkripce</b> a <b>Rukopis</b> (tlačítko <b>Píšu s citacemi</b>). V rukopisu klikněte tam, kam má text přijít. Pak pod odstavcem v transkripci klikněte na <b>Do rukopisu</b>. Když se to nepovede, tlačítko <b>Vrátit</b> v dolní liště krok vrátí."],
+  ["Jak vložit citaci se zdrojem", "Pod odstavcem v transkripci klikněte na <b>Jako citace</b>. Do rukopisu se vloží odsazená citace a pod ní název knihy se stránkou."],
   ["Jak vyříznout obrázek ze skenu", "Zapněte <b>Originál</b> a <b>Rukopis</b> (tlačítko <b>Obrázky do rukopisu</b>). Na skenu obrázek ohraničte nebo upravte rámeček. Pak klikněte na <b>Do rukopisu</b>. V okně můžete obrázek ještě oříznout, narovnat a doplnit popisek."],
   ["Jak vložit obrázek z počítače", "V rukopisu klikněte na tlačítko <b>Obrázek</b>, nebo obrázek zkopírujte (Cmd+C) a v rukopisu vložte (Cmd+V)."],
   ["Jak udělat nadpis kapitoly", "Klikněte do řádku v rukopisu a v nabídce vlevo nahoře (kde je <b>Běžný text</b>) zvolte <b>Kapitola</b>. Kapitoly se samy objeví v obsahu."],
+  ["Jak vložit obsah knihy", "Klikněte v rukopisu tam, kde má obsah být (obvykle za titulní stranu), a v nástrojích zvolte <b>Vložit → Obsah knihy</b>. Obsah se sám doplňuje podle kapitol a podkapitol, nic se v něm nepřepisuje ručně. Stejně tak vložíte <b>Zlom strany</b>, aby další kapitola v tisku a v PDF začala na nové straně."],
   ["Jak najít slovo ve všech knihách", "Napište ho do pole <b>Hledat všude…</b> nahoře. Výsledky z rukopisu jsou první, pak z knih."],
   ["Jak vrátit starší verzi rukopisu", "Klikněte na <b>Historie</b>, vyberte čas a stiskněte <b>Obnovit</b>. Současná verze se předtím sama uloží, takže se nic neztratí."],
   ["Jak vytisknout nebo uložit PDF", "V rukopisu klikněte na <b>Tisk</b>. Otevře se tisková podoba. V okně tisku zvolte tiskárnu, nebo <b>Uložit jako PDF</b>."],
