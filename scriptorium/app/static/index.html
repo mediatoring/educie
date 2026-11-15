@@ -191,6 +191,7 @@
     <div class="col-head">
       <h2><svg class="ico"><use href="#i-prepis"/></svg> Transkripce</h2>
       <button id="proofTextBtn" class="proof-btn" title="Korektura: projde podezřelá slova v celé knize a skáče mezi nimi">✓ Korektura</button>
+      <button id="bookHistBtn" title="Dřívější verze transkripce této knihy"><svg class="ico"><use href="#i-history"/></svg> Historie</button>
       <select id="viewSelect" class="tr-only" title="Co zobrazit">
         <option value="both">Originál + překlad</option>
         <option value="tr">Jen překlad</option>
@@ -293,7 +294,7 @@
         <div id="imgBar" class="img-bar" hidden>
           Obrázek:
           <button data-w="25">¼</button><button data-w="50">½</button><button data-w="75">¾</button><button data-w="100">celý</button>
-          <button id="imgCrop"><svg class="ico"><use href="#i-crop"/></svg> Oříznout / narovnat</button>
+          <button id="imgCrop"><svg class="ico"><use href="#i-crop"/></svg> Upravit (oříznout, narovnat, barvy)</button>
           <button id="imgCaption">Popisek</button>
           <button id="imgDelete" class="danger">Odstranit</button>
         </div>
@@ -370,7 +371,7 @@
 <div id="cropDlg" class="dlg" hidden>
   <div class="dlg-box crop-box">
     <div class="dlg-head">
-      <h2>Oříznout a narovnat obrázek</h2>
+      <h2>Upravit obrázek – oříznout, narovnat, barvy</h2>
       <div>
         <button id="cropCancel" class="big">Zrušit</button>
         <button id="cropApply" class="big primary">✓ Použít</button>
@@ -387,6 +388,14 @@
       <button data-rot="90">⟳ 90°</button>
       <button id="cropReset">Vše zpět</button>
       <span class="hint">Táhněte za bílé čtverečky v rozích, nebo uprostřed rámečku pro posun.</span>
+    </div>
+    <div class="crop-tools adjust-tools">
+      <label>Jas <input id="adjBright" type="range" min="50" max="160" value="100"></label>
+      <label>Kontrast <input id="adjContrast" type="range" min="50" max="180" value="100"></label>
+      <label>Sytost barev <input id="adjSat" type="range" min="0" max="200" value="100"></label>
+      <button id="adjGray" title="Převést na černobílý obrázek">Černobílý</button>
+      <button id="adjSepia" title="Teplý tón starých fotografií">Sépie</button>
+      <button id="adjReset">Barvy zpět</button>
     </div>
     <div class="crop-stage" id="cropStage">
       <div class="crop-wrap" id="cropWrap">
@@ -456,6 +465,17 @@
         <button id="setCancel" class="big">Zavřít</button>
         <button id="setSave" class="big primary">Uložit</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div id="bookHistDlg" class="dlg" hidden>
+  <div class="dlg-box set-box">
+    <div class="dlg-head"><h2>Historie transkripce</h2></div>
+    <div class="set-body">
+      <p class="set-intro">Aplikace ukládá verzi transkripce každé tři minuty práce. Obnovením se vrátí celá kniha do zvoleného stavu, současný stav se předtím sám uloží, takže se nic neztratí. Jednotlivý odstavec vrátíte tlačítkem <b>↺ původní text</b> přímo u něj.</p>
+      <div id="bookHistList" class="hist-list"></div>
+      <div class="cap-actions"><button id="bookHistClose" class="big">Zavřít</button></div>
     </div>
   </div>
 </div>

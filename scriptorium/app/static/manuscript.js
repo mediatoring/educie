@@ -569,7 +569,16 @@ async function restoreVersion() {
 }
 
 // ---------- crop & straighten ----------
-const crop = { img: null, target: null, angle: 0, rotated: null, rect: null, scale: 1 };
+const crop = { img: null, target: null, angle: 0, rotated: null, rect: null, scale: 1, sepia: 0 };
+
+function cropFilter() {
+  const f = `brightness(${$("#adjBright").value}%) contrast(${$("#adjContrast").value}%) saturate(${$("#adjSat").value}%)` + (crop.sepia ? ` sepia(${crop.sepia}%)` : "");
+  return f === "brightness(100%) contrast(100%) saturate(100%)" ? "none" : f;
+}
+function applyAdjust() { $("#cropCanvas").style.filter = cropFilter(); }
+function resetAdjust() {
+  $("#adjBright").value = 100; $("#adjContrast").value = 100; $("#adjSat").value = 100; crop.sepia = 0; applyAdjust();
+}
 
 function rotatedCanvas(img, angle) {
   const rad = angle * Math.PI / 180;
@@ -615,6 +624,7 @@ function openCrop(img) {
   crop.target = img;
   crop.angle = 0;
   crop.rect = null;
+  resetAdjust();
   crop.img = new Image();
   crop.img.onload = () => { $("#cropDlg").hidden = false; requestAnimationFrame(() => drawCropPreview(false)); };
   crop.img.src = img.getAttribute("src").split("?")[0] + "?t=" + Date.now();
@@ -651,12 +661,18 @@ function initCrop() {
     drawCropPreview(Math.abs(parseFloat(b.dataset.rot)) < 90);
   }));
   $("#cropReset").addEventListener("click", () => { crop.angle = 0; drawCropPreview(false); });
+  for (const id of ["#adjBright", "#adjContrast", "#adjSat"]) $(id).addEventListener("input", applyAdjust);
+  $("#adjGray").addEventListener("click", () => { $("#adjSat").value = 0; crop.sepia = 0; applyAdjust(); });
+  $("#adjSepia").addEventListener("click", () => { $("#adjSat").value = 100; crop.sepia = crop.sepia ? 0 : 70; applyAdjust(); });
+  $("#adjReset").addEventListener("click", resetAdjust);
   $("#cropCancel").addEventListener("click", () => { $("#cropDlg").hidden = true; });
   $("#cropApply").addEventListener("click", async () => {
     const s = crop.scale, r = crop.rect;
     const out = document.createElement("canvas");
     out.width = Math.round(r.w / s); out.height = Math.round(r.h / s);
-    out.getContext("2d").drawImage(crop.rotated, r.x / s, r.y / s, r.w / s, r.h / s, 0, 0, out.width, out.height);
+    const octx = out.getContext("2d");
+    octx.filter = cropFilter();
+    octx.drawImage(crop.rotated, r.x / s, r.y / s, r.w / s, r.h / s, 0, 0, out.width, out.height);
     const blob = await new Promise((res) => out.toBlob(res, "image/jpeg", 0.92));
     const src = await uploadImage(new File([blob], "crop.jpg", { type: "image/jpeg" }));
     if (src) {

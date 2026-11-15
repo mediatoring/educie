@@ -152,6 +152,7 @@ function renderPageList() {
       "data-index": i,
     },
       el("img", { src: bookUrl(page.preview), loading: "lazy", alt: "" }),
+      !pageHasText(page) && !page.image_only ? el("span", { class: "thumb-badge", title: "Na straně není přečtený text" }, "bez textu") : null,
       el("div", { class: "lbl" }, el("span", {}, `${i + 1}.`), el("span", {}, page.page_no ? `s. ${page.page_no}` : page.id)));
     thumb.addEventListener("click", () => goToPage(i));
     // reorder pages
@@ -361,9 +362,29 @@ function renderBlocks() {
   const box = $("#blocks");
   const scroll = box.scrollTop;
   box.innerHTML = "";
+  if (!pageHasText(page) && !page.image_only) {
+    box.append(el("div", { class: "no-text-warn" },
+      el("b", {}, "Na této straně se text nepodařilo přečíst."),
+      " Může jít o ručně psaný text, fotografii nebo tabulku. Přepište text ručně tlačítkem + Odstavec dole, nebo stranu označte jako obrázek.",
+      el("div", {},
+        el("button", { onclick: () => { page.image_only = true; markDirty(); renderAll(); } }, "Je to jen obrázek nebo tabulka"))));
+  }
   if (!page.blocks.length) box.append(el("div", { class: "empty" }, "Strana zatím nemá žádný obsah."));
   page.blocks.forEach((b, idx) => box.append(renderBlock(b, idx)));
   box.scrollTop = scroll;
+}
+
+function restoreOriginal(b) {
+  if (!b.orig) { toast("Odstavec ještě nebyl upraven."); return; }
+  const before = { html: b.html, tr: b.tr };
+  for (const f of Object.keys(b.orig)) b[f] = b.orig[f];
+  markDirty();
+  renderBlocks();
+  toast("Odstavec vrácen do původní podoby.", 8000, () => { Object.assign(b, before); markDirty(); renderBlocks(); });
+}
+
+function pageHasText(page) {
+  return page.blocks.some((b) => b.type === "text" && (b.html || b.tr || "").replace(/<[^>]+>/g, "").trim());
 }
 
 function renderBlock(b, idx) {
@@ -401,7 +422,10 @@ function renderBlock(b, idx) {
   });
   pageOptions.addEventListener("change", () => { if (pageOptions.value !== "") moveBlockToPage(b.id, parseInt(pageOptions.value, 10)); });
 
+  if (b.orig && Object.keys(b.orig).some((f) => b.orig[f] !== b[f])) node.classList.add("edited");
+  const restoreBtn = b.type === "text" ? el("button", { class: "restore-orig", title: "Vrátit text tohoto odstavce do podoby před vašimi úpravami", onclick: () => restoreOriginal(b) }, "↺ původní text") : null;
   const tools = el("div", { class: "tools" },
+    restoreBtn,
     el("button", { title: "Nahoru", onclick: () => shiftBlock(b.id, -1) }, "↑"),
     el("button", { title: "Dolů", onclick: () => shiftBlock(b.id, 1) }, "↓"),
     pageOptions,
@@ -415,7 +439,13 @@ function renderBlock(b, idx) {
       const ed = el("div", { class: "text", contenteditable: "true", spellcheck: "true", lang, "data-style": b.style || "p", "data-field": field });
       ed.innerHTML = b[field] || "";
       applyBlockStyle(ed, b);
-      ed.addEventListener("input", () => { b[field] = cleanHtml(ed.innerHTML); markDirty(); });
+      const initial = b[field] || "";
+      ed.addEventListener("input", () => {
+        // keep the text as it was before the first change, so it can be brought back
+        if (!b.orig || b.orig[field] === undefined) { b.orig = { ...(b.orig || {}), [field]: initial }; node.classList.add("edited"); }
+        b[field] = cleanHtml(ed.innerHTML);
+        markDirty();
+      });
       ed.addEventListener("paste", (e) => {
         e.preventDefault();
         document.execCommand("insertText", false, e.clipboardData.getData("text/plain"));
@@ -860,6 +890,26 @@ function findPageOf(block) {
 }
 
 // ---------- helpers used by the gallery ----------
+async function openBookHistory() {
+  if (state.dirty) await save();
+  const list = await fetch(`api/books/${encodeURIComponent(state.bookId)}/history`).then((r) => r.json());
+  const box = $("#bookHistList");
+  box.innerHTML = list.length ? "" : "Zatím žádné starší verze.";
+  for (const h of list) {
+    const row = el("div", { class: "hist-row" }, el("span", {}, `${h.time} · ${h.words} slov`),
+      el("button", { onclick: async () => {
+        state.project = await fetch(`api/books/${encodeURIComponent(state.bookId)}/restore`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: h.name }) }).then((r) => r.json());
+        $("#bookHistDlg").hidden = true;
+        renderAll();
+        toast(`Transkripce obnovena ze stavu ${h.time}.`);
+      } }, "Obnovit"));
+    box.append(row);
+  }
+  $("#bookHistDlg").hidden = false;
+}
+$("#bookHistBtn").addEventListener("click", openBookHistory);
+$("#bookHistClose").addEventListener("click", () => { $("#bookHistDlg").hidden = true; });
+
 window.Book = {
   get project() { return state.project; },
   get pageIndex() { return state.pageIndex; },

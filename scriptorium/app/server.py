@@ -30,7 +30,8 @@ APP_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.environ.get("PUBLISHER_DATA") or os.path.dirname(APP_DIR))
 HOST = os.environ.get("PUBLISHER_HOST", "127.0.0.1")
 STATIC_DIR = os.path.join(APP_DIR, "static")
-HISTORY_KEEP = 30
+HISTORY_KEEP = 300
+BOOK_SNAPSHOT_EVERY = 180
 SAFE_NAME = re.compile(r"^[\w\-. ]+$")
 MSS = Manuscripts(ROOT)
 AUTH = Auth(ROOT)
@@ -84,15 +85,47 @@ def books_overview(max_chars=350):
     return "\n".join(out)
 
 
+def book_history(path):
+    hist = os.path.join(path, ".history")
+    out = []
+    if os.path.isdir(hist):
+        for name in sorted((f for f in os.listdir(hist) if f.startswith("project-")), reverse=True):
+            stamp = name[8:-5]
+            try:
+                with open(os.path.join(hist, name), encoding="utf-8") as f:
+                    p = json.load(f)
+                words = sum(len(plain(b.get("html", "")).split()) for pg in p.get("pages", []) for b in pg.get("blocks", []))
+            except (OSError, ValueError):
+                words = 0
+            out.append({"name": name, "time": f"{stamp[6:8]}. {stamp[4:6]}. {stamp[:4]} {stamp[9:11]}:{stamp[11:13]}", "words": words})
+    return out
+
+
+def restore_book(path, name):
+    src = os.path.join(path, ".history", os.path.basename(name))
+    with open(src, encoding="utf-8") as f:
+        project = json.load(f)
+    pj = os.path.join(path, "project.json")
+    shutil.copy2(pj, os.path.join(path, ".history", time.strftime("project-%Y%m%d-%H%M%S.json")))
+    tmp = pj + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(project, f, ensure_ascii=False, indent=1)
+    os.replace(tmp, pj)
+    return project
+
+
 def save_project(path, project):
     pj = os.path.join(path, "project.json")
     hist = os.path.join(path, ".history")
     os.makedirs(hist, exist_ok=True)
     if os.path.exists(pj):
-        shutil.copy2(pj, os.path.join(hist, time.strftime("project-%Y%m%d-%H%M%S.json")))
-        old = sorted(os.listdir(hist))
-        for f in old[:-HISTORY_KEEP]:
-            os.remove(os.path.join(hist, f))
+        old = sorted(f for f in os.listdir(hist) if f.startswith("project-"))
+        # a version every few minutes while working (autosave runs every few seconds)
+        if not old or time.time() - os.path.getmtime(os.path.join(hist, old[-1])) > BOOK_SNAPSHOT_EVERY:
+            shutil.copy2(pj, os.path.join(hist, time.strftime("project-%Y%m%d-%H%M%S.json")))
+            old = sorted(f for f in os.listdir(hist) if f.startswith("project-"))
+            for f in old[:-HISTORY_KEEP]:
+                os.remove(os.path.join(hist, f))
     tmp = pj + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(project, f, ensure_ascii=False, indent=1)
@@ -295,6 +328,8 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.send_json(SETTINGS.public())
             if parts[:2] == ["api", "books"] and len(parts) == 2:
                 return self.send_json(list_books())
+            if parts[:2] == ["api", "books"] and len(parts) == 4 and parts[3] == "history":
+                return self.send_json(book_history(book_dir(parts[2])))
             if parts[:2] == ["api", "books"] and len(parts) == 3:
                 with open(os.path.join(book_dir(parts[2]), "project.json"), encoding="utf-8") as f:
                     return self.send_json(json.load(f))
@@ -384,6 +419,8 @@ class Handler(SimpleHTTPRequestHandler):
         parts = self.route()
         if parts == ["api", "chat"]:
             return self.stream_chat(self.read_json().get("question", ""))
+        if parts[:2] == ["api", "books"] and len(parts) == 4 and parts[3] == "restore":
+            return self.send_json(restore_book(book_dir(parts[2]), self.read_json()["name"]))
         if parts == ["api", "proof", "check"]:
             return self.send_json(PROOF.check(self.read_json().get("items", [])))
         if parts == ["api", "proof", "word"]:

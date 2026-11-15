@@ -362,3 +362,15 @@ body.proofing .proof-btn { background: #dafbe1; }
 .proof-nav { display: flex; gap: 8px; flex-wrap: wrap; }
 .proof-nav button { min-height: 44px; font-size: 16px; border-radius: 8px; padding: 6px 14px; }
 .proof-nav button.primary { background: #1f6feb; color: #fff; border-color: #1f6feb; }
+.block.edited { box-shadow: inset 4px 0 0 #d4a72c; }
+.block .restore-orig { display: none; color: #9a6700; font-weight: 600; }
+.block.edited .restore-orig { display: inline-block; }
+.no-text-warn { background: #fff8c5; border: 1px solid #d4a72c; border-radius: 10px; padding: 12px 14px; margin: 8px 0 12px; font-size: 15px; line-height: 1.45; }
+.no-text-warn button { margin-top: 8px; min-height: 40px; border-radius: 8px; padding: 4px 12px; }
+.page-thumb { position: relative; }
+.thumb-badge { position: absolute; top: 6px; left: 6px; background: #d4a72c; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; }
+.hist-list { max-height: 50vh; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+.hist-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; border: 1px solid #d0d7de; border-radius: 8px; padding: 6px 10px; }
+.hist-row button { min-height: 38px; border-radius: 8px; }
+.adjust-tools label { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; }
+.adjust-tools input[type=range] { width: 130px; }
