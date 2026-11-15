@@ -44,6 +44,7 @@ SETTINGS = Settings(ROOT)
 SUPPORT = Support(ROOT, APP_DIR)
 PROOF = Proofreader(ROOT)
 AUDIT = Audit(ROOT)
+AUTH.alert = SUPPORT.alert
 PUBLIC_PATHS = {"/login.html", "/login.css", "/fp.js", "/api/login", "/healthz", "/favicon.ico"}
 
 
@@ -600,7 +601,7 @@ class Handler(SimpleHTTPRequestHandler):
             body = self.read_json()
             if not AUTH.enabled:
                 return self.send_json({"ok": True})
-            ok, msg = AUTH.login(self.client_ip(), body.get("user"), body.get("pin"))
+            ok, msg = AUTH.login(self.client_ip(), body.get("user"), body.get("pin"), device_label(self.headers.get("User-Agent")))
             who = {**self.who(), "user": str(body.get("user") or "")[:60]}
             if isinstance(body.get("device"), dict):
                 who["detail"] = json.dumps(body["device"], ensure_ascii=False)[:600]

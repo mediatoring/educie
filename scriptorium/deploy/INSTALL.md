@@ -10,7 +10,7 @@ Předpoklad: Linux se systemd, Python 3.9+, nginx s HTTPS, git a rsync.
     cp env.example /opt/publisher/deploy/.env   # doplnit hodnoty
     chmod 640 /opt/publisher/deploy/.env; chown root:publisher /opt/publisher/deploy/.env
 
-Hash PINu: `python3 app/auth.py <PIN>`, tajný klíč: `python3 -c "import secrets;print(secrets.token_hex(32))"`.
+Hash PINu: `python3 app/auth.py <PIN>` (doporučeno aspoň 6 číslic), tajný klíč: `python3 -c "import secrets;print(secrets.token_hex(32))"`.
 
 ## 2. Služba a nginx
 
@@ -30,6 +30,8 @@ Ruční nasazení a log:
 
     systemctl start publisher-deploy
     journalctl -t publisher-deploy -n 20
+
+Ochrana přihlášení: po pěti chybných pokusech z jedné adresy je adresa zablokovaná (výchozí 24 hodin), při mnoha chybných pokusech z různých adres se přihlašování na čas zastaví. Upozornění jde e-mailem na `SECURITY_ALERT_EMAIL` (nebo `SUPPORT_EMAIL_TO`). Blokace zruší smazání souboru `/opt/publisher/data/.login_guard.json`, restart není potřeba.
 
 ## 4. Čtení textu nových knih (OCR)
 

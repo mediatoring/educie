@@ -9,6 +9,7 @@ with Issues: read and write on that one repo) are set, a GitHub issue is created
 import base64
 import http.client
 import smtplib
+import threading
 import ssl
 from email.message import EmailMessage
 import json
@@ -84,6 +85,23 @@ class Support:
         if shot_path and os.path.isfile(shot_path):
             with open(shot_path, "rb") as f:
                 msg.add_attachment(f.read(), maintype="image", subtype="png", filename="obrazovka.png")
+        return self._send(msg)
+
+    def alert(self, subject, text):
+        """Security alert (blocked login) to SECURITY_ALERT_EMAIL, or to SUPPORT_EMAIL_TO; sent in the background."""
+        to = os.environ.get("SECURITY_ALERT_EMAIL") or os.environ.get("SUPPORT_EMAIL_TO", "")
+        if not (to and os.environ.get("SMTP_HOST")):
+            return False
+        msg = EmailMessage()
+        msg["Subject"] = subject
+        msg["From"] = os.environ.get("SMTP_FROM") or os.environ.get("SMTP_USER", "")
+        msg["To"] = to
+        msg.set_content(text + "\n\n– Educie Scriptorium\n")
+        threading.Thread(target=self._send, args=(msg,), daemon=True).start()
+        return True
+
+    def _send(self, msg):
+        host = os.environ.get("SMTP_HOST", "")
         port = int(os.environ.get("SMTP_PORT", "587"))
         try:
             if port == 465:
