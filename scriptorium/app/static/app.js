@@ -68,7 +68,10 @@ async function loadBooks() {
   const books = await (await fetch("api/books")).json();
   const sel = $("#bookSelect");
   sel.innerHTML = "";
-  for (const b of books) sel.append(el("option", { value: b.id }, `${b.id} (${b.pages} str.)`));
+  for (const b of books) {
+    const t = b.title.length > 48 ? b.title.slice(0, 46).replace(/\s+\S*$/, "") + "…" : b.title;
+    sel.append(el("option", { value: b.id, title: b.title }, `${t} (${b.pages} str.)`));
+  }
   if (!books.length) {
     $("#blocks").innerHTML = '<div class="empty">Ve složce publisher není žádná kniha s project.json.</div>';
     return;
