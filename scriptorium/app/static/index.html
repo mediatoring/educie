@@ -124,6 +124,19 @@
         <label>Poděkování<textarea data-f="thanks" rows="2"></textarea></label>
         <label>Další údaje do tiráže<textarea data-f="note" rows="2"></textarea></label>
       </fieldset>
+      <fieldset><legend>Obálka</legend>
+        <div class="cover-row">
+          <img id="coverPreview" class="cover-preview" alt="" hidden>
+          <div class="cover-actions">
+            <input type="hidden" data-f="cover" id="coverField">
+            <button id="coverMake" class="big">Vytvořit obálku…</button>
+            <button id="coverUpload" class="big">Nahrát hotovou obálku</button>
+            <button id="coverRemove" class="big">Bez obálky</button>
+            <input type="file" id="coverFile" accept="image/*" hidden>
+            <small>Obálka se použije v PDF i v e-knize. Doporučený poměr stran 1 : 1,6.</small>
+          </div>
+        </div>
+      </fieldset>
       <fieldset><legend>Tisk a e-kniha</legend>
         <label>Jazyk knihy<select data-f="language"><option value="cs">čeština</option><option value="de">němčina</option><option value="en">angličtina</option></select></label>
         <label>Text v záhlaví stránek<input data-f="header" placeholder="prázdné = název knihy"></label>
@@ -235,7 +248,8 @@
       <button id="printBtn" title="Otevře rukopis připravený k tisku – v okně tisku lze zvolit Uložit jako PDF"><svg class="ico"><use href="#i-print"/></svg> Tisk / PDF</button>
       <button id="proofMsBtn" class="proof-btn" title="Korektura: projde podezřelá slova v rukopisu a skáče mezi nimi">✓ Korektura</button>
       <button id="bookSettingsBtn" title="Název, autor, tiráž, záhlaví a zápatí této knihy"><svg class="ico"><use href="#i-gear"/></svg> Nastavení knihy</button>
-      <button id="msExportBtn" title="Stáhne celý rukopis i s obrázky jako jeden soubor"><svg class="ico"><use href="#i-save"/></svg> Export rukopisu</button>
+      <button id="msEpubBtn" title="Stáhne knihu jako e-knihu EPUB s obálkou, tiráží a obsahem – funguje ve čtečkách i v Kindle"><svg class="ico"><use href="#i-save"/></svg> E-kniha (EPUB)</button>
+      <button id="msExportBtn" title="Stáhne celý rukopis i s obrázky jako jednu webovou stránku (HTML)"><svg class="ico"><use href="#i-save"/></svg> HTML</button>
     </div>
     <div class="toolbar" id="toolbar">
       <button class="tb" data-cmd="undo" title="Zpět"><svg class="ico"><use href="#i-undo"/></svg><span>Zpět</span></button>
@@ -480,6 +494,32 @@
   </div>
 </div>
 
+<div id="coverDlg" class="dlg" hidden>
+  <div class="dlg-box cover-box">
+    <div class="dlg-head"><h2>Vytvořit obálku</h2><div><button id="coverCancel" class="big">Zrušit</button> <button id="coverSave" class="big primary">Použít obálku</button></div></div>
+    <div class="cover-body">
+      <canvas id="coverCanvas" width="800" height="1280"></canvas>
+      <div class="cover-form set-body">
+        <label>Vzhled<select id="cvLayout">
+          <option value="top">Obrázek nahoře, text dole</option>
+          <option value="full">Obrázek přes celou obálku, text přes něj</option>
+          <option value="frame">Jednobarevná s obrázkem v rámečku</option>
+          <option value="text">Jen text (bez obrázku)</option>
+        </select></label>
+        <label>Obrázek<select id="cvImage"><option value="">– bez obrázku –</option></select></label>
+        <button id="cvImageFile" class="big">Obrázek z počítače…</button>
+        <input type="file" id="cvFile" accept="image/*" hidden>
+        <label>Název<input id="cvTitle"></label>
+        <label>Podtitul<input id="cvSubtitle"></label>
+        <label>Autor<input id="cvAuthor"></label>
+        <label>Nakladatel / edice dole<input id="cvPublisher"></label>
+        <div class="row2"><label>Barva pozadí<input id="cvBg" type="color" value="#24364f"></label><label>Barva textu<input id="cvFg" type="color" value="#f4ecd8"></label></div>
+        <label>Písmo<select id="cvFont"><option value="Georgia, serif">Georgia (patkové)</option><option value="'Times New Roman', serif">Times (klasické)</option><option value="Palatino, 'Book Antiqua', serif">Palatino</option><option value="Helvetica, Arial, sans-serif">Helvetica (bezpatkové)</option></select></label>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="proofBar" class="proof-bar idle" hidden>
   <div class="proof-head"><b id="proofTitle">Korektura</b><span id="proofInfo"></span></div>
   <div id="proofSugg" class="proof-sugg"></div>
@@ -598,5 +638,6 @@
 <script src="help.js"></script>
 <script src="home.js"></script>
 <script src="proof.js"></script>
+<script src="cover.js"></script>
 </body>
 </html>

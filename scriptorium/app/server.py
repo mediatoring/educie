@@ -19,6 +19,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 from auth import Auth
 import rag
+import book_export
 from library import Library, figure_caption, gallery
 from manuscript import Conflict, Manuscript, Manuscripts
 from settings import Settings
@@ -353,7 +354,20 @@ class Handler(SimpleHTTPRequestHandler):
                         html_doc = inline_images(manuscript_export(doc["title"], doc["html"]))
                         name = re.sub(r"[^\w\-]+", "-", fold(doc["title"] or "rukopis")).strip("-")[:60] or "rukopis"
                         return self.send_html(html_doc, download=name + ".html")
-                    return self.send_html(manuscript_export(doc["title"], doc["html"]))
+                    st = self.ms().settings()
+                    return self.send_html(book_export.print_page(st, doc["html"], st.get("cover")))
+                if parts[2] == "epub":
+                    doc = self.ms().load()
+                    st = self.ms().settings()
+                    data = book_export.epub(st, doc["html"], read_data_image)
+                    name = re.sub(r"[^\w\-]+", "-", fold(st.get("title") or "kniha")).strip("-")[:60] or "kniha"
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/epub+zip")
+                    self.send_header("Content-Disposition", f'attachment; filename="{name}.epub"')
+                    self.send_header("Content-Length", str(len(data)))
+                    self.end_headers()
+                    self.wfile.write(data)
+                    return
             if parts[:2] == ["api", "clips"]:
                 return self.send_json(self.ms().clips())
             if parts == ["api", "gallery"]:
@@ -540,6 +554,21 @@ class Handler(SimpleHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+
+def read_data_image(src):
+    """Image referenced from the manuscript (books/...) as (bytes, mime), or None."""
+    rel = unquote(src.split("?")[0]).lstrip("/")
+    if rel.startswith("books/"):
+        rel = rel[len("books/"):]
+    full = os.path.normpath(os.path.join(ROOT, rel))
+    if not full.startswith(ROOT + os.sep) or not os.path.isfile(full):
+        return None
+    mime = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".gif": "image/gif", ".webp": "image/webp"}.get(os.path.splitext(full)[1].lower())
+    if not mime:
+        return None
+    with open(full, "rb") as f:
+        return f.read(), mime
 
 
 def inline_images(doc):
