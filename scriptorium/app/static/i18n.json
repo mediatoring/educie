@@ -1,4 +1,8 @@
 {
+ " s českým překladem": [
+  " with Czech translation",
+  " mit tschechischer Übersetzung"
+ ],
  "(autor, tiráž, záhlaví a zápatí) a vytiskněte nebo exportujte knihu do PDF a e-knihy.": [
   "(author, colophon, header and footer) and print or export the book to PDF and e-book.",
   "(Autor, Impressum, Kopf- und Fußzeile) und drucken oder exportieren Sie das Buch als PDF und E-Book."
@@ -2035,6 +2039,10 @@
   "State the source for each chapter",
   "Bei jedem Kapitel die Quelle angeben"
  ],
+ "U knih s překladem vložit": [
+  "For books with a translation insert",
+  "Bei Büchern mit Übersetzung einfügen"
+ ],
  "U modelu v počítači klíč obvykle není potřeba.": [
   "A model on your computer usually needs no key.",
   "Ein Modell auf Ihrem Computer braucht meist keinen Schlüssel."
@@ -2738,6 +2746,10 @@
  "klikněte na": [
   "click",
   "klicken Sie auf"
+ ],
+ "latina": [
+  "Latin",
+  "Latein"
  ],
  "lze rámeček vypnout a okraje obrázku prolnout do pozadí. Logo Educie Press se samo obarví bíle nebo černě podle pozadí. Tlačítkem": [
   "the frame can be turned off and the picture's edges faded into the background. The Educie Press logo turns white or black by itself depending on the background. The button",

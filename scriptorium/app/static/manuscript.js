@@ -90,7 +90,12 @@ async function openTranscripts() {
   $("#insMenu").hidden = true;
   trSaved = savedRange;
   const books = await fetch("api/books").then((r) => r.json());
-  $("#trBooks").innerHTML = books.map((b) => `<label class="set-check"><input type="checkbox" value="${b.id}"> ${b.title.replace(/[<&]/g, "")} <small>(${b.pages} str.)</small></label>`).join("");
+  const langName = { de: "němčina", en: "angličtina", la: "latina" };
+  $("#trBooks").innerHTML = books.map((b) => `<label class="set-check"><input type="checkbox" value="${b.id}" data-lang="${b.lang ? escT(b.lang) : ""}"> ${b.title.replace(/[<&]/g, "")} <small>(${b.pages} str.${b.lang ? ", " + T(langName[b.lang] || b.lang) + T(" s českým překladem") : ""})</small></label>`).join("");
+  // the language choice matters only for books with a translation
+  const syncLang = () => { $("#trLangRow").hidden = !$("#trBooks").querySelector("input[data-lang]:not([data-lang='']):checked"); };
+  $("#trBooks").onchange = syncLang;
+  syncLang();
   $("#trResult").textContent = "";
   $("#trDlg").hidden = false;
 }
@@ -114,18 +119,27 @@ async function transcriptHtml(bookId, opts) {
         continue;
       }
       let body = b.html || escT(b.text || "");
-      if (p.lang && b.tr) body = opts.lang === "orig" ? b.html : opts.lang === "both" ? `${b.html}</p><p><i>${b.tr}</i>` : b.tr;
+      // books with a translation: original, translation, or both (the translation follows in italics, same kind of block)
+      let second = "";
+      if (p.lang && b.tr && b.tr.replace(/<[^>]+>/g, "").trim()) {
+        if (opts.lang === "tr") body = b.tr;
+        else if (opts.lang === "both") second = `<i>${b.tr}</i>`;
+      }
       if (!body.replace(/<[^>]+>/g, "").trim()) continue;
       let st = b.style;
       const plainText = body.replace(/<[^>]+>/g, "").trim();
       // the title page and lines like "JINDŘICH TEISINGER," are not chapter headings
       if ((st === "h1" || st === "h2" || st === "h3") && (pi === 0 || /[,:;]$/.test(plainText) || /^\S*\d{4}\.?$/.test(plainText))) st = pi === 0 ? "center" : null;
-      if (st === "center") out += `<p style="text-align:center">${body}</p>`;
-      else if (st === "h1" || st === "h2") out += `<h2>${body}</h2>`;
-      else if (st === "h3") out += `<h3>${body}</h3>`;
-      else if (st === "note") out += `<p><small>${body}</small></p>`;
-      else if (st === "quote") out += `<blockquote><p>${body}</p></blockquote>`;
-      else out += `<p>${body}</p>`;
+      const wrap = (h) => {
+        if (st === "center") return `<p style="text-align:center">${h}</p>`;
+        if (st === "h1" || st === "h2") return `<h2>${h}</h2>`;
+        if (st === "h3") return `<h3>${h}</h3>`;
+        if (st === "note") return `<p><small>${h}</small></p>`;
+        if (st === "quote") return `<blockquote><p>${h}</p></blockquote>`;
+        return `<p>${h}</p>`;
+      };
+      out += wrap(body);
+      if (second) out += st === "h1" || st === "h2" || st === "h3" ? `<p style="text-align:center">${second}</p>` : wrap(second);
     }
   }
   return out;

@@ -68,6 +68,7 @@ def list_books():
                 pages = data.get("pages", [])
                 empty = sum(1 for p in pages if not any(b.get("type") == "text" and b.get("html") for b in p.get("blocks", [])))
                 books.append({"id": name, "title": data.get("title", name), "pages": len(pages), "empty": empty,
+                              "lang": data.get("lang", ""),
                               "ocr_running": IMPORTER.running(name)})
             except (OSError, ValueError):
                 books.append({"id": name, "title": name + " (chyba v project.json)", "pages": 0})
