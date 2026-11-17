@@ -3,6 +3,10 @@
   " with Czech translation",
   " mit tschechischer Übersetzung"
  ],
+ "(Mac": [
+  "(Mac",
+  "(Mac"
+ ],
  "(autor, tiráž, záhlaví a zápatí) a vytiskněte nebo exportujte knihu do PDF a e-knihy.": [
   "(author, colophon, header and footer) and print or export the book to PDF and e-book.",
   "(Autor, Impressum, Kopf- und Fußzeile) und drucken oder exportieren Sie das Buch als PDF und E-Book."
@@ -71,13 +75,45 @@
   ", which shows suspicious words and jumps between them.",
   ", die verdächtige Wörter zeigt und zwischen ihnen springt."
  ],
+ ", kurzíva": [
+  ", italic",
+  ", kursiv"
+ ],
+ ", na Macu": [
+  ", on a Mac",
+  ", auf dem Mac"
+ ],
  ", otočte je ⟳ a nepovedené smažte ✕. Tlačítkem": [
   ", rotate them ⟳ and delete failed ones ✕. The button",
   ", drehen Sie sie ⟳ und löschen Sie misslungene ✕. Mit der Schaltfläche"
  ],
+ ", tučně": [
+  ", bold",
+  ", fett"
+ ],
+ ", uložit": [
+  ", save",
+  ", speichern"
+ ],
+ ", vložit": [
+  ", paste",
+  ", einfügen"
+ ],
+ ", vyjmout": [
+  ", cut",
+  ", ausschneiden"
+ ],
  ", vyříznuto {n} obrázků": [
   ", {n} images cut out",
   ", {n} Bilder ausgeschnitten"
+ ],
+ ", znovu": [
+  ", redo",
+  ", wiederholen"
+ ],
+ ", zpět": [
+  ", undo",
+  ", rückgängig"
  ],
  ", {n} stran se přečíst nepodařilo": [
   ", {n} pages could not be read",
@@ -87,6 +123,10 @@
   ". Comments are only for working on the book; they never appear in print or the e-book.",
   ". Kommentare dienen nur der Arbeit am Buch, sie erscheinen weder im Druck noch im E-Book."
  ],
+ ". Kopírovat": [
+  ". Copy",
+  ". Kopieren"
+ ],
  ". Může to být model na serveru, vlastní účet u OpenAI nebo Anthropicu, nebo model v počítači (LM Studio, Ollama).": [
   ". It can be a model on the server, your own OpenAI or Anthropic account, or a model on your computer (LM Studio, Ollama).",
   ". Das kann ein Modell auf dem Server sein, ein eigenes OpenAI- oder Anthropic-Konto oder ein Modell auf Ihrem Computer (LM Studio, Ollama)."
@@ -94,6 +134,10 @@
  ". Pak můžete Claudovi napsat třeba „Přepiš stranu 12 knihy Pražské groše podle skenu“ nebo „Projdi strany bez textu v knize X a přepiš je“. Claude si přečte obrázek strany a text zapíše do transkripce v rámci vašeho předplatného. Adresu nikomu nedávejte; novou adresou starou zrušíte.": [
   ". Then you can write to Claude, for example “Transcribe page 12 of the book Prague groschen from the scan” or “Go through the pages without text in book X and transcribe them”. Claude reads the page image and writes the text into the transcription within your subscription. Do not give the address to anyone; a new address cancels the old one.",
   ". Dann können Sie Claude zum Beispiel schreiben: „Transkribiere Seite 12 des Buches Prager Groschen nach dem Scan“ oder „Geh die Seiten ohne Text im Buch X durch und transkribiere sie“. Claude liest das Seitenbild und schreibt den Text im Rahmen Ihres Abonnements in die Transkription. Geben Sie die Adresse niemandem; eine neue Adresse macht die alte ungültig."
+ ],
+ ". Přesun vrátíte tlačítkem": [
+  ". Undo the move with the button",
+  ". Rückgängig machen Sie es mit der Schaltfläche"
  ],
  ". Text se podbarví žlutě a komentář se objeví v pravém panelu na kartě": [
   ". The text is highlighted in yellow and the comment appears in the right-hand panel on the tab",
@@ -111,6 +155,10 @@
   ". Every chapter has arrows ▲ ▼: one tap moves the chapter one place up or down with all its text, pictures and subchapters. A subchapter moves only within its chapter. The",
   ". Jedes Kapitel hat Pfeile ▲ ▼: ein Tippen verschiebt das Kapitel um eine Stelle nach oben oder unten, samt Text, Bildern und Unterkapiteln. Ein Unterkapitel bewegt sich nur innerhalb seines Kapitels. Die Markierung"
  ],
+ ". Vložit lze i obrázek zkopírovaný z jiného programu (Ctrl + V / ⌘ + V).": [
+  ". You can also paste a picture copied from another program (Ctrl + V / ⌘ + V).",
+  ". Sie können auch ein aus einem anderen Programm kopiertes Bild einfügen (Ctrl + V / ⌘ + V)."
+ ],
  ". Vyplňte název a jazyk a přetáhněte do okna fotografie stran nebo PDF. Strany seřaďte tažením nebo tlačítkem": [
   ". Fill in the title and language and drag photos of the pages or a PDF into the window. Put the pages in order by dragging or with the button",
   ". Geben Sie Titel und Sprache ein und ziehen Sie Fotos der Seiten oder ein PDF in das Fenster. Ordnen Sie die Seiten durch Ziehen oder mit der Schaltfläche"
@@ -118,6 +166,10 @@
  ". Zvolte rozvržení, fotografii (z knih, z počítače, nebo ji vyfoťte), barvy a písmo. Fotografii i text posunete tažením přímo po obálce, kolečkem myši změníte velikost. U rozvržení": [
   ". Choose the layout, a photo (from the books, from the computer, or take one), colours and font. Move the photo and the text by dragging them right on the cover; the mouse wheel changes the size. In the layout",
   ". Wählen Sie Aufteilung, Foto (aus den Büchern, vom Computer oder neu aufgenommen), Farben und Schrift. Foto und Text verschieben Sie durch Ziehen direkt auf dem Umschlag, mit dem Mausrad ändern Sie die Größe. Bei der Aufteilung"
+ ],
+ ". Část textu přesunete tak, že ji označíte, vyjmete (Ctrl + X / ⌘ + X), kliknete na nové místo a vložíte (Ctrl + V / ⌘ + V); obrázky, poznámky pod čarou a nadpisy zůstanou zachované. Když kurzor stojí na začátku odstavce, vložený text se dá před něj, jinak za něj. Celou kapitolu přesunete z klávesnice: na Windows": [
+  ". To move part of the text, select it, cut it (Ctrl + X / ⌘ + X), click the new place and paste it (Ctrl + V / ⌘ + V); pictures, footnotes and headings are kept. When the cursor is at the start of a paragraph, the pasted text goes in front of it, otherwise after it. A whole chapter moves from the keyboard: on Windows",
+  ". Einen Textteil verschieben Sie, indem Sie ihn markieren, ausschneiden (Ctrl + X / ⌘ + X), an die neue Stelle klicken und einfügen (Ctrl + V / ⌘ + V); Bilder, Fußnoten und Überschriften bleiben erhalten. Steht der Cursor am Anfang eines Absatzes, wird der Text davor eingefügt, sonst danach. Ein ganzes Kapitel verschieben Sie mit der Tastatur: unter Windows"
  ],
  ": fotografie stran nebo PDF nahrajte tlačítkem": [
   ": upload photos of the pages or a PDF with the button",
@@ -707,6 +759,10 @@
   "In the manuscript click where the contents should go (usually after the title page) and in the toolbar choose <b>Insert → Table of contents</b>. It fills itself from chapters and subchapters; nothing in it is typed by hand. In the same way insert a <b>New page</b> so that the next chapter starts on a new page in print and PDF.",
   "Klicken Sie im Manuskript dorthin, wo das Inhaltsverzeichnis stehen soll (meist nach der Titelseite), und wählen Sie <b>Einfügen → Inhaltsverzeichnis</b>. Es füllt sich selbst aus Kapiteln und Unterkapiteln. Ebenso fügen Sie eine <b>Neue Seite</b> ein, damit das nächste Kapitel im Druck und im PDF auf einer neuen Seite beginnt."
  ],
+ "Klávesové zkratky (Windows a Mac)": [
+  "Keyboard shortcuts (Windows and Mac)",
+  "Tastenkürzel (Windows und Mac)"
+ ],
  "Klíč je uložený. Nechte pole prázdné, pokud ho nechcete měnit.": [
   "The key is saved. Leave the field empty if you don't want to change it.",
   "Der Schlüssel ist gespeichert. Lassen Sie das Feld leer, wenn Sie ihn nicht ändern wollen."
@@ -783,6 +839,10 @@
   "Briefly, what is it about",
   "Kurz, worum geht es"
  ],
+ "Kurzor není v žádné kapitole.": [
+  "The cursor is not in any chapter.",
+  "Der Cursor steht in keinem Kapitel."
+ ],
  "Kurzíva": [
   "Italic",
   "Kursiv"
@@ -858,6 +918,10 @@
  "Může jít o ručně psaný text, fotografii nebo tabulku. Přepište text ručně tlačítkem + Odstavec dole, nebo stranu označte jako obrázek.": [
   "It may be handwriting, a photograph or a table. Type the text in using + Paragraph below, or mark the page as an image.",
   "Es kann Handschrift, ein Foto oder eine Tabelle sein. Tippen Sie den Text mit + Absatz unten ab oder markieren Sie die Seite als Bild."
+ ],
+ "Na Windows se používá klávesa": [
+  "On Windows you use the key",
+  "Unter Windows verwenden Sie die Taste"
  ],
  "Na rozcestníku klikněte na": [
   "On the home screen click",
@@ -1674,6 +1738,10 @@
  "Přepnout světlý a tmavý vzhled": [
   "Switch between light and dark appearance",
   "Zwischen heller und dunkler Darstellung wechseln"
+ ],
+ "Přesun vrácen.": [
+  "Move undone.",
+  "Verschiebung rückgängig gemacht."
  ],
  "Přesunout kapitolu níž": [
   "Move the chapter down",
@@ -2775,9 +2843,9 @@
   "at the bottom",
   "unten"
  ],
- "dole na obrazovce.": [
-  "at the bottom of the screen.",
-  "unten auf dem Bildschirm."
+ "dole na obrazovce nebo hned potom": [
+  "at the bottom of the screen or right afterwards with",
+  "unten auf dem Bildschirm oder direkt danach mit"
  ],
  "doplní všechny strany, které text zatím nemají.": [
   "fills in all pages that have no text yet.",
@@ -2923,9 +2991,9 @@
   "empty = book title",
   "leer = Buchtitel"
  ],
- "před kapitolou se stěhuje s ní; samotnou značku lze posunout jejími šipkami. Myší můžete kapitolu v osnově také přetáhnout na jiné místo. Přesun vrátíte tlačítkem": [
-  "mark before a chapter moves with it; the mark itself can be moved with its own arrows. With the mouse you can also drag a chapter in the outline to another place. Undo the move with the button",
-  "vor einem Kapitel wandert mit; die Markierung selbst lässt sich mit ihren eigenen Pfeilen verschieben. Mit der Maus können Sie ein Kapitel in der Gliederung auch an eine andere Stelle ziehen. Rückgängig machen Sie es mit der Schaltfläche"
+ "před kapitolou se stěhuje s ní; samotnou značku lze posunout jejími šipkami. Myší můžete kapitolu v osnově také přetáhnout na jiné místo. Z klávesnice přesunete kapitolu, ve které je kurzor: na Windows": [
+  "mark before a chapter moves with it; the mark itself can be moved with its own arrows. With the mouse you can also drag a chapter in the outline to another place. From the keyboard you move the chapter the cursor is in: on Windows",
+  "vor einem Kapitel wandert mit; die Markierung selbst lässt sich mit ihren eigenen Pfeilen verschieben. Mit der Maus können Sie ein Kapitel in der Gliederung auch an eine andere Stelle ziehen. Mit der Tastatur verschieben Sie das Kapitel, in dem der Cursor steht: unter Windows"
  ],
  "přesouvá obrázek": [
   "moves the picture",

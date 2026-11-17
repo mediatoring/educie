@@ -180,6 +180,39 @@ function insertFragment(html, message) {
   toast(message, 8000, () => { nodes.forEach((n) => n.remove()); markDirty(); refreshToc(); });
 }
 
+// pasted paragraphs, chapters and pictures go in as whole blocks: in front of the paragraph when the
+// cursor is at its start (or the paragraph is empty, which they replace), otherwise after it
+function pasteBlocks(container) {
+  const sel = window.getSelection();
+  if (sel.rangeCount && !sel.isCollapsed) document.execCommand("delete");
+  const tmp = document.createElement("div");
+  tmp.innerHTML = cleanHtml(container.innerHTML);
+  const nodes = [...tmp.childNodes].filter((n) => (n.nodeType === 1 && n.tagName !== "BR") || (n.nodeType !== 1 && n.textContent.trim()));
+  if (!nodes.length) return;
+  const range = sel.rangeCount ? sel.getRangeAt(0) : null;
+  const block = range && editor.contains(range.startContainer) ? topOf(range.startContainer) : null;
+  const frag = document.createDocumentFragment();
+  nodes.forEach((n) => frag.append(n));
+  if (!block) {
+    editor.append(frag);
+  } else if (!block.textContent.trim() && !block.querySelector("img")) {
+    block.replaceWith(frag);
+  } else {
+    const head = document.createRange();
+    head.selectNodeContents(block);
+    head.setEnd(range.startContainer, range.startOffset);
+    if (!head.toString().trim()) block.before(frag); else block.after(frag);
+  }
+  const last = nodes[nodes.length - 1];
+  const after = document.createRange();
+  after.setStartAfter(last);
+  after.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(after);
+  markDirty();
+  refreshToc();
+}
+
 // render the automatic table of contents and page breaks inside the editor
 function renderVars() {
   renderMarks();
@@ -575,19 +608,26 @@ function moveSectionBefore(item, targetItem) {
   afterMove(item, before);
 }
 
+// the heading of the chapter a node is in (the nearest heading above it)
+function headingAt(node) {
+  let n = topOf(node);
+  while (n && !headLevel(n)) n = n.previousElementSibling;
+  return n;
+}
+
+let lastMove = null;
+editor.addEventListener("input", () => { lastMove = null; });
+
 function afterMove(item, before) {
+  const undo = () => { lastMove = null; editor.innerHTML = before; renderVars(); markDirty(); refreshToc(); toast(T("Přesun vrácen.")); };
+  lastMove = undo;
   markDirty();
   refreshToc();
   renderMarks();
   const el = topOf(item) || item;
   el.scrollIntoView({ behavior: "smooth", block: "center" });
   flash(el);
-  toast(T(headLevel(el) ? "Kapitola přesunuta." : "Nová stránka přesunuta."), 7000, () => {
-    editor.innerHTML = before;
-    renderVars();
-    markDirty();
-    refreshToc();
-  });
+  toast(T(headLevel(el) ? "Kapitola přesunuta." : "Nová stránka přesunuta."), 7000, undo);
 }
 
 function renderOutline(heads) {
@@ -1330,18 +1370,27 @@ function init() {
       e.preventDefault();
       const d = document.createElement("div");
       d.innerHTML = html;
-      // images pasted as data: URLs get uploaded, foreign URLs are dropped
+      // our own pictures (copied inside the app come as full addresses) stay, pasted data: images
+      // are uploaded, pictures from other sites are dropped
+      const own = new URL("books/", document.baseURI).href;
       for (const img of [...d.querySelectorAll("img")]) {
         const src = img.getAttribute("src") || "";
         if (src.startsWith("data:")) {
           const blob = await (await fetch(src)).blob();
           const url = await uploadImage(new File([blob], "paste", { type: blob.type }));
           if (url) img.setAttribute("src", url); else img.remove();
-        } else if (!src.startsWith("books/") && !src.startsWith(location.origin + "books/")) {
+        } else if (src.startsWith(own)) {
+          img.setAttribute("src", "books/" + src.slice(own.length));
+        } else if (!src.startsWith("books/")) {
           img.remove();
         }
       }
-      exec("insertHTML", sanitize(d).innerHTML);
+      // a copied comment mark stays only when the text was cut (moved), not when it is duplicated
+      d.querySelectorAll("span.cmt").forEach((s) => {
+        if (editor.querySelector(`span.cmt[data-c="${s.dataset.c}"]`)) s.replaceWith(...s.childNodes);
+      });
+      if (d.querySelector("p, h1, h2, h3, h4, figure, ul, ol, blockquote, div.var-break, div.var-toc, table")) pasteBlocks(d);
+      else exec("insertHTML", sanitize(d).innerHTML);
     }
   });
   editor.addEventListener("drop", async (e) => {
@@ -1404,6 +1453,23 @@ function init() {
 
   window.addEventListener("keydown", (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "s") { e.preventDefault(); msState.dirty = true; save(); }
+    // move the chapter the cursor is in: Alt+Shift+↑/↓ on Windows, Ctrl+Shift+↑/↓ on a Mac
+    const mac = /Mac|iPhone|iPad/.test(navigator.platform);
+    if ((e.key === "ArrowUp" || e.key === "ArrowDown") && e.shiftKey && (mac ? e.ctrlKey && !e.altKey && !e.metaKey : e.altKey && !e.ctrlKey)) {
+      const sel = window.getSelection();
+      if (!sel.rangeCount || !editor.contains(sel.anchorNode)) return;
+      e.preventDefault();
+      const head = headingAt(sel.anchorNode);
+      if (!head) { toast(T("Kurzor není v žádné kapitole.")); return; }
+      if (!moveSection(head, e.key === "ArrowUp" ? -1 : 1)) toast(T(e.key === "ArrowUp" ? "Výš to nejde – je první ve své kapitole." : "Níž to nejde – je poslední ve své kapitole."));
+      return;
+    }
+    // Ctrl+Z / ⌘Z right after a move undoes the move
+    if ((e.metaKey || e.ctrlKey) && !e.shiftKey && e.key.toLowerCase() === "z" && lastMove && editor.contains(document.activeElement || editor)) {
+      e.preventDefault();
+      lastMove();
+      return;
+    }
     if (e.key === "Escape") { $("#historyDlg").hidden = true; selectImage(null); }
   });
   window.addEventListener("beforeunload", (e) => { if (msState.dirty) { save(); e.preventDefault(); } });
