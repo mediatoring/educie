@@ -489,7 +489,8 @@ async function save() {
 function refreshToc() {
   renderVars();
   const heads = [...editor.querySelectorAll("h1, h2, h3")].filter((h) => h.textContent.trim());
-  for (const toc of [$("#toc"), $("#outline")]) {
+  renderOutline(heads);
+  for (const toc of [$("#toc")]) {
     toc.innerHTML = "";
     if (!heads.length) { toc.innerHTML = '<div class="empty">Zatím žádné kapitoly. Nadpis kapitoly nastavíte v nabídce typu odstavce.</div>'; continue; }
     heads.forEach((h, i) => {
@@ -504,6 +505,135 @@ function refreshToc() {
   }
   markCurrentHeading();
 }
+
+// ---------- moving chapters and page breaks from the outline ----------
+// A chapter is its heading plus everything up to the next heading of the same or a higher level
+// (a subchapter moves inside its chapter). A "new page" mark right before a heading moves with it.
+const headLevel = (el) => (el && el.nodeType === 1 && /^H[1-3]$/.test(el.tagName) ? +el.tagName[1] : 0);
+const isBreak = (el) => el && el.nodeType === 1 && el.classList.contains("var-break");
+
+function topOf(node) {
+  let n = node;
+  while (n && n.parentElement !== editor) n = n.parentElement;
+  return n;
+}
+
+function sectionOf(item) {
+  const top = topOf(item);
+  if (!top) return null;
+  if (isBreak(top)) return { nodes: [top], level: 0, start: top, end: top };
+  const level = headLevel(top) || 3;
+  const nodes = [];
+  const prev = top.previousElementSibling;
+  if (isBreak(prev)) nodes.push(prev);
+  nodes.push(top);
+  let n = top.nextSibling;
+  while (n) {
+    const lv = headLevel(n);
+    if (lv && lv <= level) break;
+    if (isBreak(n) && headLevel(n.nextElementSibling) && headLevel(n.nextElementSibling) <= level) break;
+    nodes.push(n);
+    n = n.nextSibling;
+  }
+  return { nodes, level, start: nodes[0], end: nodes[nodes.length - 1] };
+}
+
+function moveSection(item, dir) {
+  const sec = sectionOf(item);
+  if (!sec) return false;
+  const before = editor.innerHTML;
+  if (sec.level === 0) {
+    // a page break steps over one block
+    const el = sec.start;
+    const sib = dir < 0 ? el.previousElementSibling : el.nextElementSibling;
+    if (!sib) return false;
+    if (dir < 0) sib.before(el); else sib.after(el);
+  } else if (dir < 0) {
+    // the previous section of the same level; a higher-level heading on the way is the chapter's start
+    let n = sec.start.previousElementSibling;
+    while (n && !(headLevel(n) && headLevel(n) <= sec.level)) n = n.previousElementSibling;
+    if (!n || headLevel(n) < sec.level) return false;
+    const target = sectionOf(n);
+    target.start.before(...sec.nodes);
+  } else {
+    let n = sec.end.nextElementSibling;
+    if (isBreak(n) && headLevel(n.nextElementSibling)) n = n.nextElementSibling;
+    if (!n || !headLevel(n) || headLevel(n) < sec.level) return false;
+    const target = sectionOf(n);
+    target.end.after(...sec.nodes);
+  }
+  afterMove(item, before);
+  return true;
+}
+
+function moveSectionBefore(item, targetItem) {
+  const sec = sectionOf(item);
+  const target = sectionOf(targetItem);
+  if (!sec || !target || sec.nodes.includes(target.start) || sec.nodes.includes(topOf(targetItem))) return;
+  const before = editor.innerHTML;
+  target.start.before(...sec.nodes);
+  afterMove(item, before);
+}
+
+function afterMove(item, before) {
+  markDirty();
+  refreshToc();
+  renderMarks();
+  const el = topOf(item) || item;
+  el.scrollIntoView({ behavior: "smooth", block: "center" });
+  flash(el);
+  toast(T(headLevel(el) ? "Kapitola přesunuta." : "Nová stránka přesunuta."), 7000, () => {
+    editor.innerHTML = before;
+    renderVars();
+    markDirty();
+    refreshToc();
+  });
+}
+
+function renderOutline(heads) {
+  const box = $("#outline");
+  box.innerHTML = "";
+  const items = [...editor.querySelectorAll("h1, h2, h3, div.var-break")].filter((n) => isBreak(n) || n.textContent.trim());
+  if (!heads.length) { box.innerHTML = '<div class="empty">' + escT(T("Zatím žádné kapitoly. Nadpis kapitoly nastavíte v nabídce typu odstavce.")) + "</div>"; }
+  let hi = 0;
+  for (const node of items) {
+    const row = document.createElement("div");
+    const brk = isBreak(node);
+    row.className = "ol-row " + (brk ? "ol-break" : "l" + node.tagName[1]);
+    row.draggable = true;
+    const a = document.createElement("a");
+    if (brk) {
+      a.textContent = "↧ " + T("Nová stránka");
+    } else {
+      a.className = "l" + node.tagName[1];
+      a.dataset.i = hi++;
+      a.textContent = node.textContent.trim();
+    }
+    a.title = a.textContent;
+    a.addEventListener("click", () => { node.scrollIntoView({ behavior: "smooth", block: "start" }); });
+    const up = document.createElement("button");
+    up.className = "ol-mv"; up.textContent = "▲"; up.title = T(brk ? "Posunout novou stránku výš" : "Přesunout kapitolu výš");
+    const down = document.createElement("button");
+    down.className = "ol-mv"; down.textContent = "▼"; down.title = T(brk ? "Posunout novou stránku níž" : "Přesunout kapitolu níž");
+    up.addEventListener("click", (e) => { e.stopPropagation(); if (!moveSection(node, -1)) toast(T(brk ? "Výš už to nejde." : "Výš to nejde – je první ve své kapitole.")); });
+    down.addEventListener("click", (e) => { e.stopPropagation(); if (!moveSection(node, 1)) toast(T(brk ? "Níž už to nejde." : "Níž to nejde – je poslední ve své kapitole.")); });
+    row.append(a, up, down);
+    // drag with the mouse: drop onto another item to put this chapter in front of it
+    row.addEventListener("dragstart", (e) => { outlineDrag = node; row.classList.add("dragging"); e.dataTransfer.effectAllowed = "move"; e.dataTransfer.setData("text/plain", ""); });
+    row.addEventListener("dragend", () => { outlineDrag = null; row.classList.remove("dragging"); box.querySelectorAll(".over").forEach((r) => r.classList.remove("over")); });
+    row.addEventListener("dragover", (e) => { if (outlineDrag && outlineDrag !== node) { e.preventDefault(); row.classList.add("over"); } });
+    row.addEventListener("dragleave", () => row.classList.remove("over"));
+    row.addEventListener("drop", (e) => { e.preventDefault(); row.classList.remove("over"); if (outlineDrag && outlineDrag !== node) moveSectionBefore(outlineDrag, node); });
+    box.append(row);
+  }
+  if (items.length) {
+    const hint = document.createElement("div");
+    hint.className = "ol-hint";
+    hint.textContent = T("Šipkami ▲ ▼ přesunete kapitolu i s jejím textem. Myší lze kapitolu přetáhnout na jiné místo.");
+    box.append(hint);
+  }
+}
+let outlineDrag = null;
 
 // highlight the chapter currently on screen in the outline
 function markCurrentHeading() {

@@ -107,6 +107,10 @@
   ". The text of the page is replaced by newly read text; the previous state stays in the",
   ". Der Text der Seite wird durch neu gelesenen ersetzt, der vorherige Stand bleibt im"
  ],
+ ". U každé kapitoly jsou šipky ▲ ▼: jedno ťuknutí přesune kapitolu o jedno místo výš nebo níž i s celým jejím textem, obrázky a podkapitolami. Podkapitola se přesouvá jen uvnitř své kapitoly. Značka": [
+  ". Every chapter has arrows ▲ ▼: one tap moves the chapter one place up or down with all its text, pictures and subchapters. A subchapter moves only within its chapter. The",
+  ". Jedes Kapitel hat Pfeile ▲ ▼: ein Tippen verschiebt das Kapitel um eine Stelle nach oben oder unten, samt Text, Bildern und Unterkapiteln. Ein Unterkapitel bewegt sich nur innerhalb seines Kapitels. Die Markierung"
+ ],
  ". Vyplňte název a jazyk a přetáhněte do okna fotografie stran nebo PDF. Strany seřaďte tažením nebo tlačítkem": [
   ". Fill in the title and language and drag photos of the pages or a PDF into the window. Put the pages in order by dragging or with the button",
   ". Geben Sie Titel und Sprache ein und ziehen Sie Fotos der Seiten oder ein PDF in das Fenster. Ordnen Sie die Seiten durch Ziehen oder mit der Schaltfläche"
@@ -515,6 +519,10 @@
   "How to move a paragraph from a book to the manuscript",
   "Einen Absatz aus einem Buch ins Manuskript übernehmen"
  ],
+ "Jak přesunout kapitolu nebo stránku": [
+  "How to move a chapter or a page",
+  "Wie man ein Kapitel oder eine Seite verschiebt"
+ ],
  "Jak přidat novou zdrojovou knihu": [
   "How to add a new source book",
   "Wie man ein neues Quellenbuch hinzufügt"
@@ -642,6 +650,10 @@
  "Kapitola (1. úroveň)": [
   "Chapter (level 1)",
   "Kapitel (Ebene 1)"
+ ],
+ "Kapitola přesunuta.": [
+  "Chapter moved.",
+  "Kapitel verschoben."
  ],
  "Kapitola – nadpis 1. úrovně": [
   "Chapter – level 1 heading",
@@ -1039,9 +1051,17 @@
   "New help: click the question mark at the top right.",
   "Neue Hilfe: Klicken Sie oben rechts auf das Fragezeichen."
  ],
+ "Nová stránka": [
+  "Page break",
+  "Seitenumbruch"
+ ],
  "Nová stránka (další text začne na nové straně v PDF i e-knize)": [
   "New page (the following text starts on a new page in PDF and e-book)",
   "Neue Seite (der folgende Text beginnt im PDF und E-Book auf einer neuen Seite)"
+ ],
+ "Nová stránka přesunuta.": [
+  "Page break moved.",
+  "Seitenumbruch verschoben."
  ],
  "Nová stránka vložena.": [
   "New page inserted.",
@@ -1114,6 +1134,14 @@
  "Název, autor, tiráž, záhlaví a zápatí této knihy": [
   "Title, author, colophon, header and footer of this book",
   "Titel, Autor, Impressum, Kopf- und Fußzeile dieses Buches"
+ ],
+ "Níž to nejde – je poslední ve své kapitole.": [
+  "It cannot go lower – it is the last in its chapter.",
+  "Weiter nach unten geht es nicht – es ist das letzte in seinem Kapitel."
+ ],
+ "Níž už to nejde.": [
+  "It cannot go lower.",
+  "Weiter nach unten geht es nicht."
  ],
  "Něco nefunguje (chyba)": [
   "Something doesn't work (bug)",
@@ -1403,6 +1431,10 @@
   "Opens the manuscript ready for printing – in the print window you can choose Save as PDF",
   "Öffnet das druckfertige Manuskript – im Druckfenster können Sie Als PDF speichern wählen"
  ],
+ "Otevřete v rukopisu pravý panel": [
+  "In the manuscript open the right-hand panel",
+  "Öffnen Sie im Manuskript die rechte Leiste"
+ ],
  "Otevřít": [
   "Open",
   "Öffnen"
@@ -1535,6 +1567,14 @@
   "Image caption…",
   "Bildunterschrift…"
  ],
+ "Posunout novou stránku níž": [
+  "Move the page break down",
+  "Seitenumbruch nach unten"
+ ],
+ "Posunout novou stránku výš": [
+  "Move the page break up",
+  "Seitenumbruch nach oben"
+ ],
  "Použité zdroje": [
   "Sources used",
   "Verwendete Quellen"
@@ -1634,6 +1674,14 @@
  "Přepnout světlý a tmavý vzhled": [
   "Switch between light and dark appearance",
   "Zwischen heller und dunkler Darstellung wechseln"
+ ],
+ "Přesunout kapitolu níž": [
+  "Move the chapter down",
+  "Kapitel nach unten verschieben"
+ ],
+ "Přesunout kapitolu výš": [
+  "Move the chapter up",
+  "Kapitel nach oben verschieben"
  ],
  "Přesunout na stranu": [
   "Move to page",
@@ -2423,6 +2471,14 @@
   "Cut-out inserted into the manuscript. Straighten it with the Crop button in the manuscript.",
   "Ausschnitt ins Manuskript eingefügt. Gerade richten können Sie ihn mit Zuschneiden im Manuskript."
  ],
+ "Výš to nejde – je první ve své kapitole.": [
+  "It cannot go higher – it is the first in its chapter.",
+  "Weiter nach oben geht es nicht – es ist das erste in seinem Kapitel."
+ ],
+ "Výš už to nejde.": [
+  "It cannot go higher.",
+  "Weiter nach oben geht es nicht."
+ ],
  "Výška obrázku": [
   "Picture height",
   "Bildhöhe"
@@ -2521,7 +2577,7 @@
  ],
  "Zatím žádné kapitoly. Nadpis kapitoly nastavíte v nabídce typu odstavce.": [
   "No chapters yet. Set a chapter heading in the paragraph type menu.",
-  "Noch keine Kapitel. Eine Kapitelüberschrift stellen Sie im Menü Absatztyp ein."
+  "Noch keine Kapitel. Eine Kapitelüberschrift stellen Sie im Absatztyp-Menü ein."
  ],
  "Zatím žádné komentáře. Označte v rukopisu text a v nástrojích zvolte": [
   "No comments yet. Select text in the manuscript and in the tools choose",
@@ -2719,6 +2775,10 @@
   "at the bottom",
   "unten"
  ],
+ "dole na obrazovce.": [
+  "at the bottom of the screen.",
+  "unten auf dem Bildschirm."
+ ],
  "doplní všechny strany, které text zatím nemají.": [
   "fills in all pages that have no text yet.",
   "ergänzt alle Seiten, die noch keinen Text haben."
@@ -2862,6 +2922,10 @@
  "prázdné = název knihy": [
   "empty = book title",
   "leer = Buchtitel"
+ ],
+ "před kapitolou se stěhuje s ní; samotnou značku lze posunout jejími šipkami. Myší můžete kapitolu v osnově také přetáhnout na jiné místo. Přesun vrátíte tlačítkem": [
+  "mark before a chapter moves with it; the mark itself can be moved with its own arrows. With the mouse you can also drag a chapter in the outline to another place. Undo the move with the button",
+  "vor einem Kapitel wandert mit; die Markierung selbst lässt sich mit ihren eigenen Pfeilen verschieben. Mit der Maus können Sie ein Kapitel in der Gliederung auch an eine andere Stelle ziehen. Rückgängig machen Sie es mit der Schaltfläche"
  ],
  "přesouvá obrázek": [
   "moves the picture",
@@ -3038,6 +3102,10 @@
  "čte se text…": [
   "reading text…",
   "Text wird gelesen…"
+ ],
+ "Šipkami ▲ ▼ přesunete kapitolu i s jejím textem. Myší lze kapitolu přetáhnout na jiné místo.": [
+  "The ▲ ▼ arrows move a chapter together with its text. With the mouse you can drag a chapter to another place.",
+  "Mit den Pfeilen ▲ ▼ verschieben Sie ein Kapitel samt Text. Mit der Maus lässt sich ein Kapitel an eine andere Stelle ziehen."
  ],
  "Šířka obrázku": [
   "Picture width",
