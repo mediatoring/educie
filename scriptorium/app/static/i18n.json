@@ -27,6 +27,10 @@
   "(x¹). Write the footnote text and save. The manuscript shows only a yellow number; click it to edit or remove the footnote. The numbers order themselves. In print and PDF the footnote is at the bottom of the page, in the e-book at the end of the chapter. All footnotes are in the right-hand panel on the tab",
   "(x¹). Schreiben Sie den Text der Fußnote und speichern Sie. Im Manuskript erscheint nur eine gelbe Nummer; durch Klicken darauf bearbeiten oder entfernen Sie die Fußnote. Die Nummern ordnen sich selbst. Im Druck und PDF steht die Fußnote unten auf der Seite, im E-Book am Kapitelende. Alle Fußnoten finden Sie in der rechten Leiste auf der Karte"
  ],
+ ") a jakmile je připojení zpět, samy se odešlou na server. Kdyby mezitím někdo upravil stejnou knihu jinde, jeho verze zůstane v": [
+  ") and once the connection is back they are sent to the server by themselves. If someone edited the same book elsewhere in the meantime, their version stays in the",
+  ") und sobald die Verbindung zurück ist, werden sie von selbst an den Server gesendet. Hat jemand dasselbe Buch inzwischen anderswo bearbeitet, bleibt seine Version im"
+ ],
  "+ Do centrálního slovníku": [
   "+ To central dictionary",
   "+ Ins zentrale Wörterbuch"
@@ -118,6 +122,10 @@
  ", {n} stran se přečíst nepodařilo": [
   ", {n} pages could not be read",
   ", {n} Seiten konnten nicht gelesen werden"
+ ],
+ ". Bez připojení nefungují Dotaz, čtení nových knih a nahrávání obrázků. Funguje to jen v prohlížeči, ve kterém jste knihy stáhli.": [
+  ". Without a connection, Ask, reading new books and uploading pictures do not work. It works only in the browser in which you downloaded the books.",
+  ". Ohne Verbindung funktionieren Fragen, das Lesen neuer Bücher und das Hochladen von Bildern nicht. Es funktioniert nur in dem Browser, in dem Sie die Bücher heruntergeladen haben."
  ],
  ". Komentáře slouží jen pro práci na knize, do tisku ani e-knihy se nedostanou.": [
   ". Comments are only for working on the book; they never appear in print or the e-book.",
@@ -539,6 +547,10 @@
   "Done: {read} of {total} pages read",
   "Fertig: {read} von {total} Seiten gelesen"
  ],
+ "Hotovo: {books} zdrojových knih, {ms} rukopisů a {files} obrázků a skenů ({mb} MB) je uloženo v tomto počítači.": [
+  "Done: {books} source books, {ms} manuscripts and {files} pictures and scans ({mb} MB) are stored in this computer.",
+  "Fertig: {books} Quellenbücher, {ms} Manuskripte und {files} Bilder und Scans ({mb} MB) sind auf diesem Computer gespeichert."
+ ],
  "ISBN (PDF)": [
   "ISBN (PDF)",
   "ISBN (PDF)"
@@ -566,6 +578,10 @@
  "Jak opravit chyby po čtení skenu": [
   "How to fix errors after scanning",
   "Fehler nach dem Einlesen korrigieren"
+ ],
+ "Jak pracovat bez připojení k internetu": [
+  "How to work without an internet connection",
+  "Wie man ohne Internetverbindung arbeitet"
  ],
  "Jak přenést odstavec z knihy do rukopisu": [
   "How to move a paragraph from a book to the manuscript",
@@ -995,6 +1011,10 @@
   "Write what doesn't work or what would help. The report reaches the app's author together with where in the app you were.",
   "Schreiben Sie, was nicht funktioniert oder was helfen würde. Die Meldung erreicht den Autor der App samt Angabe, wo in der App Sie waren."
  ],
+ "Naposledy staženo: {when}": [
+  "Last downloaded: {when}",
+  "Zuletzt heruntergeladen: {when}"
+ ],
  "Narovnat (stupně)": [
   "Straighten (degrees)",
   "Gerade richten (Grad)"
@@ -1070,6 +1090,10 @@
  "Načítám PDF…": [
   "Loading PDF…",
   "PDF wird geladen…"
+ ],
+ "Načítám knihu {title}…": [
+  "Loading the book {title}…",
+  "Buch {title} wird geladen…"
  ],
  "Načítám…": [
   "Loading…",
@@ -1211,6 +1235,10 @@
   "Something doesn't work (bug)",
   "Etwas funktioniert nicht (Fehler)"
  ],
+ "Některé změny z doby bez připojení se ještě neodeslaly. Po odhlášení zůstanou v tomto počítači a odešlou se po dalším přihlášení. Odhlásit?": [
+  "Some changes made while offline have not been sent yet. After signing out they stay in this computer and will be sent after the next sign-in. Sign out?",
+  "Einige Änderungen aus der Zeit ohne Verbindung wurden noch nicht gesendet. Nach dem Abmelden bleiben sie auf diesem Computer und werden nach der nächsten Anmeldung gesendet. Abmelden?"
+ ],
  "O stranu dříve": [
   "One page earlier",
   "Eine Seite nach vorn"
@@ -1218,6 +1246,10 @@
  "O stranu později": [
   "One page later",
   "Eine Seite nach hinten"
+ ],
+ "OK = ponechat tento text a uložit ho (druhá verze zůstane v historii)": [
+  "OK = keep this text and save it (the other version stays in history)",
+  "OK = diesen Text behalten und speichern (die andere Version bleibt im Verlauf)"
  ],
  "Obnoven neuložený text z minula – ukládám.": [
   "Restored unsaved text from last time – saving.",
@@ -1386,6 +1418,10 @@
  "Odeslat": [
   "Send",
   "Senden"
+ ],
+ "Odesílám změny z doby bez připojení…": [
+  "Sending the changes made while offline…",
+  "Änderungen aus der Zeit ohne Verbindung werden gesendet…"
  ],
  "Odesílám…": [
   "Sending…",
@@ -1687,9 +1723,17 @@
   "Footnotes",
   "Fußnoten"
  ],
+ "Pro odeslání změn se znovu přihlaste – změny zatím zůstávají v tomto počítači.": [
+  "Sign in again to send the changes – for now they stay in this computer.",
+  "Melden Sie sich erneut an, um die Änderungen zu senden – vorerst bleiben sie auf diesem Computer."
+ ],
  "Prolnout okraje do pozadí": [
   "Fade the edges into the background",
   "Ränder in den Hintergrund übergehen lassen"
+ ],
+ "Práce bez připojení": [
+  "Working offline",
+  "Arbeiten ohne Verbindung"
  ],
  "Publisher": [
   "Publisher",
@@ -1863,6 +1907,10 @@
   "Manuscript",
   "Manuskript"
  ],
+ "Rukopis byl mezitím uložen z jiného okna nebo počítače.": [
+  "The manuscript was saved from another window or computer in the meantime.",
+  "Das Manuskript wurde inzwischen aus einem anderen Fenster oder von einem anderen Computer gespeichert."
+ ],
  "Rukopis byl mezitím uložen z jiného okna.\\n\\nOK = ponechat tento text a uložit ho (druhá verze zůstane v historii)\\nZrušit = načíst text z druhého okna": [
   "The manuscript was saved from another window in the meantime.\\n\\nOK = keep this text and save it (the other version stays in history)\\nCancel = load the text from the other window",
   "Das Manuskript wurde inzwischen in einem anderen Fenster gespeichert.\\n\\nOK = diesen Text behalten und speichern (die andere Version bleibt im Verlauf)\\nAbbrechen = Text aus dem anderen Fenster laden"
@@ -1890,6 +1938,14 @@
  "Schránka je prázdná.": [
   "The clipboard is empty.",
   "Die Ablage ist leer."
+ ],
+ "Scriptorium si v prohlížeči ukládá knihy, které jste otevřeli, takže se otevře i bez internetu nebo na pomalém připojení. Na rozcestníku klikněte na": [
+  "Scriptorium keeps the books you have opened in the browser, so it also opens without internet or on a slow connection. On the home screen click",
+  "Scriptorium speichert die geöffneten Bücher im Browser, daher öffnet es sich auch ohne Internet oder bei langsamer Verbindung. Klicken Sie auf der Startseite auf"
+ ],
+ "Scriptorium si v tomto prohlížeči ukládá knihy, které jste otevřeli, takže se otevře i bez internetu nebo na pomalém připojení. Tlačítkem níže si stáhnete dopředu všechny knihy, rukopisy a náhledy skenů. Změny udělané bez připojení se uloží v počítači a odešlou se, jakmile bude připojení zpět. Bez připojení nefungují Dotaz a čtení nových knih.": [
+  "Scriptorium keeps the books you have opened in this browser, so it also opens without internet or on a slow connection. With the button below you download all books, manuscripts and scan previews in advance. Changes made without a connection are saved in the computer and sent once the connection is back. Without a connection, Ask and reading new books do not work.",
+  "Scriptorium speichert die geöffneten Bücher in diesem Browser, daher öffnet es sich auch ohne Internet oder bei langsamer Verbindung. Mit der Schaltfläche unten laden Sie alle Bücher, Manuskripte und Scan-Vorschauen im Voraus herunter. Änderungen ohne Verbindung werden auf dem Computer gespeichert und gesendet, sobald die Verbindung zurück ist. Ohne Verbindung funktionieren Fragen und das Lesen neuer Bücher nicht."
  ],
  "Sem chodí, co pošlete z transkripce, když je rukopis skrytý. Klikněte do textu a stiskněte": [
   "Items you send from the transcription while the manuscript is hidden land here. Click into the text and press",
@@ -1943,6 +1999,14 @@
   "Straighten perspective (4 corners)",
   "Perspektive begradigen (4 Ecken)"
  ],
+ "Stahování se přerušilo: ": [
+  "The download was interrupted: ",
+  "Der Download wurde unterbrochen: "
+ ],
+ "Stahuji obrázky a skeny: {done} z {total}": [
+  "Downloading pictures and scans: {done} of {total}",
+  "Bilder und Scans werden heruntergeladen: {done} von {total}"
+ ],
  "Starší verze rukopisu": [
   "Older manuscript versions",
   "Ältere Versionen des Manuskripts"
@@ -1978,6 +2042,18 @@
  "Stáhne knihu jako e-knihu EPUB s obálkou, tiráží a obsahem. Otevře se ve čtečkách a v Kindlu (přes „Send to Kindle“).": [
   "Downloads the book as an EPUB e-book with cover, colophon and contents. It opens in e-readers and on Kindle (via “Send to Kindle”).",
   "Lädt das Buch als EPUB-E-Book mit Umschlag, Impressum und Inhalt herunter. Es öffnet sich in E-Readern und auf dem Kindle (über „Send to Kindle“)."
+ ],
+ "Stáhnout i skeny v plném rozlišení (pro lupu a výřezy obrázků; zabere mnohem víc místa)": [
+  "Also download scans in full resolution (for the magnifier and cutting out pictures; takes much more space)",
+  "Auch Scans in voller Auflösung herunterladen (für Lupe und Bildausschnitte; braucht viel mehr Platz)"
+ ],
+ "Stáhnout knihy do tohoto počítače": [
+  "Download the books to this computer",
+  "Bücher auf diesen Computer herunterladen"
+ ],
+ "Stáhnout pro práci bez připojení": [
+  "Download for offline work",
+  "Für die Arbeit ohne Verbindung herunterladen"
  ],
  "Střed": [
   "Centre",
@@ -2074,6 +2150,10 @@
  "Text zkontrolujte proti skenu, nejlépe s Korekturou.": [
   "Check the text against the scan, ideally with Proofreading.",
   "Prüfen Sie den Text am Scan, am besten mit der Korrektur."
+ ],
+ "Teď nejste připojeni k internetu – stahovat půjde po připojení.": [
+  "You are not connected to the internet now – downloading will be possible once connected.",
+  "Sie sind gerade nicht mit dem Internet verbunden – herunterladen können Sie nach dem Verbinden."
  ],
  "Times (klasické)": [
   "Times (classic)",
@@ -2731,6 +2811,10 @@
   "Zoom out scan",
   "Scan verkleinern"
  ],
+ "Změny z doby bez připojení jsou uložené na serveru ({n}). Co se mezitím uložilo jinde, zůstalo v Historii.": [
+  "The changes made while offline are saved on the server ({n}). Whatever was saved elsewhere in the meantime stays in History.",
+  "Die Änderungen aus der Zeit ohne Verbindung sind auf dem Server gespeichert ({n}). Was inzwischen anderswo gespeichert wurde, bleibt im Verlauf."
+ ],
  "Znovu": [
   "Again",
   "Erneut"
@@ -2787,6 +2871,10 @@
   "Cancel",
   "Abbrechen"
  ],
+ "Zrušit = načíst text z druhého okna": [
+  "Cancel = load the text from the other window",
+  "Abbrechen = Text aus dem anderen Fenster laden"
+ ],
  "Ztmavení fotografie": [
   "Darken the photo",
   "Foto abdunkeln"
@@ -2810,6 +2898,10 @@
  "a klikněte na": [
   "and click",
   "und klicken Sie auf"
+ ],
+ "a pak na": [
+  "and then",
+  "und dann auf"
  ],
  "a čte text z naskenovaných stran nových zdrojových knih. Může to být model na serveru, vlastní účet u OpenAI nebo Anthropicu, nebo model v počítači (LM Studio, Ollama). Ke čtení stran musí model umět číst obrázky – ověříte to tlačítkem": [
   "column and reads the text of scanned pages of new source books. It can be the model on the server, your own OpenAI or Anthropic account, or a model on a computer (LM Studio, Ollama). To read pages the model must be able to read images – check it with the button",
@@ -3079,6 +3171,10 @@
   "device {id}",
   "Gerät {id}"
  ],
+ "{n} souborů se stáhnout nepodařilo.": [
+  "{n} files could not be downloaded.",
+  "{n} Dateien konnten nicht heruntergeladen werden."
+ ],
  "{n} stran": [
   "{n} pages",
   "{n} Seiten"
@@ -3098,6 +3194,10 @@
  "úprava": [
   "edit",
   "Änderung"
+ ],
+ "Čeká na odeslání: {n} změněných knih z doby bez připojení.": [
+  "Waiting to be sent: {n} books changed while offline.",
+  "Warten auf das Senden: {n} ohne Verbindung geänderte Bücher."
  ],
  "Černobílý": [
   "Black and white",
@@ -3191,6 +3291,10 @@
   "– no image –",
   "– kein Bild –"
  ],
+ "– stáhnou se všechny knihy, rukopisy a náhledy skenů. Když připojení vypadne, objeví se nahoře šedý pruh. Psát a opravovat můžete dál: změny se uloží v tomto počítači (u ukládání stojí": [
+  "– all books, manuscripts and scan previews are downloaded. When the connection drops, a grey bar appears at the top. You can keep writing and correcting: the changes are saved in this computer (the save status shows",
+  "– alle Bücher, Manuskripte und Scan-Vorschauen werden heruntergeladen. Wenn die Verbindung abbricht, erscheint oben ein grauer Balken. Sie können weiter schreiben und korrigieren: Die Änderungen werden auf diesem Computer gespeichert (beim Speichern steht"
+ ],
  "– vybrat z obrázků knih –": [
   "– choose from the book images –",
   "– aus den Buchbildern wählen –"
@@ -3222,6 +3326,18 @@
  "☀ Světlý režim": [
   "☀ Light mode",
   "☀ Heller Modus"
+ ],
+ "☁ Bez připojení k internetu. Pracujete s kopií uloženou v tomto počítači; změny se ukládají a odešlou se, jakmile bude připojení zpět. Dotaz a čtení nových knih teď nefungují.": [
+  "☁ No internet connection. You are working with the copy stored in this computer; changes are saved and will be sent once the connection is back. Ask and reading new books do not work now.",
+  "☁ Keine Internetverbindung. Sie arbeiten mit der auf diesem Computer gespeicherten Kopie; Änderungen werden gespeichert und gesendet, sobald die Verbindung zurück ist. Fragen und das Lesen neuer Bücher funktionieren gerade nicht."
+ ],
+ "☁ bez připojení – uloženo v tomto počítači": [
+  "☁ offline – saved in this computer",
+  "☁ ohne Verbindung – auf diesem Computer gespeichert"
+ ],
+ "☁ uloženo v tomto počítači": [
+  "☁ saved in this computer",
+  "☁ auf diesem Computer gespeichert"
  ],
  "☾ Tmavý režim": [
   "☾ Dark mode",

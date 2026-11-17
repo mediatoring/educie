@@ -81,6 +81,7 @@
         <button id="homeHelp" class="big">Nápověda a průvodce</button>
         <button id="homeSettings" class="big">Nastavení AI</button>
         <button id="homeAudit" class="big">Přístupy a změny</button>
+        <button id="homeOffline" class="big">Stáhnout pro práci bez připojení</button>
       </div>
     </div>
     <div class="home-grid">
@@ -583,6 +584,20 @@
   </div>
 </div>
 
+<div id="offDlg" class="dlg" hidden>
+  <div class="dlg-box set-box offdl-box">
+    <div class="dlg-head"><h2>Práce bez připojení</h2><button id="offClose" class="big">Zavřít</button></div>
+    <div class="set-body">
+      <p class="set-intro">Scriptorium si v tomto prohlížeči ukládá knihy, které jste otevřeli, takže se otevře i bez internetu nebo na pomalém připojení. Tlačítkem níže si stáhnete dopředu všechny knihy, rukopisy a náhledy skenů. Změny udělané bez připojení se uloží v počítači a odešlou se, jakmile bude připojení zpět. Bez připojení nefungují Dotaz a čtení nových knih.</p>
+      <label class="set-check"><input type="checkbox" id="offFull"> Stáhnout i skeny v plném rozlišení (pro lupu a výřezy obrázků; zabere mnohem víc místa)</label>
+      <p id="offLast" class="set-intro"></p>
+      <div class="imp-progress" id="offBarBox" hidden><div id="offBar"></div></div>
+      <p id="offStatus" class="imp-status"></p>
+      <div class="cap-actions"><button id="offStart" class="big primary">Stáhnout knihy do tohoto počítače</button></div>
+    </div>
+  </div>
+</div>
+
 <div id="auditDlg" class="dlg" hidden>
   <div class="dlg-box set-box audit-box">
     <div class="dlg-head"><h2>Přístupy a změny</h2><button id="auditClose" class="big">Zavřít</button></div>
@@ -776,6 +791,7 @@
 <div id="toast" class="toast"><span id="toastText"></span><button id="toastUndo" hidden><svg class="ico"><use href="#i-undo"/></svg> Vrátit</button></div>
 <script src="fp.js"></script>
 <script src="i18n.js"></script>
+<script src="offline.js"></script>
 <script src="app.js"></script>
 <script src="manuscript.js"></script>
 <script src="gallery.js"></script>

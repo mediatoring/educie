@@ -108,12 +108,16 @@ class Manuscript:
                 "series": book.get("series", ""), "publisher": book.get("publisher", ""), "words": words,
                 "updated": updated, "created": meta.get("created", 0)}
 
-    def save(self, html, base_version, title=None, force=False):
+    def save(self, html, base_version, title=None, force=False, keep_previous=False):
         meta = self._meta()
         if not force and base_version is not None and base_version != meta["version"]:
             raise Conflict(meta["version"])
         now = time.time()
-        if now - meta.get("last_snapshot", 0) > SNAPSHOT_EVERY and os.path.exists(self._path("document.html")):
+        if keep_previous and os.path.exists(self._path("document.html")):
+            # the text being replaced came from another window or computer: it stays in history
+            self.snapshot(label="druha verze")
+            meta = self._meta()
+        elif now - meta.get("last_snapshot", 0) > SNAPSHOT_EVERY and os.path.exists(self._path("document.html")):
             self.snapshot(label="automaticky")
             meta = self._meta()
         self._write("document.html", html)

@@ -164,14 +164,15 @@ def restore_book(path, name):
     return project
 
 
-def save_project(path, project):
+def save_project(path, project, snapshot=False):
     pj = os.path.join(path, "project.json")
     hist = os.path.join(path, ".history")
     os.makedirs(hist, exist_ok=True)
     if os.path.exists(pj):
         old = sorted(f for f in os.listdir(hist) if f.startswith("project-"))
-        # a version every few minutes while working (autosave runs every few seconds)
-        if not old or time.time() - os.path.getmtime(os.path.join(hist, old[-1])) > BOOK_SNAPSHOT_EVERY:
+        # a version every few minutes while working (autosave runs every few seconds); always before
+        # changes made without a connection, so whatever was saved elsewhere in the meantime stays in history
+        if snapshot or not old or time.time() - os.path.getmtime(os.path.join(hist, old[-1])) > BOOK_SNAPSHOT_EVERY:
             shutil.copy2(pj, os.path.join(hist, time.strftime("project-%Y%m%d-%H%M%S.json")))
             old = sorted(f for f in os.listdir(hist) if f.startswith("project-"))
             for f in old[:-HISTORY_KEEP]:
@@ -304,6 +305,7 @@ class Handler(SimpleHTTPRequestHandler):
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
+        self._cache_header = True
         self.end_headers()
         self.wfile.write(body)
 
@@ -331,9 +333,20 @@ class Handler(SimpleHTTPRequestHandler):
             return os.path.join(STATIC_DIR, "404")
         return full
 
+    def send_response(self, code, message=None):
+        self._cache_header = False
+        super().send_response(code, message)
+
     def end_headers(self):
-        if self.path.endswith((".js", ".css", ".html", "/")):
-            self.send_header("Cache-Control", "no-store")
+        # caching: "private" everywhere, so Cloudflare never keeps anything that sits behind the login.
+        # App files are revalidated on every load (an unchanged file answers 304 without a body);
+        # scans and previews never change under the same name, so the browser keeps them for a year.
+        path = urlparse(self.path).path
+        if not getattr(self, "_cache_header", False) and not path.startswith(("/api/", "/mcp/")):
+            if path.startswith("/books/") and ("/scans/" in path or "/preview/" in path):
+                self.send_header("Cache-Control", "private, max-age=31536000, immutable")
+            else:
+                self.send_header("Cache-Control", "private, no-cache")
         super().end_headers()
 
     def route(self):
@@ -341,7 +354,11 @@ class Handler(SimpleHTTPRequestHandler):
         return parts
 
     def ms(self):
-        """The book being written that this browser has open (cookie set by the home screen)."""
+        """The book being written that this browser has open (cookie set by the home screen).
+        The address may name it too (?ms=…), so stored offline copies of different books never mix."""
+        q = parse_qs(urlparse(self.path).query).get("ms", [""])[0]
+        if q and Manuscripts.NAME.match(q):
+            return MSS.get(q)
         for part in (self.headers.get("Cookie") or "").split(";"):
             k, _, v = part.strip().partition("=")
             if k == "ms":
@@ -533,7 +550,8 @@ class Handler(SimpleHTTPRequestHandler):
             if parts[:2] == ["api", "manuscript"] and len(parts) == 2:
                 body = self.read_json()
                 try:
-                    version = self.ms().save(body["html"], body.get("version"), body.get("title"))
+                    version = self.ms().save(body["html"], body.get("version"), body.get("title"),
+                                             keep_previous=bool(body.get("keep_previous")))
                 except Conflict as c:
                     return self.send_json({"error": "conflict", "version": c.args[0]}, 409)
                 return self.send_json({"ok": True, "version": version, "saved": time.strftime("%H:%M:%S")})
@@ -543,7 +561,8 @@ class Handler(SimpleHTTPRequestHandler):
                 project = self.read_json()
                 if not isinstance(project.get("pages"), list):
                     raise ValueError("invalid project")
-                save_project(book_dir(parts[2]), project)
+                offline = parse_qs(urlparse(self.path).query).get("offline") == ["1"]
+                save_project(book_dir(parts[2]), project, snapshot=offline)
                 return self.send_json({"ok": True, "saved": time.strftime("%H:%M:%S")})
         except FileNotFoundError:
             return self.send_json({"error": "not found"}, 404)
@@ -692,6 +711,7 @@ class Handler(SimpleHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", "text/event-stream; charset=utf-8")
         self.send_header("Cache-Control", "no-store")
+        self._cache_header = True
         self.send_header("X-Accel-Buffering", "no")
         self.end_headers()
         self.close_connection = True

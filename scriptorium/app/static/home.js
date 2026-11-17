@@ -177,6 +177,41 @@ async function openAudit() {
   $("#auditDlg").hidden = false;
 }
 $("#homeAudit").addEventListener("click", openAudit);
+
+// ---------- download for offline work ----------
+function offlineLast() {
+  let at = null;
+  try { at = localStorage.getItem("scriptorium.offlineAt"); } catch (e) { /* ignore */ }
+  $("#offLast").textContent = at ? T("Naposledy staženo: {when}", { when: new Date(at).toLocaleString("cs-CZ") }) : "";
+}
+$("#homeOffline").addEventListener("click", () => {
+  offlineLast();
+  $("#offStatus").textContent = navigator.onLine ? "" : T("Teď nejste připojeni k internetu – stahovat půjde po připojení.");
+  $("#offBarBox").hidden = true;
+  $("#offDlg").hidden = false;
+});
+$("#offClose").addEventListener("click", () => { $("#offDlg").hidden = true; });
+$("#offStart").addEventListener("click", async () => {
+  if (!window.Offline) return;
+  const btn = $("#offStart");
+  btn.disabled = true;
+  $("#offBarBox").hidden = false;
+  $("#offBar").style.width = "0%";
+  try {
+    const r = await Offline.download($("#offFull").checked, (text, done, total) => {
+      $("#offStatus").textContent = text;
+      if (total) $("#offBar").style.width = Math.round(100 * done / total) + "%";
+    });
+    $("#offBar").style.width = "100%";
+    const mb = (r.bytes / 1048576).toFixed(r.bytes > 10485760 ? 0 : 1).replace(".", ",");
+    $("#offStatus").textContent = T("Hotovo: {books} zdrojových knih, {ms} rukopisů a {files} obrázků a skenů ({mb} MB) je uloženo v tomto počítači.", { books: r.books, ms: r.manuscripts, files: r.files, mb })
+      + (r.failed ? " " + T("{n} souborů se stáhnout nepodařilo.", { n: r.failed }) : "");
+    offlineLast();
+  } catch (e) {
+    $("#offStatus").textContent = T("Stahování se přerušilo: ") + e.message;
+  }
+  btn.disabled = false;
+});
 $("#auditClose").addEventListener("click", () => { $("#auditDlg").hidden = true; });
 $("#bookCancel").addEventListener("click", () => { $("#bookDlg").hidden = true; });
 $("#bookSave").addEventListener("click", saveSettings);

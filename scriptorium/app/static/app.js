@@ -89,6 +89,11 @@ async function openBook(id) {
   // the address shows the source book only inside the work view; the bare address stays the home screen
   if (new URLSearchParams(location.search).has("open")) history.replaceState(null, "", location.pathname + location.search + "#" + encodeURIComponent(id));
   state.project = await (await fetch(`api/books/${encodeURIComponent(id)}`)).json();
+  // changes made without a connection that have not reached the server yet are newer than its copy
+  if (window.Offline) {
+    const local = await Offline.Outbox.get("book:" + id);
+    if (local) { try { state.project = JSON.parse(local.body); } catch (e) { /* keep the server copy */ } }
+  }
   state.scanCache = {};
   setTimeout(() => watchOcr(id), 50);
   const savedPage = parseInt(localStorage.getItem(`publisher.page.${id}`) || "0", 10);
@@ -119,16 +124,25 @@ async function save() {
   if (state.ocrRunning) { setSaveState(T("čeká na dočtení textu"), "dirty"); return; }
   state.dirty = false;
   setSaveState("ukládám…", "dirty");
+  const body = JSON.stringify(state.project);
+  const id = state.bookId;
   try {
-    const res = await fetch(`api/books/${encodeURIComponent(state.bookId)}`, {
+    const res = await fetch(`api/books/${encodeURIComponent(id)}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(state.project),
+      body,
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || res.status);
     setSaveState(`uloženo ${data.saved}`);
+    if (window.Offline) Offline.Outbox.del("book:" + id);
   } catch (e) {
+    // no connection: keep the change in this browser, it goes to the server once online
+    if (window.Offline && (!navigator.onLine || e instanceof TypeError)) {
+      await Offline.Outbox.put("book:" + id, { url: `api/books/${encodeURIComponent(id)}`, method: "PUT", body, title: state.project.title });
+      setSaveState(T("☁ uloženo v tomto počítači"), "offline");
+      return;
+    }
     state.dirty = true;
     setSaveState("chyba ukládání!", "error");
     toast("Uložení selhalo: " + e.message);

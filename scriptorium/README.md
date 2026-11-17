@@ -9,6 +9,7 @@ Co umí:
 - rozcestník **Moje knihy** – více rozepsaných knih, každá s vlastním textem, historií verzí a nastavením (titulní strana, tiráž, záhlaví a zápatí, obálka),
 - **originál a transkripce** vedle sebe, výřezy a narovnání obrázků, nový ořez z původní strany skenu, srovnání perspektivy za čtyři rohy, úpravy jasu, kontrastu a sytosti, vrácení původního textu odstavce a historie transkripce,
 - **editor obálky** – rozvržení, fotografie posouvaná a zvětšovaná přímo na obálce, posun a velikost textu, barvy, přechod, logo Educie Press bílé nebo černé podle pozadí; obálka zvlášť pro e-knihu a pro tisk A4 a zůstává upravitelná,
+- **práce bez připojení** – service worker drží aplikaci, otevřené i předem stažené knihy a skeny v prohlížeči; změny bez připojení se ukládají v počítači (IndexedDB, u rukopisu localStorage) a po připojení se odešlou, přepsaná serverová verze zůstane v historii; aplikace se při každém načtení jen ověřuje (304), skeny a náhledy drží prohlížeč rok,
 - **záznam přístupů a změn** – přihlášení, IP adresa a otisk zařízení; u každé verze rukopisu i transkripce je vidět, kdo ji vytvořil,
 - **korektura** v transkripci i v rukopisu (český a německý slovník, typické chyby OCR, slovník knihy a centrální slovník),
 - **rukopis** s poznámkami pod čarou (v PDF dole na stránce, v EPUB jako odkazované poznámky), komentáři s odpověďmi a stavem vyřešeno (do exportu se nedostanou), automatickým obsahem, novou stránkou, vkládáním citací, celých transkripcí a obrázků (z aplikace, z počítače, z kamery),

@@ -103,13 +103,15 @@ class Importer:
             while f"p{n:02d}" in used:
                 n += 1
             pid = f"p{n:02d}"
+            # the file name is unique, because browsers keep scans for a long time under their name
+            fname = f"{pid}-{uuid.uuid4().hex[:6]}.jpg"
             for kind, folder in (("scan", "scans"), ("preview", "preview")):
                 raw = data[kind].split(",", 1)[1]
-                with open(os.path.join(path, folder, pid + ".jpg"), "wb") as f:
+                with open(os.path.join(path, folder, fname), "wb") as f:
                     f.write(base64.b64decode(raw))
             size = data.get("size") or [0, 0]
             project["pages"].append({"id": pid, "source": os.path.basename(str(data.get("name", "")))[:200],
-                                     "scan": f"scans/{pid}.jpg", "preview": f"preview/{pid}.jpg",
+                                     "scan": f"scans/{fname}", "preview": f"preview/{fname}",
                                      "size": [int(size[0]), int(size[1])], "page_no": None, "blocks": []})
             self.save_project(path, project)
         return {"ok": True, "page": pid, "index": len(project["pages"]) - 1}

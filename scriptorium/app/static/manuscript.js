@@ -488,14 +488,15 @@ async function save() {
     const res = await fetch("api/manuscript", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ html: cleanHtml(editor.innerHTML), version: msState.version, title: msState.title }),
+      body: JSON.stringify({ html: cleanHtml(editor.innerHTML), version: msState.version, title: msState.title, keep_previous: !!msState.keepPrevious }),
     });
     const data = await res.json();
     if (res.status === 409) {
       msState.dirty = true;
       setState("⚠ rukopis je otevřený i jinde", "error");
-      if (confirm("Rukopis byl mezitím uložen z jiného okna.\n\nOK = ponechat tento text a uložit ho (druhá verze zůstane v historii)\nZrušit = načíst text z druhého okna")) {
+      if (confirm(T("Rukopis byl mezitím uložen z jiného okna nebo počítače.") + "\n\n" + T("OK = ponechat tento text a uložit ho (druhá verze zůstane v historii)") + "\n" + T("Zrušit = načíst text z druhého okna"))) {
         msState.version = data.version;
+        msState.keepPrevious = true;
         msState.saving = false;
         return save();
       }
@@ -505,11 +506,14 @@ async function save() {
     }
     if (!res.ok) throw new Error(data.error || res.status);
     msState.version = data.version;
+    msState.keepPrevious = false;
     localStorage.removeItem(BACKUP_KEY);
     setState(msState.dirty ? "● píšete…" : `✓ uloženo ${data.saved}`, msState.dirty ? "dirty" : "");
   } catch (e) {
     msState.dirty = true;
-    setState("⚠ neuloženo – zkouším znovu", "error");
+    // no connection: the text is kept in this browser (markDirty) and goes to the server once online
+    if (!navigator.onLine || e instanceof TypeError) setState(T("☁ bez připojení – uloženo v tomto počítači"), "offline");
+    else setState("⚠ neuloženo – zkouším znovu", "error");
     clearTimeout(msState.timer);
     msState.timer = setTimeout(save, 5000);
   } finally {
